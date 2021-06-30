@@ -4,11 +4,13 @@ import SessionReact from 'supertokens-auth-react/recipe/session';
 import SessionNode from 'supertokens-node/recipe/session';
 import { AppInfo } from '../lib';
 
+const domain = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
 const appInfo = {
   // learn more about this on https://supertokens.io/docs/emailpassword/appinfo
   appName: AppInfo.name,
-  websiteDomain: AppInfo.domain,
-  apiDomain: AppInfo.domain, // Should be equal to `websiteDomain` in case using the `api` folder for APIs
+  websiteDomain: domain,
+  apiDomain: domain, // Should be equal to `websiteDomain` in case using the `api` folder for APIs
   apiBasePath: '/api/auth/', // /api/auth/* will be where APIs like sign out, sign in will be exposed
 };
 
@@ -22,8 +24,8 @@ export const frontendConfig = () => ({
 
 export const backendConfig = () => ({
   supertokens: {
-    connectionURI: process.env.SUPERTOKENS_URI || 'your-supertokens-uri',
-    apiKey: process.env.SUPERTOKENS_API_KEY || 'your-api-key',
+    connectionURI: process.env.SUPERTOKENS_URI || 'https://try.supertokens.io',
+    apiKey: process.env.SUPERTOKENS_API_KEY || '',
   },
   appInfo,
   recipeList: [
