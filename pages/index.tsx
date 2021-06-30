@@ -1,8 +1,33 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Session from 'supertokens-node/recipe/session';
+import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
 import styles from '../styles/Home.module.css';
 
+export async function getServerSideProps(context: any) {
+  let session;
+  try {
+    session = await Session.getSession(context.req, context.res);
+  } catch (err) {
+    if (err.type === Session.Error.TRY_REFRESH_TOKEN) {
+      return { props: { fromSupertokens: 'needs-refresh' } };
+    } if (err.type === Session.Error.UNAUTHORISED) {
+      return { props: {} };
+    }
+    throw err;
+  }
+
+  return {
+    props: { userId: session?.getUserId() },
+  };
+}
+
 export default function Home() {
+  async function logoutClicked() {
+    await EmailPassword.signOut();
+    EmailPassword.redirectToAuth();
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,7 +40,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to
           {' '}
-          <a href="https://nextjs.org">Next.js!</a>
+          <button onClick={logoutClicked}>Next.js!</button>
         </h1>
 
         <p className={styles.description}>
