@@ -19,7 +19,7 @@ export const frontendConfig = () => ({
   recipeList: [
     EmailPasswordReact.init({
       override: {
-        apis: (originalImplementation) => ({
+        apis: (originalImplementation: any) => ({
           ...originalImplementation,
           signUpPOST: undefined,
         }),
