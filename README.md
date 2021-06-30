@@ -2,7 +2,19 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, create `.env` file with following:
+```
+# Public Environment variables that can be used in the browser.
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
+# Secret environment variables only available to Node.js
+APP_URL="http://localhost:3000"
+
+SUPERTOKENS_URI="your-supertokens-uri"
+SUPERTOKENS_API_KEY="your-supertokens-api-key"
+```
+
+Second, run the development server:
 
 ```bash
 npm run dev

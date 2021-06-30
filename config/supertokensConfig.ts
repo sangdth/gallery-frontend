@@ -17,7 +17,14 @@ const appInfo = {
 export const frontendConfig = () => ({
   appInfo,
   recipeList: [
-    EmailPasswordReact.init(),
+    EmailPasswordReact.init({
+      override: {
+        apis: (originalImplementation) => ({
+          ...originalImplementation,
+          signUpPOST: undefined,
+        }),
+      },
+    }),
     SessionReact.init(),
   ],
 });
