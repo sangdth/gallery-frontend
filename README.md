@@ -2,6 +2,20 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### Register for services
+
+#### SuperTokens
+
+- We use SuperTokens for authentication. It has free version supports up to 5000 users! Register it here.
+- Note down your URI and the API key.
+
+#### Hasura and PostgresQL
+
+- We use Hasura and PostgresQL as database to store our information like posts, descriptions etc. Regiter it here.
+- After that, connect to a database. You can choose your existing or create new one from Heroku.
+
+### Development environment
+
 First, create `.env` file with following:
 ```
 # Public Environment variables that can be used in the browser.
