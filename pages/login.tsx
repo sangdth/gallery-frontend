@@ -9,17 +9,17 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     try {
       await auth.login({ email, password });
     } catch (error) {
-      console.log(error);
-      return alert('login failed');
+      console.log(error); // eslint-disable-line
+      return alert('login failed'); // eslint-disable-line
     }
 
-    router.push('/');
+    return router.push('/');
   }
 
   return (
@@ -33,7 +33,6 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
-              autoFocus
             />
           </div>
           <div>
@@ -51,7 +50,7 @@ export default function Login() {
       </div>
       <div>
         <Link href="/signup">
-          <a>Sign up</a>
+          Sign up
         </Link>
       </div>
     </div>

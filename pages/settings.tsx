@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { PrivateRoute } from '../components/PrivateRoute';
 import { Layout } from '../components/Layout';
 import { auth } from '../lib/nhost';
@@ -7,14 +7,14 @@ const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     try {
       await auth.changePassword(currentPassword, newPassword);
     } catch (error) {
-      console.log(error);
-      return alert('error saving password');
+      console.log(error); // eslint-disable-line
+      // return alert('update failed'); // eslint-disable-line
     }
 
     setCurrentPassword('');

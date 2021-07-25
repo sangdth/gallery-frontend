@@ -10,7 +10,7 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     try {
@@ -24,12 +24,12 @@ export default function Register() {
         },
       });
     } catch (error) {
-      console.log(error);
-      return alert('Registration failed');
+      console.log(error); // eslint-disable-line
+      return alert('signup failed'); // eslint-disable-line
     }
 
-    alert('Registration OK. Logging you in...');
-    router.push('/');
+    alert('Registration OK. Logging you in...'); // eslint-disable-line
+    return router.push('/');
   }
 
   return (
@@ -43,7 +43,6 @@ export default function Register() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               placeholder="Name"
-              autoFocus
             />
           </div>
           <div>
@@ -69,7 +68,7 @@ export default function Register() {
       </div>
       <div>
         <Link href="/login">
-          <a>Login</a>
+          Login
         </Link>
       </div>
     </div>
