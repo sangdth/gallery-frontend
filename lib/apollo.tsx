@@ -28,7 +28,7 @@ const token = ''; // TODO: make jwt from SuperTokens
 const httpLink = createHttpLink({
   credentials: 'same-origin',
   fetch, // Use fetch polyfill
-  uri: process.env.HASURA_GRAPHQL_ENDPOINT || '',
+  uri: process.env.NEXT_PUBLIC_HASURA_GRAPHQL_ENDPOINT || 'asdf',
   headers: {
     Authorization: `Bearer ${token}`,
     'x-hasura-role': token ? 'admin' : 'guest', // can not miss this mother fucker

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Session from 'supertokens-node/recipe/session';
 import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
+import { gql, useQuery } from '@apollo/client';
 
 // import { initializeApollo } from '../lib/apollo';
 
@@ -43,10 +44,23 @@ export async function getServerSideProps(context: any) {
 export default function Home(props: any) {
   const { userId } = props;
 
+  debugger;
+
   async function logoutClicked() {
     await EmailPassword.signOut();
     EmailPassword.redirectToAuth();
   }
+
+  const { data, error } = useQuery(gql`
+    query All_Pages {
+      page {
+        id
+        name
+        content
+      }
+    }
+  `);
+  console.log('### data: ', data, error);
 
   return (
     <div>
