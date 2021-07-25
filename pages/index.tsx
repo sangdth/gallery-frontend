@@ -1,27 +1,7 @@
 import Head from 'next/head';
-import Session from 'supertokens-node/recipe/session';
-import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
 import { gql, useQuery } from '@apollo/client';
 
 // import { initializeApollo } from '../lib/apollo';
-
-export async function getServerSideProps(context: any) {
-  let session;
-  try {
-    session = await Session.getSession(context.req, context.res);
-  } catch (err) {
-    if (err.type === Session.Error.TRY_REFRESH_TOKEN) {
-      return { props: { fromSupertokens: 'needs-refresh' } };
-    } if (err.type === Session.Error.UNAUTHORISED) {
-      return { props: {} };
-    }
-    throw err;
-  }
-
-  return {
-    props: { userId: session?.getUserId() },
-  };
-}
 
 // TODO:
 // Error: You can not use getStaticProps or getStaticPaths with getServerSideProps.
@@ -44,11 +24,8 @@ export async function getServerSideProps(context: any) {
 export default function Home(props: any) {
   const { userId } = props;
 
-  debugger;
-
   async function logoutClicked() {
-    await EmailPassword.signOut();
-    EmailPassword.redirectToAuth();
+  console.log('### logoutClicked');
   }
 
   const { data, error } = useQuery(gql`
@@ -60,6 +37,7 @@ export default function Home(props: any) {
       }
     }
   `);
+
   console.log('### data: ', data, error);
 
   return (
