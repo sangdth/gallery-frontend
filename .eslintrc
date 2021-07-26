@@ -2,8 +2,8 @@
   "extends": [
     "next",
     "next/core-web-vitals",
-    "prettier",
-    "airbnb-typescript"
+    "airbnb-typescript",
+    "prettier"
   ],
   "parserOptions": {
     "project": "./tsconfig.eslint.json"
