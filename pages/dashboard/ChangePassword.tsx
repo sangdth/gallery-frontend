@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { PrivateRoute } from '../components/PrivateRoute';
-import { Layout } from '../components/Layout';
-import { auth } from '../lib/nhost';
+import { useState } from 'react';
+import { auth } from '../../lib/nhost';
 
-const ChangePassword = () => {
+export const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
@@ -51,17 +49,4 @@ const ChangePassword = () => {
   );
 };
 
-const Settings = () => (
-  <PrivateRoute>
-    <Layout>
-      <div>
-        <h1>Settings</h1>
-        <div>
-          <ChangePassword />
-        </div>
-      </div>
-    </Layout>
-  </PrivateRoute>
-);
-
-export default Settings;
+export default ChangePassword;

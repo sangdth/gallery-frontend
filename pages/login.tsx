@@ -19,7 +19,7 @@ export default function Login() {
       return alert('login failed'); // eslint-disable-line
     }
 
-    return router.push('/');
+    return router.push('/dashboard');
   }
 
   return (

@@ -7,6 +7,7 @@ const PrivateRoute: React.FC = ({ children }) => {
   const { signedIn } = useAuth();
 
   // wait to see if the user is logged in or not.
+  // TODO: Make loading modal to cover the page
   if (signedIn === null) {
     return <div>Checking auth...</div>;
   }
