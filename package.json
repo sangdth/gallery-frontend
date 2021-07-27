@@ -20,6 +20,7 @@
     "framer-motion": "^4",
     "graphql": "^15.5.1",
     "graphql-tag": "^2.12.5",
+    "jotai": "^1.2.2",
     "next": "11.0.1",
     "nextjs-cors": "^1.0.5",
     "nhost-js-sdk": "^3.1.0",
@@ -39,6 +40,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.3.2",
     "typescript": "4.3.4"
   }
 }

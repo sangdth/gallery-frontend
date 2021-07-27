@@ -4,9 +4,8 @@ import { useAuth } from '@nhost/react-auth';
 export const Pages = () => {
   const { signedIn } = useAuth();
 
-
   return (
-      <p>Pages</p>
+    <p>Pages</p>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { Layout } from '../../components/Layout';
 import { Entity } from '../../lib/enums';
 import type { AggregateData, SiteType } from '../../lib/types';
@@ -49,13 +49,22 @@ const Settings = () => {
   }
 
   return (
-    <Layout>
-      <div>
-        site:
-        {' '}
-        {site.name}:{site.slug}
-      </div>
-    </Layout>
+    <>
+      <Head>
+        <title>{site.name}</title>
+        <meta name="description" content={site.description ?? ''} />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Layout>
+        <div>
+          site:
+          {' '}
+          {site.name}
+          :
+          {site.slug}
+        </div>
+      </Layout>
+    </>
   );
 };
 

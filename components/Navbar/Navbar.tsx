@@ -36,11 +36,13 @@ export const Navbar = ({ items }: Props) => {
         borderBottom={1}
         borderStyle="solid"
         borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align="center">
+        align="center"
+      >
         <Flex
           flex={{ base: 1, md: 'auto' }}
           ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}>
+          display={{ base: 'flex', md: 'none' }}
+        >
           <IconButton
             onClick={onToggle}
             icon={
@@ -54,7 +56,8 @@ export const Navbar = ({ items }: Props) => {
           <Text
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily="heading"
-            color={useColorModeValue('gray.800', 'white')}>
+            color={useColorModeValue('gray.800', 'white')}
+          >
             Logo
           </Text>
 
@@ -70,13 +73,15 @@ export const Navbar = ({ items }: Props) => {
             flex={{ base: 1, md: 0 }}
             justify="flex-end"
             direction="row"
-            spacing={6}>
+            spacing={6}
+          >
             <Button
               as="a"
               fontSize="sm"
               fontWeight={400}
               variant="link"
-              href="#">
+              href="#"
+            >
               Sign In
             </Button>
             <Button
@@ -88,7 +93,8 @@ export const Navbar = ({ items }: Props) => {
               href="#"
               _hover={{
                 bg: 'pink.300',
-              }}>
+              }}
+            >
               Sign Up
             </Button>
           </Stack>

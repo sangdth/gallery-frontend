@@ -1,44 +1,60 @@
 import Head from 'next/head';
 import { gql, useQuery } from '@apollo/client';
+import { Box, HStack } from '@chakra-ui/react';
+import { auth } from '../lib/nhost';
+import { Entity } from '../lib/enums';
+import type { AggregateData, SiteType } from '../lib/types';
 
-// import { initializeApollo } from '../lib/apollo';
+type SitesAggregateData = AggregateData<SiteType, Entity.Sites>;
 
-// TODO:
-// Error: You can not use getStaticProps or getStaticPaths with getServerSideProps.
-// To use SSG, please remove getServerSideProps
-//
-// export async function getStaticProps() {
-//   const apolloClient = initializeApollo();
-
-//   // await apolloClient.query({
-//   //   query: '',
-//   // })
-
-//   return {
-//     props: {
-//       initialApolloState: apolloClient.cache.extract(),
-//     },
-//   };
-// }
-
-export default function Home(props: any) {
-  const { userId } = props;
-
-  async function logoutClicked() {
-  console.log('### logoutClicked');
-  }
-
-  const { data, error } = useQuery(gql`
-    query All_Pages {
-      page {
+export const SITES_AGGREGATE = gql`
+  query SITES_AGGREGATE($userId: uuid!) {
+    sites_aggregate(
+      limit: 10,
+      offset: 0,
+      where: {user: {id: {_eq: $userId}}}
+    ) {
+      nodes {
+        description
         id
         name
-        content
+        slug
+        status
+        user {
+          id
+        }
       }
     }
-  `);
+  }
+`;
 
-  console.log('### data: ', data, error);
+export default function Home() {
+  const { loading, data, error } = useQuery<SitesAggregateData>(
+    SITES_AGGREGATE,
+    {
+      variables: {
+        userId: auth.getClaim('x-hasura-user-id'),
+      },
+      context: {
+        headers: {
+          'x-hasura-role': 'me',
+        },
+      },
+    },
+  );
+
+  const sites = data?.sites_aggregate?.nodes;
+
+  if (loading && !data) {
+    return <div>Loading...</div>;
+  }
+
+  if (error || !sites) {
+    console.error(error); // eslint-disable-line
+    return <div>Error getting user data</div>;
+  }
+
+  console.log('### sites: ', sites);
 
   return (
     <div>
@@ -52,12 +68,13 @@ export default function Home(props: any) {
         <h1>
           Welcome to Next.js
         </h1>
-
-        <button type="button" onClick={logoutClicked}>
-          Logout
-          {userId}
-        </button>
       </main>
+
+      {sites.map((site) => (
+        <HStack key={site.id}>
+          <Box>{site.name}</Box>
+        </HStack>
+      ))}
     </div>
   );
 }
