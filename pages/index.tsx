@@ -1,8 +1,9 @@
 import Head from 'next/head';
-import { gql, useQuery } from '@apollo/client';
-import { Box, HStack } from '@chakra-ui/react';
-/// import { useAuth } from '@nhost/react-auth';
+import { gql, useQuery, useMutation } from '@apollo/client';
 import { WithPrivateRoute } from '../components/WithPrivateRoute';
+import { Layout } from '../components/Layout';
+import { SiteItem } from '../components/SiteItem';
+import { CreateSiteModal } from '../components/CreateSiteModal';
 import { auth } from '../lib/nhost';
 import { Entity } from '../lib/enums';
 import type { AggregateData, SiteType } from '../lib/types';
@@ -44,7 +45,11 @@ mutation INSERT_SITE_ONE($object: sites_insert_input!) {
 `;
 
 function Home() {
-  const { loading, data, error } = useQuery<SitesAggregateData>(
+  const {
+    loading: queryLoading,
+    data: queryData,
+    error: queryError,
+  } = useQuery<SitesAggregateData>(
     SITES_AGGREGATE,
     {
       variables: {
@@ -58,25 +63,20 @@ function Home() {
     },
   );
 
-  const siteInput = {
-    name: 'Site name',
-    description: 'Site desc',
-    slug: 'site-name',
-    user_id: 'user-uuid',
-  };
+  const [addSite, { data, mutationLoading, mutationError }] = useMutation(INSERT_SITE_ONE);
+  console.log('### mutationError: ', mutationError);
+  console.log('### data: ', data);
 
-  const sites = data?.sites_aggregate?.nodes;
+  const sites = queryData?.sites_aggregate?.nodes?.filter((s) => !!s);
 
-  if (loading && !data) {
+  if (queryLoading && !queryData) {
     return <div>Loading...</div>;
   }
 
-  if (error || !sites) {
-    console.error(error); // eslint-disable-line
+  if (queryError || !sites) {
+    console.error(queryError); // eslint-disable-line
     return <div>Error getting sites data</div>;
   }
-
-  console.log('### sites: ', sites);
 
   return (
     <>
@@ -86,17 +86,11 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1>
-          Welcome to Next.js
-        </h1>
-      </main>
+      <Layout>
+        <CreateSiteModal onSubmit={addSite} />
 
-      {sites.map((site) => (
-        <HStack key={site.id}>
-          <Box>{site.name}</Box>
-        </HStack>
-      ))}
+        {sites.map((site) => <SiteItem key={site.id} name={site.name} />)}
+      </Layout>
     </>
   );
 }

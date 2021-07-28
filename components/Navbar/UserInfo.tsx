@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import {
   Avatar,
@@ -12,6 +13,7 @@ import {
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
+import { meAtom } from '../../lib/jotai';
 import { auth } from '../../lib/nhost';
 import { Entity } from '../../lib/enums';
 import type { SingleData, UserType } from '../../lib/types';
@@ -33,6 +35,7 @@ export const GET_SELF = gql`
 
 export const UserInfo = () => {
   const router = useRouter();
+  const [me, setMe] = useAtom(meAtom);
 
   const { loading, error, data } = useQuery<UserData>(GET_SELF, {
     variables: {
@@ -45,7 +48,13 @@ export const UserInfo = () => {
     },
   });
 
-  const me = data?.users_by_pk;
+  const meData = data?.users_by_pk;
+
+  useEffect(() => {
+    if (me === null && !!meData) {
+      setMe(meData);
+    }
+  }, [me, meData, setMe]);
 
   if (loading && !data) {
     return <div>Loading...</div>;
@@ -58,7 +67,7 @@ export const UserInfo = () => {
 
   const handleLogout = async () => {
     await auth.logout();
-    
+
     return router.push('/login');
   };
 
@@ -68,8 +77,8 @@ export const UserInfo = () => {
         p={2}
         transition="all 0.2s"
         borderRadius="md"
-        _hover={{ bg: "gray.100" }}
-        _expanded={{ bg: "gray.200" }}
+        _hover={{ bg: 'gray.100' }}
+        _expanded={{ bg: 'gray.200' }}
       >
         <HStack alignItems="center" spacing="10px">
           <Avatar

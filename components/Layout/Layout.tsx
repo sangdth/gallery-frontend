@@ -47,7 +47,7 @@ const NAV_ITEMS: Array<NavItem> = [
 export const Layout: React.FC = ({ children }) => (
   <Box>
     <Navbar items={NAV_ITEMS} />
-    <Box>{children}</Box>
+    <Box padding="20px">{children}</Box>
   </Box>
 );
 
