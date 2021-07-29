@@ -1,4 +1,4 @@
-import { Entity, Status } from './enums';
+import { Entity, DisplayType, Status } from './enums';
 
 export type NavItem = {
   label: string;
@@ -11,27 +11,45 @@ export type NavItem = {
 export type AggregateData<T, K extends string> = Record<
   `${Lowercase<K>}_aggregate`, { nodes: T[] }
 >;
-
 export type SingleData<T, K extends string> = Record<
   `${Lowercase<K>}_by_pk`, T
+>;
+export type InsertedData<T, K extends string> = Record<
+  `insert_${Lowercase<K>}_one`, T
+>;
+export type DeletedData<T, K extends string> = Record<
+  `delete_${Lowercase<K>}_by_pk`, T
 >;
 
 export type BaseType = {
   id: string;
   created_at: string | Date;
   updated_at: string | Date;
+  user_id: string;
 };
 
 export type SiteType = BaseType & {
   name: string;
   slug: string;
   description: string | null;
-  user_id: string;
   status: Status;
 };
 
+export type PageType = BaseType & {
+  name: string;
+  slug: string;
+  content: string | null;
+  site_id: string;
+  status: Status;
+};
+export type CollectionType = BaseType & {
+  name: string | null;
+  description: string | null;
+  site_id: string;
+  type: DisplayType;
+  status: Status;
+};
 export type AccountType = BaseType & {
-  user_id: string;
   active: boolean;
   email: string | null;
   new_email: string | null;
@@ -45,12 +63,23 @@ export type AccountType = BaseType & {
   ticket_expires_at: string | Date;
 };
 
-export type UserType = BaseType & {
+export type UserType = Exclude<BaseType, 'user_id'> & {
   display_name: string | null;
   avatar_url: string | null;
   account: AccountType;
 };
 
 export type SitesAggregateData = AggregateData<SiteType, Entity.Sites>;
-export type SiteInsertedData = { insert_sites_one: SiteType };
-export type SiteDeletedData = { delete_sites_by_pk: SiteType };
+export type SiteData = SingleData<SiteType, Entity.Sites>;
+export type SiteInsertedData = InsertedData<SiteType, Entity.Sites>;
+export type SiteDeletedData = DeletedData<SiteType, Entity.Sites>;
+
+export type PagesAggregateData = AggregateData<PageType, Entity.Pages>;
+export type PageData = SingleData<PageType, Entity.Pages>;
+export type PageInsertedData = InsertedData<PageType, Entity.Pages>;
+export type PageDeletedData = DeletedData<PageType, Entity.Pages>;
+
+export type CollectionsAggregateData = AggregateData<CollectionType, Entity.Collections>;
+export type CollectionData = SingleData<CollectionType, Entity.Collections>;
+export type CollectionInsertedData = InsertedData<CollectionType, Entity.Collections>;
+export type CollectionDeletedData = DeletedData<CollectionType, Entity.Collections>;

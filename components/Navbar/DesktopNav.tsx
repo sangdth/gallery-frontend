@@ -34,7 +34,8 @@ export const DesktopNav = ({ items }: Props) => {
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
-                }}>
+                }}
+              >
                 {item.label}
               </Link>
             </PopoverTrigger>
@@ -46,7 +47,8 @@ export const DesktopNav = ({ items }: Props) => {
                 bg={popoverContentBgColor}
                 p={4}
                 rounded="xl"
-                minW="sm">
+                minW="sm"
+              >
                 <Stack>
                   {item.children.map((child) => (
                     <DesktopSubNav key={child.label} {...child} />

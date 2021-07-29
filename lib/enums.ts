@@ -10,7 +10,7 @@ export enum Status {
   Private = 'PRIVATE',
   Archived = 'ARCHIVED',
 }
-export enum CollectionType {
+export enum DisplayType {
   Slideshow = 'SLIDESHOW',
   Carousel = 'CAROUSEL',
 }

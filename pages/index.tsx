@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useAtom } from 'jotai';
 import Head from 'next/head';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { useToast } from '@chakra-ui/react';
@@ -7,6 +8,7 @@ import { Layout } from '../components/Layout';
 import { SiteItem } from '../components/SiteItem';
 import { CreateSiteModal } from '../components/CreateSiteModal';
 import { auth } from '../lib/nhost';
+import { siteAtom } from '../lib/jotai';
 import type {
   SiteType,
   SitesAggregateData,
@@ -61,6 +63,7 @@ export const DELETE_SITE_BY_PK = gql`
 
 function Home() {
   const toast = useToast();
+  const [site, setSite] = useAtom(siteAtom);
 
   const {
     loading: queryLoading,
@@ -86,7 +89,7 @@ function Home() {
     {
       data: insertData,
       loading: insertLoading,
-      error: insertError,
+      // error: insertError,
     },
   ] = useMutation<SiteInsertedData>(INSERT_SITE_ONE);
 
@@ -95,7 +98,7 @@ function Home() {
     {
       data: deleteData,
       loading: deleteLoading,
-      error: deleteError,
+      // error: deleteError,
     },
   ] = useMutation<SiteDeletedData>(DELETE_SITE_BY_PK);
 
@@ -124,6 +127,12 @@ function Home() {
   };
 
   useEffect(() => {
+    if (site) {
+      setSite(null);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     if (insertData) {
       queryRefetch();
       toast({
@@ -138,14 +147,13 @@ function Home() {
 
   useEffect(() => {
     if (deleteData) {
-      console.log('### deleteData: ', deleteData);
       queryRefetch();
       toast({
-        title: 'Deleted successful',
+        title: `Deleted site: ${deleteData.delete_sites_by_pk.name} successful`,
         position: 'top',
         status: 'warning',
         isClosable: true,
-        duration: 1000,
+        duration: 3000,
       });
     }
   }, [deleteData, toast, queryRefetch]);
@@ -169,16 +177,17 @@ function Home() {
 
       <Layout>
         <CreateSiteModal
-          loading={insertLoading}
+          loading={insertLoading || deleteLoading}
           onSubmit={handleSubmit}
         />
 
-        {sites.map((site) => (
+        {sites.map((s) => (
           <SiteItem
-            key={site.id}
-            name={site.name}
-            path={`/dashboard?site=${site.id}`}
-            onDelete={() => handleDelete(site.id)}
+            key={s.id}
+            name={s.name}
+            path={`/dashboard?site=${s.id}&tab=pages`}
+            onClick={() => setSite(s)}
+            onDelete={() => handleDelete(s.id)}
           />
         ))}
       </Layout>

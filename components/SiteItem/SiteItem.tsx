@@ -13,14 +13,20 @@ import { DeleteIcon } from '@chakra-ui/icons';
 type Props = {
   name: string;
   path: string;
+  onClick: () => void;
   onDelete: () => void;
 };
 
 export const SiteItem = (props: Props) => {
-  const { name, onDelete, path } = props;
+  const {
+    name,
+    onDelete,
+    path,
+    onClick,
+  } = props;
 
   return (
-    <LinkBox as="article">
+    <LinkBox as="article" onClick={onClick}>
       <HStack
         border="1px"
         borderColor="gray.200"
