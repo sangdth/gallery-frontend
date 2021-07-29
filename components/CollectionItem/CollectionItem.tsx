@@ -1,11 +1,12 @@
 import React from 'react';
 import {
+  Flex,
   HStack,
   IconButton,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 
 type Props = {
   name: string;
@@ -21,24 +22,37 @@ export const CollectionItem = (props: Props) => {
   } = props;
 
   return (
-    <HStack
+    <Flex
       border="1px"
       borderColor="gray.200"
       borderRadius="4px"
       marginY="10px"
       padding="20px"
+      spacing="20px"
+      justifyContent="space-between"
       _hover={{ bg: useColorModeValue('blue.50', 'gray.900'), cursor: 'pointer' }}
     >
       <Text fontSize="2em">{name}</Text>
-      <IconButton
-        aria-label="Delete this site"
-        colorScheme="red"
-        variant="outline"
-        icon={<DeleteIcon />}
-        _hover={{ bg: useColorModeValue('red.400', 'gray.900'), color: 'white' }}
-        onClick={onDelete}
-      />
-    </HStack>
+      <HStack spacing="20px">
+        <IconButton
+          aria-label="Edit"
+          colorScheme="blue"
+          variant="outline"
+          borderRadius="4px"
+          icon={<EditIcon />}
+          _hover={{ bg: useColorModeValue('blue.400', 'gray.600'), color: 'white' }}
+        />
+        <IconButton
+          aria-label="Delete"
+          colorScheme="red"
+          variant="outline"
+          borderRadius="4px"
+          icon={<DeleteIcon />}
+          _hover={{ bg: useColorModeValue('red.400', 'gray.600'), color: 'white' }}
+          onClick={onDelete}
+        />
+      </HStack>
+    </Flex>
   );
 };
 

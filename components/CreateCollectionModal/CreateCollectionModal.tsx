@@ -81,16 +81,16 @@ const CreatecollectionModal = (props: Props) => {
             <FormControl>
               <FormLabel>Name</FormLabel>
               <Input
-                placeholder="collection name"
+                placeholder="Collection name"
                 value={input.name ?? ''}
                 onChange={(e) => setInput({ ...input, name: e.currentTarget.value })}
               />
             </FormControl>
 
             <FormControl mt={4}>
-              <FormLabel>Content</FormLabel>
+              <FormLabel>Description</FormLabel>
               <Input
-                placeholder="collection content"
+                placeholder="Description"
                 value={input.description ?? ''}
                 onChange={(e) => setInput({ ...input, description: e.currentTarget.value })}
               />

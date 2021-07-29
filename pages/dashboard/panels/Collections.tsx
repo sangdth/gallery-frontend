@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { CreateCollectionModal } from '../../../components/CreateCollectionModal';
@@ -112,6 +112,13 @@ export const Collections = (props: Props) => {
       },
     });
     collectionsRefetch();
+    toast({
+      title: 'Created successful',
+      position: 'top',
+      status: 'success',
+      isClosable: true,
+      duration: 1000,
+    });
   };
 
   const handleDelete = async (id: string) => {
@@ -124,20 +131,18 @@ export const Collections = (props: Props) => {
       },
     });
     collectionsRefetch();
+    toast({
+      title: 'Deleted successful',
+      position: 'top',
+      status: 'warning',
+      isClosable: true,
+      duration: 3000,
+    });
   };
 
-  useEffect(() => {
-    if (insertData) {
-      collectionsRefetch();
-      toast({
-        title: `Created ${insertData.insert_collections_one.name} successful`,
-        position: 'top',
-        status: 'success',
-        isClosable: true,
-        duration: 1000,
-      });
-    }
-  }, [insertData, toast, collectionsRefetch]);
+  if (insertData) {
+    collectionsRefetch();
+  }
 
   if (collectionsLoading && !collectionsData) {
     return <div>Loading...</div>;
@@ -153,6 +158,7 @@ export const Collections = (props: Props) => {
         loading={insertLoading || deleteLoading}
         onSubmit={handleSubmit}
       />
+
       {collections.map((collection) => (
         <CollectionItem
           key={collection.id}

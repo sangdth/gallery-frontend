@@ -36,7 +36,6 @@ export const GET_SELF = gql`
 export const UserInfo = () => {
   const router = useRouter();
   const [me, setMe] = useAtom(meAtom);
-  console.log('### me: ', me);
 
   const { loading, error, data } = useQuery<UserData>(GET_SELF, {
     variables: {
@@ -62,7 +61,7 @@ export const UserInfo = () => {
   }
 
   if (error || !me) {
-    console.error(error); // eslint-disable-line
+    // console.error(error); // eslint-disable-line
     return <div>Error getting user data</div>;
   }
 
