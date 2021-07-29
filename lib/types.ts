@@ -1,4 +1,4 @@
-import { Status } from './enums';
+import { Entity, Status } from './enums';
 
 export type NavItem = {
   label: string;
@@ -50,3 +50,7 @@ export type UserType = BaseType & {
   avatar_url: string | null;
   account: AccountType;
 };
+
+export type SitesAggregateData = AggregateData<SiteType, Entity.Sites>;
+export type SiteInsertedData = { insert_sites_one: SiteType };
+export type SiteDeletedData = { delete_sites_by_pk: SiteType };

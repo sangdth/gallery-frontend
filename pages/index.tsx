@@ -1,14 +1,18 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import { gql, useQuery, useMutation } from '@apollo/client';
+import { useToast } from '@chakra-ui/react';
 import { WithPrivateRoute } from '../components/WithPrivateRoute';
 import { Layout } from '../components/Layout';
 import { SiteItem } from '../components/SiteItem';
 import { CreateSiteModal } from '../components/CreateSiteModal';
 import { auth } from '../lib/nhost';
-import { Entity } from '../lib/enums';
-import type { AggregateData, SiteType } from '../lib/types';
-
-type SitesAggregateData = AggregateData<SiteType, Entity.Sites>;
+import type {
+  SiteType,
+  SitesAggregateData,
+  SiteInsertedData,
+  SiteDeletedData,
+} from '../lib/types';
 
 export const SITES_AGGREGATE = gql`
   query SITES_AGGREGATE($userId: uuid!) {
@@ -32,23 +36,37 @@ export const SITES_AGGREGATE = gql`
 `;
 
 export const INSERT_SITE_ONE = gql`
-mutation INSERT_SITE_ONE($object: sites_insert_input!) {
-  insert_sites_one(object: $object) {
-    created_at
-    id
-    description
-    name
-    slug
+  mutation INSERT_SITE_ONE($object: sites_insert_input!) {
+    insert_sites_one(object: $object) {
+      created_at
+      updated_at
+      id
+      description
+      name
+      slug
+      user_id
+      status
+    }
   }
-}
+`;
 
+export const DELETE_SITE_BY_PK = gql`
+  mutation DELETE_SITE_BY_PK($id: uuid!) {
+    delete_sites_by_pk(id: $id) {
+      id
+      name
+    }
+  }
 `;
 
 function Home() {
+  const toast = useToast();
+
   const {
     loading: queryLoading,
     data: queryData,
     error: queryError,
+    refetch: queryRefetch,
   } = useQuery<SitesAggregateData>(
     SITES_AGGREGATE,
     {
@@ -63,11 +81,74 @@ function Home() {
     },
   );
 
-  const [addSite, { data, mutationLoading, mutationError }] = useMutation(INSERT_SITE_ONE);
-  console.log('### mutationError: ', mutationError);
-  console.log('### data: ', data);
+  const [
+    insertSite,
+    {
+      data: insertData,
+      loading: insertLoading,
+      error: insertError,
+    },
+  ] = useMutation<SiteInsertedData>(INSERT_SITE_ONE);
+
+  const [
+    deleteSite,
+    {
+      data: deleteData,
+      loading: deleteLoading,
+      error: deleteError,
+    },
+  ] = useMutation<SiteDeletedData>(DELETE_SITE_BY_PK);
 
   const sites = queryData?.sites_aggregate?.nodes?.filter((s) => !!s);
+
+  const handleSubmit = async (input: Partial<SiteType>) => {
+    await insertSite({
+      variables: { object: input },
+      context: {
+        headers: {
+          'x-hasura-role': 'me',
+        },
+      },
+    });
+  };
+
+  const handleDelete = async (id: string) => {
+    await deleteSite({
+      variables: { id },
+      context: {
+        headers: {
+          'x-hasura-role': 'me',
+        },
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (insertData) {
+      queryRefetch();
+      toast({
+        title: `Created ${insertData.insert_sites_one.name} successful`,
+        position: 'top',
+        status: 'success',
+        isClosable: true,
+        duration: 1000,
+      });
+    }
+  }, [insertData, toast, queryRefetch]);
+
+  useEffect(() => {
+    if (deleteData) {
+      console.log('### deleteData: ', deleteData);
+      queryRefetch();
+      toast({
+        title: 'Deleted successful',
+        position: 'top',
+        status: 'warning',
+        isClosable: true,
+        duration: 1000,
+      });
+    }
+  }, [deleteData, toast, queryRefetch]);
 
   if (queryLoading && !queryData) {
     return <div>Loading...</div>;
@@ -87,9 +168,19 @@ function Home() {
       </Head>
 
       <Layout>
-        <CreateSiteModal onSubmit={addSite} />
+        <CreateSiteModal
+          loading={insertLoading}
+          onSubmit={handleSubmit}
+        />
 
-        {sites.map((site) => <SiteItem key={site.id} name={site.name} />)}
+        {sites.map((site) => (
+          <SiteItem
+            key={site.id}
+            name={site.name}
+            path={`/dashboard?site=${site.id}`}
+            onDelete={() => handleDelete(site.id)}
+          />
+        ))}
       </Layout>
     </>
   );

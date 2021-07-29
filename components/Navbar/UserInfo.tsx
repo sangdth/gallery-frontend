@@ -36,6 +36,7 @@ export const GET_SELF = gql`
 export const UserInfo = () => {
   const router = useRouter();
   const [me, setMe] = useAtom(meAtom);
+  console.log('### me: ', me);
 
   const { loading, error, data } = useQuery<UserData>(GET_SELF, {
     variables: {

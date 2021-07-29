@@ -17,26 +17,21 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { userIdAtom } from '../../lib/jotai';
+import type { SiteType } from '../../lib/types';
 
-type SiteInput = {
-  name: string;
-  description: string;
-  slug: string;
-  user_id: string;
-};
 type Props = {
-  onSubmit: (input: any) => void;
+  loading?: boolean;
+  onSubmit: (input: Partial<SiteType>) => Promise<void>;
 };
 
 const CreateSiteModal = (props: Props) => {
-  const { onSubmit } = props;
+  const { loading, onSubmit } = props;
   const [userId] = useAtom(userIdAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [input, setInput] = useState<SiteInput>({
+  const [input, setInput] = useState<Partial<SiteType>>({
     name: '',
     description: '',
     slug: '',
-    user_id: userId,
   });
 
   const handleClose = () => {
@@ -44,23 +39,23 @@ const CreateSiteModal = (props: Props) => {
       name: '',
       description: '',
       slug: '',
-      user_id: userId,
     });
     onClose();
   };
 
-  const handleSubmit = () => {
-    onSubmit({
-      variables: { object: input },
-    });
+  const handleSubmit = async () => {
+    await onSubmit(input);
+    handleClose();
   };
 
   useEffect(() => {
-    const slug = slugify(input.name, { lower: true });
+    const slug = slugify(input.name ?? '', { lower: true });
     if (input.name && input.slug !== slug) {
       setInput({ ...input, slug });
     }
   }, [input]);
+
+  const shouldDisable = !userId || loading;
 
   return (
     <>
@@ -70,6 +65,7 @@ const CreateSiteModal = (props: Props) => {
         color="white"
         bg="green.400"
         leftIcon={<AddIcon />}
+        disabled={shouldDisable}
         display={{
           base: 'none',
           md: 'inline-flex',
@@ -110,14 +106,20 @@ const CreateSiteModal = (props: Props) => {
               <FormLabel>Description</FormLabel>
               <Input
                 placeholder="Site description"
-                value={input.description}
+                value={input.description ?? ''}
                 onChange={(e) => setInput({ ...input, description: e.currentTarget.value })}
               />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+            <Button
+              isLoading={loading}
+              loadingText="Creating..."
+              colorScheme="blue"
+              mr={3}
+              onClick={handleSubmit}
+            >
               Submit
             </Button>
             <Button onClick={handleClose}>Cancel</Button>
