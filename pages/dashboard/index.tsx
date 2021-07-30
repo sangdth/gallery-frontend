@@ -96,7 +96,7 @@ const Dashboard = () => {
           <Tab>Images</Tab>
           <Tab>Settings</Tab>
         </TabList>
-        <TabPanels>
+        <TabPanels paddingX="0">
           <TabPanel>
             {(site && me) && <Pages site={site} user={me} />}
           </TabPanel>

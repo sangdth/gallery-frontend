@@ -7,6 +7,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { ConfirmButton } from '../ConfirmButton';
 
 type Props = {
   name: string;
@@ -42,14 +43,13 @@ export const CollectionItem = (props: Props) => {
           icon={<EditIcon />}
           _hover={{ bg: useColorModeValue('blue.400', 'gray.600'), color: 'white' }}
         />
-        <IconButton
-          aria-label="Delete"
-          colorScheme="red"
-          variant="outline"
-          borderRadius="4px"
+
+        <ConfirmButton
+          iconOnly
           icon={<DeleteIcon />}
-          _hover={{ bg: useColorModeValue('red.400', 'gray.600'), color: 'white' }}
-          onClick={onDelete}
+          label="Delete"
+          message="Delete this item?"
+          onConfirm={onDelete}
         />
       </HStack>
     </Flex>
