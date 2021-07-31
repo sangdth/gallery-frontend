@@ -6,6 +6,7 @@
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
+    "ts-check": "node --max_old_space_size=4096 node_modules/.bin/tsc --project tsconfig.json --noEmit",
     "lint": "next lint"
   },
   "dependencies": {

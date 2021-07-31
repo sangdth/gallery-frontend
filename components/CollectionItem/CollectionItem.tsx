@@ -11,7 +11,8 @@ import { ConfirmButton } from '../ConfirmButton';
 
 type Props = {
   name: string;
-  onClick: () => void;
+  onClick?: () => void;
+  onEdit: () => void;
   onDelete: () => void;
 };
 
@@ -19,6 +20,7 @@ export const CollectionItem = (props: Props) => {
   const {
     name,
     onDelete,
+    onEdit,
     onClick,
   } = props;
 
@@ -43,6 +45,7 @@ export const CollectionItem = (props: Props) => {
           borderRadius="4px"
           icon={<EditIcon />}
           _hover={{ bg: useColorModeValue('blue.400', 'gray.600'), color: 'white' }}
+          onClick={onEdit}
         />
 
         <ConfirmButton

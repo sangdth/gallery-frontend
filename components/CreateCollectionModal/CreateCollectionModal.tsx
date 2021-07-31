@@ -13,6 +13,11 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
@@ -54,10 +59,12 @@ const CreatecollectionModal = (props: Props) => {
   useEffect(() => {
     if (collection) {
       setInput({
+        description: collection.description,
         id: collection.id,
         name: collection.name,
-        description: collection.description,
+        site_id: collection.site_id,
         status: collection.status,
+        images: collection.images,
       });
       onOpen();
     }
@@ -87,52 +94,72 @@ const CreatecollectionModal = (props: Props) => {
       </Flex>
 
       <Modal
+        size="3xl"
         closeOnOverlayClick={false}
         isOpen={isOpen}
         onClose={handleClose}
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create new collection</ModalHeader>
+          <ModalHeader>
+            {collection ? 'Edit collection' : 'Create new collection'}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Name</FormLabel>
-              <Input
-                placeholder="Collection name"
-                value={input.name ?? ''}
-                onChange={(e) => setInput({
-                  ...input,
-                  name: e.currentTarget.value,
-                })}
-              />
-            </FormControl>
+            <Tabs width="100%" isLazy>
+              <TabList>
+                <Tab>General</Tab>
+                <Tab>Images</Tab>
+              </TabList>
+              <TabPanels paddingX="0">
+                <TabPanel>
+                  <FormControl>
+                    <FormLabel>Name</FormLabel>
+                    <Input
+                      placeholder="Collection name"
+                      value={input.name ?? ''}
+                      onChange={(e) => setInput({
+                        ...input,
+                        name: e.currentTarget.value,
+                      })}
+                    />
+                  </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Input
-                placeholder="Description"
-                value={input.description ?? ''}
-                onChange={(e) => setInput({
-                  ...input,
-                  description: e.currentTarget.value,
-                })}
-              />
-            </FormControl>
+                  <FormControl mt={4}>
+                    <FormLabel>Description</FormLabel>
+                    <Input
+                      placeholder="Description"
+                      value={input.description ?? ''}
+                      onChange={(e) => setInput({
+                        ...input,
+                        description: e.currentTarget.value,
+                      })}
+                    />
+                  </FormControl>
+                </TabPanel>
+                <TabPanel>
+                  {(collection?.images ?? []).map((o) => (
+                    <div>{o.path}</div>
+                  ))}
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
           </ModalBody>
 
           <ModalFooter>
             <Button
-              isLoading={loading}
-              loadingText="Creating..."
-              colorScheme="blue"
               mr={3}
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
+            <Button
+              isLoading={loading}
+              loadingText={collection ? 'Updating...' : 'Creating...'}
+              colorScheme="blue"
               onClick={handleSubmit}
             >
               Submit
-            </Button>
-            <Button onClick={handleClose}>
-              Cancel
             </Button>
           </ModalFooter>
         </ModalContent>

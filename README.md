@@ -1,18 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
+# gallery
+I never find a good service for a simple portfolio/gallery site so I create one for myself and friends.
 
 ### Register for services
 
-#### SuperTokens
-
-- We use SuperTokens for authentication. It has free version supports up to 5000 users! Register it here.
-- Note down your URI and the API key.
-
-#### Hasura and PostgresQL
-
-- We use Hasura and PostgresQL as database to store our information like posts, descriptions etc. Regiter it here.
-- After that, connect to a database. You can choose your existing or create new one from Heroku.
+#### nhost
+This repo is the frontend only, all of backend relies on [nhost](https://nhost.io) service.
+They provide super nice system, includes GraphQL (Hasura), Auth, Storage out of the box.
+Simply register and copy their environment information.
 
 ### Development environment
 
@@ -21,11 +15,8 @@ First, create `.env` file with following:
 # Public Environment variables that can be used in the browser.
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
-# Secret environment variables only available to Node.js
-APP_URL="http://localhost:3000"
-
-SUPERTOKENS_URI="your-supertokens-uri"
-SUPERTOKENS_API_KEY="your-supertokens-api-key"
+NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://hasura-{your-id}.nhost.app/v1/graphql
+NEXT_PUBLIC_BACKEND_ENDPOINT=https://backend-{your-id}.nhost.app
 ```
 
 Second, run the development server:
@@ -48,8 +39,7 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 To learn more about Next.js, take a look at the following resources:
 
-- [SuperTokens](https://supertokens.io/docs/emailpassword/nextjs/about) - easy authentication with SuperTokens
-- [Next.js + SuperTokens](https://github.com/supertokens/next.js/blob/canary/examples/with-supertokens/pages/index.js) - Example Next.js + SuperTokens
+- [nhost](https://supertokens.io/docs/emailpassword/nextjs/about) - easy authentication with SuperTokens
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 
 ## Deploy on Vercel

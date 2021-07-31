@@ -8,6 +8,14 @@ export type NavItem = {
   path?: string;
 };
 
+export type RecursivePartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? RecursivePartial<U>[]
+    : T[P] extends Record<string, unknown>
+      ? RecursivePartial<T[P]>
+      : T[P];
+};
+
 export type AggregateData<T, K extends string> = Record<
   `${Lowercase<K>}_aggregate`, { nodes: T[] }
 >;
@@ -26,13 +34,19 @@ export type BaseType = {
   created_at: string | Date;
   updated_at: string | Date;
   user_id: string;
+  status: Status;
 };
 
 export type SiteType = BaseType & {
   name: string;
   slug: string;
   description: string | null;
-  status: Status;
+};
+
+export type Image = BaseType & {
+  meta: string;
+  path: string;
+  collection_id: string;
 };
 
 export type PageType = BaseType & {
@@ -40,7 +54,6 @@ export type PageType = BaseType & {
   slug: string;
   content: string | null;
   site_id: string;
-  status: Status;
 };
 
 export type CollectionType = BaseType & {
@@ -48,14 +61,14 @@ export type CollectionType = BaseType & {
   description: string | null;
   site_id: string;
   type: DisplayType;
-  status: Status;
+  images: Image[];
 };
 
-export type CollectionInput = Partial<
-  Pick<CollectionType, 'id' | 'name' | 'description' | 'status' | 'type' | 'site_id'>
+export type CollectionInput = RecursivePartial<
+  Pick<CollectionType, 'id' | 'name' | 'description' | 'images' | 'status' | 'type' | 'site_id'>
 >;
 
-export type AccountType = BaseType & {
+export type AccountType = Exclude<BaseType, 'status'> & {
   active: boolean;
   email: string | null;
   new_email: string | null;
@@ -69,7 +82,7 @@ export type AccountType = BaseType & {
   ticket_expires_at: string | Date;
 };
 
-export type UserType = Exclude<BaseType, 'user_id'> & {
+export type UserType = Exclude<BaseType, 'user_id' | 'status'> & {
   display_name: string | null;
   avatar_url: string | null;
   account: AccountType;

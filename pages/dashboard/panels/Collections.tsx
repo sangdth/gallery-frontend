@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { atom, useAtom } from 'jotai';
 import { Flex, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
@@ -8,14 +8,13 @@ import type {
   CollectionInsertedData,
   CollectionsAggregateData,
   CollectionDeletedData,
-  CollectionType,
   CollectionInput,
   SiteType,
   UserType,
 } from '../../../lib/types';
 
 export const COLLECTIONS_AGGREGATE = gql`
-  query collectionS_AGGREGATE($userId: uuid!, $siteId: uuid!) {
+  query COLLECTIONS_AGGREGATE($userId: uuid!, $siteId: uuid!) {
     collections_aggregate(
       limit: 10,
       offset: 0,
@@ -28,9 +27,16 @@ export const COLLECTIONS_AGGREGATE = gql`
         created_at
         updated_at
         id
+        site_id
         name
         description
         status
+        images {
+          id
+          meta
+          path
+          status
+        }
       }
     }
   }
@@ -69,12 +75,11 @@ type Props = {
 export const collectionAtom = atom<CollectionInput | null>(null);
 
 export const Collections = (props: Props) => {
-  console.log('### Collections');
+  console.log('### Render Collections'); // eslint-disable-line no-console
+
   const { site, user } = props;
   const toast = useToast();
-
   const [input, setInput] = useAtom(collectionAtom);
-  const [showEditor, setShowEditor] = useState(true);
 
   const {
     data: collectionsData,
@@ -98,7 +103,7 @@ export const Collections = (props: Props) => {
   const [
     upsertCollection,
     {
-      data: insertData,
+      // data: insertData,
       loading: insertLoading,
       // error: insertError,
     },
@@ -113,9 +118,25 @@ export const Collections = (props: Props) => {
     },
   ] = useMutation<CollectionDeletedData>(DELETE_COLLECTION_BY_PK);
 
-  const handleSubmit = useCallback(async (data: Partial<CollectionType>) => {
+  const handleSubmit = useCallback(async (data: CollectionInput) => {
     await upsertCollection({
-      variables: { object: { ...data, site_id: site.id } },
+      variables: {
+        object: {
+          ...data,
+          site_id: site.id,
+          images: {
+            data: (data?.images ?? []).map((o) => ({
+              id: o.id,
+              meta: o.meta,
+              path: o.path,
+            })),
+            on_conflict: {
+              constraint: 'images_pkey',
+              update_columns: ['meta', 'path', 'status', 'collection_id'],
+            },
+          },
+        },
+      },
       context: {
         headers: {
           'x-hasura-role': 'me',
@@ -124,13 +145,12 @@ export const Collections = (props: Props) => {
     });
     collectionsRefetch();
     toast({
-      title: 'Created successful',
+      title: 'Successful',
       position: 'top',
       status: 'success',
       isClosable: true,
       duration: 1000,
     });
-    setShowEditor(false);
   }, [site, toast, upsertCollection, collectionsRefetch]);
 
   const handleDelete = async (id: string) => {
@@ -171,7 +191,7 @@ export const Collections = (props: Props) => {
         <CollectionItem
           key={collection.id}
           name={collection.name ?? ''}
-          onClick={() => !input && setInput(collection)}
+          onEdit={() => !input && setInput(collection)}
           onDelete={() => handleDelete(collection.id)}
         />
       ))}
