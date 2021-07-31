@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useToast } from '@chakra-ui/react';
+import { Flex, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { CreatePageModal } from '../../../components/CreatePageModal';
 import { PageItem } from '../../../components/PageItem';
@@ -150,7 +150,7 @@ export const Pages = (props: Props) => {
   }
 
   return (
-    <>
+    <Flex direction="column">
       <CreatePageModal
         loading={insertLoading || deleteLoading}
         onSubmit={handleSubmit}
@@ -163,7 +163,7 @@ export const Pages = (props: Props) => {
           onDelete={() => handleDelete(page.id)}
         />
       ))}
-    </>
+    </Flex>
   );
 };
 

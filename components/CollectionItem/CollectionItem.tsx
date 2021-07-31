@@ -11,7 +11,7 @@ import { ConfirmButton } from '../ConfirmButton';
 
 type Props = {
   name: string;
-  // onClick: () => void;
+  onClick: () => void;
   onDelete: () => void;
 };
 
@@ -19,7 +19,7 @@ export const CollectionItem = (props: Props) => {
   const {
     name,
     onDelete,
-    // onClick,
+    onClick,
   } = props;
 
   return (
@@ -32,6 +32,7 @@ export const CollectionItem = (props: Props) => {
       spacing="20px"
       justifyContent="space-between"
       _hover={{ bg: useColorModeValue('blue.50', 'gray.900'), cursor: 'pointer' }}
+      onClick={onClick}
     >
       <Text fontSize="2em">{name}</Text>
       <HStack spacing="20px">

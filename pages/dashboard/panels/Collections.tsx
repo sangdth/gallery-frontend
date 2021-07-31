@@ -1,5 +1,6 @@
-import React from 'react';
-import { useToast } from '@chakra-ui/react';
+import React, { useCallback, useState } from 'react';
+import { atom, useAtom } from 'jotai';
+import { Flex, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { CreateCollectionModal } from '../../../components/CreateCollectionModal';
 import { CollectionItem } from '../../../components/CollectionItem';
@@ -8,6 +9,7 @@ import type {
   CollectionsAggregateData,
   CollectionDeletedData,
   CollectionType,
+  CollectionInput,
   SiteType,
   UserType,
 } from '../../../lib/types';
@@ -34,9 +36,12 @@ export const COLLECTIONS_AGGREGATE = gql`
   }
 `;
 
-export const INSERT_COLLECTION_ONE = gql`
-    mutation INSERT_COLLECTION_ONE($object: collections_insert_input!) {
-      insert_collections_one(object: $object) {
+export const UPSERT_COLLECTION_ONE = gql`
+    mutation UPSERT_COLLECTION_ONE($object: collections_insert_input!) {
+      insert_collections_one(
+        object: $object,
+        on_conflict: {constraint: collections_pkey, update_columns: [name, description, status]}
+      ) {
         created_at
         updated_at
         id
@@ -61,9 +66,15 @@ type Props = {
   user: UserType;
 };
 
+export const collectionAtom = atom<CollectionInput | null>(null);
+
 export const Collections = (props: Props) => {
+  console.log('### Collections');
   const { site, user } = props;
   const toast = useToast();
+
+  const [input, setInput] = useAtom(collectionAtom);
+  const [showEditor, setShowEditor] = useState(true);
 
   const {
     data: collectionsData,
@@ -85,13 +96,13 @@ export const Collections = (props: Props) => {
   const collections = collectionsData?.collections_aggregate?.nodes;
 
   const [
-    insertCollection,
+    upsertCollection,
     {
       data: insertData,
       loading: insertLoading,
       // error: insertError,
     },
-  ] = useMutation<CollectionInsertedData>(INSERT_COLLECTION_ONE);
+  ] = useMutation<CollectionInsertedData>(UPSERT_COLLECTION_ONE);
 
   const [
     deleteCollection,
@@ -102,9 +113,9 @@ export const Collections = (props: Props) => {
     },
   ] = useMutation<CollectionDeletedData>(DELETE_COLLECTION_BY_PK);
 
-  const handleSubmit = async (input: Partial<CollectionType>) => {
-    await insertCollection({
-      variables: { object: { ...input, site_id: site.id } },
+  const handleSubmit = useCallback(async (data: Partial<CollectionType>) => {
+    await upsertCollection({
+      variables: { object: { ...data, site_id: site.id } },
       context: {
         headers: {
           'x-hasura-role': 'me',
@@ -119,7 +130,8 @@ export const Collections = (props: Props) => {
       isClosable: true,
       duration: 1000,
     });
-  };
+    setShowEditor(false);
+  }, [site, toast, upsertCollection, collectionsRefetch]);
 
   const handleDelete = async (id: string) => {
     await deleteCollection({
@@ -140,10 +152,6 @@ export const Collections = (props: Props) => {
     });
   };
 
-  if (insertData) {
-    collectionsRefetch();
-  }
-
   if (collectionsLoading && !collectionsData) {
     return <div>Loading...</div>;
   }
@@ -153,7 +161,7 @@ export const Collections = (props: Props) => {
   }
 
   return (
-    <>
+    <Flex direction="column">
       <CreateCollectionModal
         loading={insertLoading || deleteLoading}
         onSubmit={handleSubmit}
@@ -163,11 +171,11 @@ export const Collections = (props: Props) => {
         <CollectionItem
           key={collection.id}
           name={collection.name ?? ''}
-          // onClick={() => handleEdit(collection.id)}
+          onClick={() => !input && setInput(collection)}
           onDelete={() => handleDelete(collection.id)}
         />
       ))}
-    </>
+    </Flex>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { Navbar } from '../Navbar';
 import type { NavItem } from '../../lib/types';
 
@@ -45,10 +45,10 @@ const NAV_ITEMS: Array<NavItem> = [
 ];
 
 export const Layout: React.FC = ({ children }) => (
-  <Box>
+  <Flex direction="column">
     <Navbar items={NAV_ITEMS} />
-    <Box padding="20px">{children}</Box>
-  </Box>
+    <Flex>{children}</Flex>
+  </Flex>
 );
 
 export default Layout;

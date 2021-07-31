@@ -42,6 +42,7 @@ export type PageType = BaseType & {
   site_id: string;
   status: Status;
 };
+
 export type CollectionType = BaseType & {
   name: string | null;
   description: string | null;
@@ -49,6 +50,11 @@ export type CollectionType = BaseType & {
   type: DisplayType;
   status: Status;
 };
+
+export type CollectionInput = Partial<
+  Pick<CollectionType, 'id' | 'name' | 'description' | 'status' | 'type' | 'site_id'>
+>;
+
 export type AccountType = BaseType & {
   active: boolean;
   email: string | null;

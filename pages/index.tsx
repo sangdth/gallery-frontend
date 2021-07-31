@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import Head from 'next/head';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { useToast } from '@chakra-ui/react';
+import { Flex, useToast } from '@chakra-ui/react';
 import { WithPrivateRoute } from '../components/WithPrivateRoute';
 import { Layout } from '../components/Layout';
 import { SiteItem } from '../components/SiteItem';
@@ -176,20 +176,22 @@ function Home() {
       </Head>
 
       <Layout>
-        <CreateSiteModal
-          loading={insertLoading || deleteLoading}
-          onSubmit={handleSubmit}
-        />
-
-        {sites.map((s) => (
-          <SiteItem
-            key={s.id}
-            name={s.name}
-            path={`/dashboard?site=${s.id}&tab=pages`}
-            onClick={() => setSite(s)}
-            onDelete={() => handleDelete(s.id)}
+        <Flex direction="column" width="100%" padding="20px">
+          <CreateSiteModal
+            loading={insertLoading || deleteLoading}
+            onSubmit={handleSubmit}
           />
-        ))}
+
+          {sites.map((s) => (
+            <SiteItem
+              key={s.id}
+              name={s.name}
+              path={`/dashboard?site=${s.id}&tab=pages`}
+              onClick={() => setSite(s)}
+              onDelete={() => handleDelete(s.id)}
+            />
+          ))}
+        </Flex>
       </Layout>
     </>
   );

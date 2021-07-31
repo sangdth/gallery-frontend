@@ -3,6 +3,7 @@ import slugify from 'slugify';
 import { useAtom } from 'jotai';
 import {
   Button,
+  Flex,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -59,24 +60,26 @@ const CreatePageModal = (props: Props) => {
 
   return (
     <>
-      <Button
-        size="lg"
-        fontWeight={600}
-        color="white"
-        bg="green.400"
-        leftIcon={<AddIcon />}
-        disabled={shouldDisable}
-        display={{
-          base: 'none',
-          md: 'inline-flex',
-        }}
-        _hover={{
-          bg: 'green.300',
-        }}
-        onClick={onOpen}
-      >
-        Create new page
-      </Button>
+      <Flex justify="flex-end">
+        <Button
+          size="lg"
+          fontWeight={600}
+          color="white"
+          bg="green.400"
+          leftIcon={<AddIcon />}
+          disabled={shouldDisable}
+          display={{
+            base: 'none',
+            md: 'inline-flex',
+          }}
+          _hover={{
+            bg: 'green.300',
+          }}
+          onClick={onOpen}
+        >
+          Create new page
+        </Button>
+      </Flex>
 
       <Modal
         closeOnOverlayClick={false}

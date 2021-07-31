@@ -19,6 +19,15 @@
       "ignoreComments": true,
       "ignoreUrls": true,
       "ignoreRegExpLiterals": true
-    }]
+    }],
+    "@typescript-eslint/indent": [
+			"error",
+			2,
+			{
+				"ignoredNodes": [
+					"TSTypeParameterInstantiation"
+				]
+			}
+		]
   }
 }
