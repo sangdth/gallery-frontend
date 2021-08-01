@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { useAtom } from 'jotai';
 import {
   Button,
@@ -23,7 +24,8 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 import { userIdAtom } from '../../lib/jotai';
 import { collectionAtom } from '../../pages/dashboard/panels/Collections';
-import type { CollectionInput } from '../../lib/types';
+import { ImageUpload } from '../ImageUpload';
+import type { CollectionInput, Image } from '../../lib/types';
 
 type Props = {
   loading?: boolean;
@@ -36,23 +38,32 @@ const CreatecollectionModal = (props: Props) => {
   const [collection, setCollection] = useAtom(collectionAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [input, setInput] = useState<CollectionInput>({
+    id: uuidv4(),
     name: '',
     description: '',
   });
 
-  const handleClose = useCallback(() => {
+  const handleCancel = useCallback(() => {
     setInput({
       name: '',
       description: '',
     });
     setCollection(null);
     onClose();
+    // TODO: removeImages with onCancel prop in uploader
   }, [onClose, setCollection]);
 
-  const handleSubmit = useCallback(async () => {
+  const handleDrop = (images: Partial<Image>[]) => {
+    setInput({
+      ...input,
+      images: images.map((o) => ({ ...o, id: uuidv4() })),
+    });
+  };
+
+  const handleSubmit = async () => {
     await onSubmit(input);
-    handleClose();
-  }, [input, handleClose, onSubmit]);
+    handleCancel();
+  };
 
   const shouldDisable = !userId || loading;
 
@@ -68,7 +79,7 @@ const CreatecollectionModal = (props: Props) => {
       });
       onOpen();
     }
-  }, [collection, onOpen, handleClose]);
+  }, [collection, onOpen, handleCancel]);
 
   return (
     <>
@@ -97,7 +108,7 @@ const CreatecollectionModal = (props: Props) => {
         size="3xl"
         closeOnOverlayClick={false}
         isOpen={isOpen}
-        onClose={handleClose}
+        onClose={handleCancel}
       >
         <ModalOverlay />
         <ModalContent>
@@ -139,8 +150,12 @@ const CreatecollectionModal = (props: Props) => {
                 </TabPanel>
                 <TabPanel>
                   {(collection?.images ?? []).map((o) => (
-                    <div>{o.path}</div>
+                    <div key={o.id}>{o.path}</div>
                   ))}
+                  <ImageUpload
+                    collection={collection ?? { id: input.id }}
+                    onDrop={handleDrop}
+                  />
                 </TabPanel>
               </TabPanels>
             </Tabs>
@@ -149,7 +164,7 @@ const CreatecollectionModal = (props: Props) => {
           <ModalFooter>
             <Button
               mr={3}
-              onClick={handleClose}
+              onClick={handleCancel}
             >
               Cancel
             </Button>

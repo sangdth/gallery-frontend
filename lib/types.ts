@@ -1,5 +1,17 @@
 import { Entity, DisplayType, Status } from './enums';
 
+export type StorageResponse = {
+  AcceptRanges: string;
+  ContentLength: number;
+  ContentType: string;
+  ETag: string;
+  LastModified: string;
+  Metadata: {
+    token: string;
+  };
+  key: string;
+};
+
 export type NavItem = {
   label: string;
   subLabel?: string;
@@ -102,3 +114,8 @@ export type CollectionsAggregateData = AggregateData<CollectionType, Entity.Coll
 export type CollectionData = SingleData<CollectionType, Entity.Collections>;
 export type CollectionInsertedData = InsertedData<CollectionType, Entity.Collections>;
 export type CollectionDeletedData = DeletedData<CollectionType, Entity.Collections>;
+
+export type ImagesAggregateData = AggregateData<Image, Entity.Images>;
+export type ImageData = SingleData<Image, Entity.Images>;
+export type ImageInsertedData = InsertedData<Image, Entity.Images>;
+export type ImageDeletedData = DeletedData<Image, Entity.Images>;
