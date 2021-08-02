@@ -123,7 +123,7 @@ export const Collections = (props: Props) => {
       variables: {
         object: {
           ...data,
-          site_id: site.id,
+          site_id: site.id, // TODO: move ot use atom instead of props
           images: {
             data: (data?.images ?? []).map((o) => ({
               id: o.id,
@@ -143,7 +143,9 @@ export const Collections = (props: Props) => {
         },
       },
     });
+
     collectionsRefetch();
+
     toast({
       title: 'Successful',
       position: 'top',
@@ -162,7 +164,9 @@ export const Collections = (props: Props) => {
         },
       },
     });
+
     collectionsRefetch();
+
     toast({
       title: 'Deleted successful',
       position: 'top',
@@ -185,6 +189,7 @@ export const Collections = (props: Props) => {
       <CreateCollectionModal
         loading={insertLoading || deleteLoading}
         onSubmit={handleSubmit}
+        refetch={collectionsRefetch}
       />
 
       {collections.map((collection) => (

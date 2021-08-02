@@ -1,20 +1,16 @@
 import React from 'react';
 import Uppy from '@uppy/core';
+import { useAtom } from 'jotai';
 import { DragDrop, useUppy } from '@uppy/react';
 import '@uppy/core/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
+import { siteIdAtom } from '../../lib/jotai';
 import { storage } from '../../lib/nhost';
-import type {
-  StorageResponse,
-  CollectionType,
-  Image,
-  RecursivePartial,
-} from '../../lib/types';
+import type { StorageResponse, ImageType } from '../../lib/types';
 
 type Props = {
-  collection: RecursivePartial<CollectionType>;
-  onDrop: (images: Partial<Image>[]) => void;
-  onCancel?: () => void; // when cancel, not create the collection
+  collectionId: string;
+  onUpload: (images: Partial<ImageType>[]) => void;
 };
 
 type DragDropEvent = MouseEvent | React.DragEvent<HTMLDivElement>;
@@ -36,7 +32,8 @@ type DragDropEvent = MouseEvent | React.DragEvent<HTMLDivElement>;
 // `;
 
 export const ImageUpload = (props: Props) => {
-  const { collection, onDrop } = props;
+  const { collectionId, onUpload } = props;
+  const [siteId] = useAtom(siteIdAtom);
 
   const uppy = useUppy(
     () => new (Uppy as any)({ id: 'image-upload' }),
@@ -49,21 +46,18 @@ export const ImageUpload = (props: Props) => {
 
         const responses: StorageResponse[] = await Promise.all(
           files.map(async (file) => {
-            // TODO: Change the path to site id or collection id
-            const path = `/public/${file.name}`;
+            const path = `/site/${siteId}/collection/${collectionId}/${file.name}`;
             return storage.put(path, file);
           }),
         );
 
-        // TODO: refetch the current collection to reflect the changes
-
         const imageObjects = responses.map(({ Metadata, key }) => ({
           meta: JSON.stringify(Metadata),
           path: key,
-          collection_id: collection.id,
+          collection_id: collectionId,
         }));
 
-        onDrop(imageObjects);
+        onUpload(imageObjects);
       }
     } catch (error) {
       console.log(error); // eslint-disable-line
@@ -74,16 +68,15 @@ export const ImageUpload = (props: Props) => {
     <DragDrop
       width="100%"
       height="100%"
-      note="Remember to press Submit to save collection!"
       uppy={uppy}
+      note="Remember to press Submit to save collection!"
       onDrop={(e: DragDropEvent) => handleDrop(e as React.DragEvent<HTMLDivElement>)}
       locale={{
         strings: {
           // Text to show on the droppable area.
           // `%{browse}` is replaced with a link that opens the system file selection dialog.
-          dropHereOr: 'Drop here or %{browse}',
+          dropHereOr: 'Drop file here, browse does not work', // 'Drop here or %{browse}',
           // Used as the label for the link that opens the system file selection dialog.
-          browse: 'browse',
         },
       }}
     />

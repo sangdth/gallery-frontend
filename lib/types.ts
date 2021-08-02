@@ -55,7 +55,7 @@ export type SiteType = BaseType & {
   description: string | null;
 };
 
-export type Image = BaseType & {
+export type ImageType = BaseType & {
   meta: string;
   path: string;
   collection_id: string;
@@ -73,7 +73,7 @@ export type CollectionType = BaseType & {
   description: string | null;
   site_id: string;
   type: DisplayType;
-  images: Image[];
+  images: ImageType[];
 };
 
 export type CollectionInput = RecursivePartial<
@@ -115,7 +115,7 @@ export type CollectionData = SingleData<CollectionType, Entity.Collections>;
 export type CollectionInsertedData = InsertedData<CollectionType, Entity.Collections>;
 export type CollectionDeletedData = DeletedData<CollectionType, Entity.Collections>;
 
-export type ImagesAggregateData = AggregateData<Image, Entity.Images>;
-export type ImageData = SingleData<Image, Entity.Images>;
-export type ImageInsertedData = InsertedData<Image, Entity.Images>;
-export type ImageDeletedData = DeletedData<Image, Entity.Images>;
+export type ImagesAggregateData = AggregateData<ImageType, Entity.Images>;
+export type ImageData = SingleData<ImageType, Entity.Images>;
+export type ImageInsertedData = InsertedData<ImageType, Entity.Images>;
+export type ImageDeletedData = DeletedData<ImageType, Entity.Images>;

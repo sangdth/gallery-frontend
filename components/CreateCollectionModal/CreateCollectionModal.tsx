@@ -1,9 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useAtom } from 'jotai';
 import {
   Button,
   Flex,
+  Grid,
+  Image,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -22,42 +29,69 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { userIdAtom } from '../../lib/jotai';
+import { userIdAtom, siteIdAtom } from '../../lib/jotai';
+import { storage } from '../../lib/nhost';
+import { BASE_ENDPOINT } from '../../lib/constants';
 import { collectionAtom } from '../../pages/dashboard/panels/Collections';
 import { ImageUpload } from '../ImageUpload';
-import type { CollectionInput, Image } from '../../lib/types';
+import type { CollectionInput, ImageType } from '../../lib/types';
 
 type Props = {
   loading?: boolean;
   onSubmit: (input: CollectionInput) => Promise<void>;
+  refetch: () => void;
 };
 
 const CreatecollectionModal = (props: Props) => {
-  const { loading, onSubmit } = props;
-  const [userId] = useAtom(userIdAtom);
-  const [collection, setCollection] = useAtom(collectionAtom);
+  const { loading, onSubmit, refetch } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [input, setInput] = useState<CollectionInput>({
+
+  const [userId] = useAtom(userIdAtom);
+  const [siteId] = useAtom(siteIdAtom);
+  const [collection, setCollection] = useAtom(collectionAtom);
+  const [changed, setChanged] = useState(false);
+  const [upload, setUpload] = useState<Partial<ImageType>[]>([]);
+
+  const initialInput = useMemo(() => ({
     id: uuidv4(),
+    site_id: siteId,
     name: '',
     description: '',
-  });
+    images: [],
+  }), [siteId]);
 
-  const handleCancel = useCallback(() => {
-    setInput({
-      name: '',
-      description: '',
-    });
+  const [input, setInput] = useState<CollectionInput & { id: string }>(initialInput);
+  console.log('### input: ', input);
+
+  // TODO: Use the confirmation button here to detect the removing only when it has images
+  // TODO: Make the ConfirmButton has option to by pass alert
+  const handleCancel = useCallback(async () => {
+    setInput(initialInput);
     setCollection(null);
+    setChanged(false);
     onClose();
-    // TODO: removeImages with onCancel prop in uploader
-  }, [onClose, setCollection]);
+    if (changed) {
+      await Promise.all(upload.map((image) => storage.delete(`/${image.path}`)));
+    }
+  }, [initialInput, onClose, setCollection, upload, changed]);
 
-  const handleDrop = (images: Partial<Image>[]) => {
+  const handleOnChange = (key: string, value: string) => {
+    setChanged(true);
     setInput({
       ...input,
-      images: images.map((o) => ({ ...o, id: uuidv4() })),
+      [key]: value,
     });
+  };
+
+  const handleUpload = (images: Partial<ImageType>[]) => {
+    const newImages = images.map((o) => ({ ...o, id: uuidv4() }));
+    setUpload(newImages);
+    setChanged(true);
+    setInput({
+      ...input,
+      images: [...(input.images ?? []), ...newImages],
+    });
+    refetch();
   };
 
   const handleSubmit = async () => {
@@ -71,7 +105,7 @@ const CreatecollectionModal = (props: Props) => {
     if (collection) {
       setInput({
         description: collection.description,
-        id: collection.id,
+        id: collection.id ?? uuidv4(),
         name: collection.name,
         site_id: collection.site_id,
         status: collection.status,
@@ -129,10 +163,7 @@ const CreatecollectionModal = (props: Props) => {
                     <Input
                       placeholder="Collection name"
                       value={input.name ?? ''}
-                      onChange={(e) => setInput({
-                        ...input,
-                        name: e.currentTarget.value,
-                      })}
+                      onChange={(e) => handleOnChange('name', e.currentTarget.value)}
                     />
                   </FormControl>
 
@@ -141,20 +172,25 @@ const CreatecollectionModal = (props: Props) => {
                     <Input
                       placeholder="Description"
                       value={input.description ?? ''}
-                      onChange={(e) => setInput({
-                        ...input,
-                        description: e.currentTarget.value,
-                      })}
+                      onChange={(e) => handleOnChange('description', e.currentTarget.value)}
                     />
                   </FormControl>
                 </TabPanel>
                 <TabPanel>
-                  {(collection?.images ?? []).map((o) => (
-                    <div key={o.id}>{o.path}</div>
-                  ))}
+                  <Grid mb={3}>
+                    {(input.images ?? []).map((image) => (
+                      <Image
+                        key={image.id}
+                        fit="cover"
+                        boxSize="100px"
+                        src={`${BASE_ENDPOINT}/storage/o/${image.path}`}
+                      />
+                    ))}
+                  </Grid>
+
                   <ImageUpload
-                    collection={collection ?? { id: input.id }}
-                    onDrop={handleDrop}
+                    collectionId={input.id}
+                    onUpload={handleUpload}
                   />
                 </TabPanel>
               </TabPanels>
@@ -170,6 +206,7 @@ const CreatecollectionModal = (props: Props) => {
             </Button>
             <Button
               isLoading={loading}
+              disabled={!changed || (!input.name && !input.description)}
               loadingText={collection ? 'Updating...' : 'Creating...'}
               colorScheme="blue"
               onClick={handleSubmit}
