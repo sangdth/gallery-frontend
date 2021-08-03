@@ -9,7 +9,6 @@ import { useAtom } from 'jotai';
 import {
   Button,
   Flex,
-  Grid,
   Image,
   Modal,
   ModalOverlay,
@@ -21,6 +20,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  SimpleGrid,
   Tab,
   TabList,
   TabPanel,
@@ -59,16 +59,10 @@ const CreatecollectionModal = (props: Props) => {
     name: '',
     description: '',
     images: [],
-  }), [siteId]);
+    ...(collection ?? {}),
+  }), [siteId, collection]);
 
   const [input, setInput] = useState<CollectionInput & { id: string }>(initialInput);
-
-  const isChanged = useMemo(() => {
-    if (uploaded.length > 0 || input.name || input.description) {
-      return true;
-    }
-    return false;
-  }, [input, uploaded]);
 
   const cleanUp = useCallback(() => {
     setInput(initialInput);
@@ -79,7 +73,7 @@ const CreatecollectionModal = (props: Props) => {
   // TODO: Use the confirmation button here to detect the removing only when it has images
   // TODO: Make the ConfirmButton has option to by pass alert
   const handleCancel = async () => {
-    if (isChanged) {
+    if (uploaded.length > 0) {
       await Promise.all(uploaded.map((image) => storage.delete(`/${image.path}`)));
     }
 
@@ -135,7 +129,7 @@ const CreatecollectionModal = (props: Props) => {
   const shouldDisable = !userId || loading;
 
   useEffect(() => {
-    if (collection && !isChanged) {
+    if (collection && (!input.name && !input.description)) {
       setInput({
         description: collection.description,
         id: collection.id ?? uuidv4(),
@@ -146,13 +140,13 @@ const CreatecollectionModal = (props: Props) => {
       });
       onOpen();
     }
-  }, [collection, onOpen, isChanged]);
+  }, [collection, onOpen, input]);
 
   useEffect(() => {
-    if (!isOpen && isChanged) {
+    if (!isOpen && (uploaded.length > 0 || input.name || input.description)) {
       cleanUp();
     }
-  }, [isOpen, isChanged, cleanUp]);
+  }, [isOpen, uploaded, input, cleanUp]);
 
   return (
     <>
@@ -189,7 +183,7 @@ const CreatecollectionModal = (props: Props) => {
             {collection ? 'Edit collection' : 'Create new collection'}
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody>
             <Tabs width="100%" isLazy>
               <TabList>
                 <Tab>General</Tab>
@@ -216,7 +210,13 @@ const CreatecollectionModal = (props: Props) => {
                   </FormControl>
                 </TabPanel>
                 <TabPanel>
-                  <Grid mb={3}>
+                  <SimpleGrid
+                    mb={6}
+                    columns={5}
+                    spacingY={5}
+                    maxHeight={300}
+                    overflowY="scroll"
+                  >
                     {(input.images ?? []).map((image) => (
                       <Image
                         key={image.id}
@@ -225,7 +225,7 @@ const CreatecollectionModal = (props: Props) => {
                         src={`${BASE_ENDPOINT}/storage/o/${image.path}`}
                       />
                     ))}
-                  </Grid>
+                  </SimpleGrid>
 
                   <ImageUpload
                     collectionId={input.id}
@@ -245,7 +245,6 @@ const CreatecollectionModal = (props: Props) => {
             </Button>
             <Button
               isLoading={loading}
-              disabled={!isChanged}
               loadingText={collection ? 'Updating...' : 'Creating...'}
               colorScheme="blue"
               onClick={handleSubmit}

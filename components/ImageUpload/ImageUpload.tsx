@@ -67,7 +67,7 @@ export const ImageUpload = (props: Props) => {
   return (
     <DragDrop
       width="100%"
-      height="100%"
+      height="150px"
       uppy={uppy}
       note="Remember to press Submit to save collection!"
       onDrop={(e: DragDropEvent) => handleDrop(e as React.DragEvent<HTMLDivElement>)}

@@ -12,8 +12,7 @@ import {
 import { WithPrivateRoute } from '../../components/WithPrivateRoute';
 import { siteAtom, meAtom } from '../../lib/jotai';
 import { Layout } from '../../components/Layout';
-import { ChangePassword } from './ChangePassword';
-import { Pages, Collections } from './panels';
+import { Pages, Collections, Settings } from './panels';
 import type { SiteData } from '../../lib/types';
 
 export const SITE_BY_PK = gql`
@@ -30,7 +29,7 @@ export const SITE_BY_PK = gql`
   }
 `;
 
-const tabs = ['pages', 'collections', 'images', 'settings'];
+const tabs = ['pages', 'collections', 'settings'];
 const getIndex = (name: string) => {
   const found = tabs.findIndex((tab) => tab === name);
   if (found !== -1) {
@@ -93,7 +92,6 @@ const Dashboard = () => {
         <TabList>
           <Tab>Pages</Tab>
           <Tab>Collections</Tab>
-          <Tab>Images</Tab>
           <Tab>Settings</Tab>
         </TabList>
         <TabPanels paddingX="0">
@@ -104,10 +102,7 @@ const Dashboard = () => {
             {(site && me) && <Collections site={site} user={me} />}
           </TabPanel>
           <TabPanel>
-            <p>Images</p>
-          </TabPanel>
-          <TabPanel>
-            <ChangePassword />
+            <Settings />
           </TabPanel>
         </TabPanels>
       </Tabs>
