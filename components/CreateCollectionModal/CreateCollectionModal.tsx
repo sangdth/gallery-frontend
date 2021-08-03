@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useState,
   useEffect,
   useMemo,
@@ -26,6 +27,7 @@ import {
   TabPanels,
   Tabs,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { userIdAtom, siteIdAtom } from '../../lib/jotai';
@@ -42,6 +44,7 @@ type Props = {
 };
 
 const CreatecollectionModal = (props: Props) => {
+  const toast = useToast();
   const { loading, onSubmit, refetch } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -49,7 +52,6 @@ const CreatecollectionModal = (props: Props) => {
   const [siteId] = useAtom(siteIdAtom);
   const [collection, setCollection] = useAtom(collectionAtom);
   const [uploaded, setUploaded] = useState<Partial<ImageType>[]>([]);
-  console.log('### uploaded outside: ', uploaded);
 
   const initialInput = useMemo(() => ({
     id: uuidv4(),
@@ -68,21 +70,21 @@ const CreatecollectionModal = (props: Props) => {
     return false;
   }, [input, uploaded]);
 
-  const cleanUp = () => {
+  const cleanUp = useCallback(() => {
     setInput(initialInput);
     setCollection(null);
     setUploaded([]);
-  };
+  }, [setInput, setCollection, setUploaded, initialInput]);
 
   // TODO: Use the confirmation button here to detect the removing only when it has images
   // TODO: Make the ConfirmButton has option to by pass alert
   const handleCancel = async () => {
-    cleanUp();
-    onClose();
-
     if (isChanged) {
       await Promise.all(uploaded.map((image) => storage.delete(`/${image.path}`)));
     }
+
+    cleanUp();
+    onClose();
   };
 
   const handleOnChange = (key: string, value: string) => {
@@ -97,7 +99,20 @@ const CreatecollectionModal = (props: Props) => {
 
     setUploaded((prevUploaded) => {
       const filteredUploaded = recentUploaded
-        .filter((recent) => !prevUploaded.find((prev) => recent.path === prev.path));
+        .filter((recent) => {
+          const existingImages = [...(input.images ?? []), ...prevUploaded];
+          const found = existingImages.find((prev) => recent.path === prev.path);
+          if (found) {
+            toast({
+              title: 'Image already uploaded',
+              position: 'top',
+              status: 'warning',
+              isClosable: true,
+              duration: 3000,
+            });
+          }
+          return !found;
+        });
 
       const updatedImages = [...prevUploaded, ...filteredUploaded];
 
@@ -114,7 +129,7 @@ const CreatecollectionModal = (props: Props) => {
 
   const handleSubmit = async () => {
     await onSubmit(input);
-    cleanUp();
+    onClose();
   };
 
   const shouldDisable = !userId || loading;
@@ -132,6 +147,12 @@ const CreatecollectionModal = (props: Props) => {
       onOpen();
     }
   }, [collection, onOpen, isChanged]);
+
+  useEffect(() => {
+    if (!isOpen && isChanged) {
+      cleanUp();
+    }
+  }, [isOpen, isChanged, cleanUp]);
 
   return (
     <>
