@@ -1,7 +1,6 @@
 import React, {
   useState,
   useEffect,
-  useCallback,
   useMemo,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -49,8 +48,8 @@ const CreatecollectionModal = (props: Props) => {
   const [userId] = useAtom(userIdAtom);
   const [siteId] = useAtom(siteIdAtom);
   const [collection, setCollection] = useAtom(collectionAtom);
-  const [changed, setChanged] = useState(false);
-  const [upload, setUpload] = useState<Partial<ImageType>[]>([]);
+  const [uploaded, setUploaded] = useState<Partial<ImageType>[]>([]);
+  console.log('### uploaded outside: ', uploaded);
 
   const initialInput = useMemo(() => ({
     id: uuidv4(),
@@ -61,22 +60,32 @@ const CreatecollectionModal = (props: Props) => {
   }), [siteId]);
 
   const [input, setInput] = useState<CollectionInput & { id: string }>(initialInput);
-  console.log('### input: ', input);
+
+  const isChanged = useMemo(() => {
+    if (uploaded.length > 0 || input.name || input.description) {
+      return true;
+    }
+    return false;
+  }, [input, uploaded]);
+
+  const cleanUp = () => {
+    setInput(initialInput);
+    setCollection(null);
+    setUploaded([]);
+  };
 
   // TODO: Use the confirmation button here to detect the removing only when it has images
   // TODO: Make the ConfirmButton has option to by pass alert
-  const handleCancel = useCallback(async () => {
-    setInput(initialInput);
-    setCollection(null);
-    setChanged(false);
+  const handleCancel = async () => {
+    cleanUp();
     onClose();
-    if (changed) {
-      await Promise.all(upload.map((image) => storage.delete(`/${image.path}`)));
+
+    if (isChanged) {
+      await Promise.all(uploaded.map((image) => storage.delete(`/${image.path}`)));
     }
-  }, [initialInput, onClose, setCollection, upload, changed]);
+  };
 
   const handleOnChange = (key: string, value: string) => {
-    setChanged(true);
     setInput({
       ...input,
       [key]: value,
@@ -84,25 +93,34 @@ const CreatecollectionModal = (props: Props) => {
   };
 
   const handleUpload = (images: Partial<ImageType>[]) => {
-    const newImages = images.map((o) => ({ ...o, id: uuidv4() }));
-    setUpload(newImages);
-    setChanged(true);
-    setInput({
-      ...input,
-      images: [...(input.images ?? []), ...newImages],
+    const recentUploaded = images.map((image) => ({ ...image, id: uuidv4() }));
+
+    setUploaded((prevUploaded) => {
+      const filteredUploaded = recentUploaded
+        .filter((recent) => !prevUploaded.find((prev) => recent.path === prev.path));
+
+      const updatedImages = [...prevUploaded, ...filteredUploaded];
+
+      setInput({
+        ...input,
+        images: [...(input.images ?? []), ...updatedImages],
+      });
+
+      return updatedImages;
     });
+
     refetch();
   };
 
   const handleSubmit = async () => {
     await onSubmit(input);
-    handleCancel();
+    cleanUp();
   };
 
   const shouldDisable = !userId || loading;
 
   useEffect(() => {
-    if (collection) {
+    if (collection && !isChanged) {
       setInput({
         description: collection.description,
         id: collection.id ?? uuidv4(),
@@ -113,7 +131,7 @@ const CreatecollectionModal = (props: Props) => {
       });
       onOpen();
     }
-  }, [collection, onOpen, handleCancel]);
+  }, [collection, onOpen, isChanged]);
 
   return (
     <>
@@ -206,7 +224,7 @@ const CreatecollectionModal = (props: Props) => {
             </Button>
             <Button
               isLoading={loading}
-              disabled={!changed || (!input.name && !input.description)}
+              disabled={!isChanged}
               loadingText={collection ? 'Updating...' : 'Creating...'}
               colorScheme="blue"
               onClick={handleSubmit}
