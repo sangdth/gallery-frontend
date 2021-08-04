@@ -1,4 +1,15 @@
-import { Entity, DisplayType, Status } from './enums';
+import {
+  Entity,
+  DisplayType,
+  Status,
+  OptionKey,
+} from './enums';
+
+export type DragMenuItem = {
+  id: string;
+  label: string;
+  children: DragMenuItem[];
+};
 
 export type StorageResponse = {
   AcceptRanges: string;
@@ -28,19 +39,6 @@ export type RecursivePartial<T> = {
       : T[P];
 };
 
-export type AggregateData<T, K extends string> = Record<
-  `${Lowercase<K>}_aggregate`, { nodes: T[] }
->;
-export type SingleData<T, K extends string> = Record<
-  `${Lowercase<K>}_by_pk`, T
->;
-export type InsertedData<T, K extends string> = Record<
-  `insert_${Lowercase<K>}_one`, T
->;
-export type DeletedData<T, K extends string> = Record<
-  `delete_${Lowercase<K>}_by_pk`, T
->;
-
 export type BaseType = {
   id: string;
   created_at: string | Date;
@@ -48,6 +46,25 @@ export type BaseType = {
   user_id: string;
   status: Status;
 };
+
+export type OptionValue = Record<string, unknown> | Record<string, unknown>[];
+
+export type BaseOption = BaseType & {
+  site_id: string;
+  name: OptionKey;
+};
+
+export type MenuOption = BaseOption & {
+  name: OptionKey.Menu;
+  value: Record<string, unknown>[];
+};
+
+export type StyleOption = BaseOption & {
+  name: OptionKey.Style;
+  value: Record<string, unknown>;
+};
+
+export type OptionType = MenuOption | StyleOption;
 
 export type SiteType = BaseType & {
   name: string;
@@ -76,9 +93,16 @@ export type CollectionType = BaseType & {
   images: ImageType[];
 };
 
-export type CollectionInput = RecursivePartial<
-  Pick<CollectionType, 'id' | 'name' | 'description' | 'images' | 'status' | 'type' | 'site_id'>
->;
+export type CollectionPicked =
+  | 'id'
+  | 'name'
+  | 'description'
+  | 'images'
+  | 'status'
+  | 'type'
+  | 'site_id';
+
+export type CollectionInput = RecursivePartial<Pick<CollectionType, CollectionPicked>>;
 
 export type AccountType = Exclude<BaseType, 'status'> & {
   active: boolean;
@@ -100,6 +124,24 @@ export type UserType = Exclude<BaseType, 'user_id' | 'status'> & {
   account: AccountType;
 };
 
+export type Returning<T> = { returning: T[]; };
+
+export type AggregateData<T, K extends Entity> = Record<
+  `${Lowercase<K>}_aggregate`, { nodes: T[] }
+>;
+export type SingleData<T, K extends Entity> = Record<
+  `${Lowercase<K>}_by_pk`, T
+>;
+export type InsertedData<T, K extends Entity> = Record<
+  `insert_${Lowercase<K>}_one`, T
+>;
+export type DeletedData<T, K extends Entity> = Record<
+  `delete_${Lowercase<K>}_by_pk`, T
+>;
+export type UpdatedData<T, K extends Entity> = Record<
+  `update_${Lowercase<K>}`, Returning<T>
+>;
+
 export type SitesAggregateData = AggregateData<SiteType, Entity.Sites>;
 export type SiteData = SingleData<SiteType, Entity.Sites>;
 export type SiteInsertedData = InsertedData<SiteType, Entity.Sites>;
@@ -119,3 +161,5 @@ export type ImagesAggregateData = AggregateData<ImageType, Entity.Images>;
 export type ImageData = SingleData<ImageType, Entity.Images>;
 export type ImageInsertedData = InsertedData<ImageType, Entity.Images>;
 export type ImageDeletedData = DeletedData<ImageType, Entity.Images>;
+
+export type OptionUpdated = UpdatedData<OptionType, Entity.Options>;

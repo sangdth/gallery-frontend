@@ -43,20 +43,20 @@ export const COLLECTIONS_AGGREGATE = gql`
 `;
 
 export const UPSERT_COLLECTION_ONE = gql`
-    mutation UPSERT_COLLECTION_ONE($object: collections_insert_input!) {
-      insert_collections_one(
-        object: $object,
-        on_conflict: {constraint: collections_pkey, update_columns: [name, description, status]}
-      ) {
-        created_at
-        updated_at
-        id
-        name
-        description
-        status
-      }
+  mutation UPSERT_COLLECTION_ONE($object: collections_insert_input!) {
+    insert_collections_one(
+      object: $object,
+      on_conflict: {constraint: collections_pkey, update_columns: [name, description, status]}
+    ) {
+      created_at
+      updated_at
+      id
+      name
+      description
+      status
     }
-  `;
+  }
+`;
 
 export const DELETE_COLLECTION_BY_PK = gql`
   mutation DELETE_collection_BY_PK($id: uuid!) {
@@ -123,7 +123,7 @@ export const Collections = (props: Props) => {
       variables: {
         object: {
           ...data,
-          site_id: site.id, // TODO: move ot use atom instead of props
+          site_id: site.id, // TODO: move to use atom instead of props
           images: {
             data: (data?.images ?? []).map((o) => ({
               id: o.id,

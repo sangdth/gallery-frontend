@@ -9,12 +9,18 @@ import { SiteItem } from '../components/SiteItem';
 import { CreateSiteModal } from '../components/CreateSiteModal';
 import { auth } from '../lib/nhost';
 import { siteAtom } from '../lib/jotai';
+import { OptionKey } from '../lib/enums';
 import type {
   SiteType,
   SitesAggregateData,
   SiteInsertedData,
   SiteDeletedData,
+  OptionType,
 } from '../lib/types';
+
+const defaultOptions: Partial<OptionType>[] = [
+  { name: OptionKey.Menu, value: [] },
+];
 
 export const SITES_AGGREGATE = gql`
   query SITES_AGGREGATE($userId: uuid!) {
@@ -106,7 +112,12 @@ function Home() {
 
   const handleSubmit = async (input: Partial<SiteType>) => {
     await insertSite({
-      variables: { object: input },
+      variables: {
+        object: {
+          ...input,
+          options: { data: defaultOptions },
+        },
+      },
       context: {
         headers: {
           'x-hasura-role': 'me',

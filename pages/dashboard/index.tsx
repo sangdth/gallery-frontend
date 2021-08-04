@@ -88,7 +88,12 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <Tabs width="100%" isLazy index={index} onChange={handleTabsChange}>
+      <Tabs
+        width="100%"
+        isLazy
+        index={index}
+        onChange={handleTabsChange}
+      >
         <TabList>
           <Tab>Pages</Tab>
           <Tab>Collections</Tab>

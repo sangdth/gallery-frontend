@@ -4,6 +4,7 @@ export enum Entity {
   Pages = 'PAGES',
   Images = 'IMAGES',
   Users = 'USERS',
+  Options = 'OPTIONS',
 }
 export enum Status {
   Public = 'PUBLIC',
@@ -13,4 +14,9 @@ export enum Status {
 export enum DisplayType {
   Slideshow = 'SLIDESHOW',
   Carousel = 'CAROUSEL',
+}
+
+export enum OptionKey {
+  Menu = 'MENU',
+  Style = 'STYLE',
 }
