@@ -150,19 +150,17 @@ export const Pages = (props: Props) => {
 
   const [
     updateOption,
-    {
-      data: updatedOption,
-      error: updatedError,
-    },
+    // {
+    //   data: updatedOption,
+    //   error: updatedError,
+    // },
   ] = useMutation<OptionUpdated>(UPDATE_OPTIONS);
 
   const currentMenuData = optionData?.options.find((option) => option.name === OptionKey.Menu);
   const currentMenu = currentMenuData?.value ?? [];
 
-  console.log('### updatedOption: ', updatedOption);
-  console.log('### updatedError: ', updatedError);
-
-  console.log('### currentMenu: ', currentMenu);
+  // console.log('### updatedOption: ', updatedOption);
+  // console.log('### currentMenu: ', currentMenu);
 
   const handleUpdateMenu = async (newValue: OptionValue) => {
     await updateOption({
@@ -189,6 +187,7 @@ export const Pages = (props: Props) => {
       },
     });
 
+    // Push new page item in menu
     if (response && response.data && Array.isArray(currentMenu)) {
       const tmpMenu = [...currentMenu];
       const newMenuItem = response?.data?.insert_pages_one;
@@ -197,7 +196,6 @@ export const Pages = (props: Props) => {
         label: newMenuItem.name,
         children: [],
       });
-      console.log('### tmpMenu: ', tmpMenu);
 
       await handleUpdateMenu(tmpMenu);
     }

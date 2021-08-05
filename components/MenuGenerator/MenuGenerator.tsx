@@ -5,11 +5,10 @@ import {
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd';
-import ServiceCommandUnit from './ServiceCommandUnit';
 import type { DragMenuItem } from '../../lib/types';
 
 const grid = 8;
-// a little function to help us with reordering the result
+
 const reorder = (list: DragMenuItem[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -139,10 +138,6 @@ export const MenuGenerator = (props: Props) => {
                       >
                         Drag
                       </span>
-                      <ServiceCommandUnit
-                        children={item.children}
-                        type={item.id}
-                      />
                     </div>
                     {provided.placeholder}
                   </div>
