@@ -5,11 +5,12 @@ import {
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd';
-import type { DragMenuItem } from '../../lib/types';
+import { PageItem } from '../PageItem';
+import type { DragItemType } from '../../lib/types';
 
 const grid = 8;
 
-const reorder = (list: DragMenuItem[], startIndex: number, endIndex: number) => {
+const reorder = (list: DragItemType[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -22,23 +23,19 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
   userSelect: 'none',
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
   background: isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver: boolean) => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: grid,
-  width: 200,
+  width: 'auto',
 });
 
 type Props = {
-  menu: DragMenuItem[];
-  onChange: (newMenu: DragMenuItem[]) => void;
+  menu: DragItemType[];
+  onChange: (newMenu: DragItemType[]) => void;
 };
 
 export const MenuGenerator = (props: Props) => {
@@ -53,98 +50,41 @@ export const MenuGenerator = (props: Props) => {
       return;
     }
 
-    const sourceIndex = source.index;
-    const destIndex = destination.index;
+    const newItems = reorder(items, source.index, destination.index);
 
-    if (result.type === 'droppableItem') {
-      const reorderedItems = reorder(items, sourceIndex, destIndex);
-
-      setItems(recorderedItems);
-    } else if (result.type === 'droppableSubItem') {
-      const itemSubItemMap = items.reduce((acc, item) => {
-        acc[item.id] = item.children;
-        return acc;
-      }, {});
-
-      const sourceParentId = parseInt(source.droppableId, 10);
-      const destParentId = parseInt(destination.droppableId, 10);
-
-      const sourceSubItems = itemSubItemMap[sourceParentId];
-      const destSubItems = itemSubItemMap[destParentId];
-
-      let newItems = [...items];
-
-      /** In this case children are reOrdered inside same Parent */
-      if (sourceParentId === destParentId) {
-        const reorderedSubItems = reorder(
-          sourceSubItems,
-          sourceIndex,
-          destIndex,
-        );
-        newItems = newItems.map((item) => {
-          if (item.id === sourceParentId) {
-            item.children = reorderedSubItems;
-          }
-          return item;
-        });
-        setItems(newItems);
-      } else {
-        const newSourceSubItems = [...sourceSubItems];
-        const [draggedItem] = newSourceSubItems.splice(sourceIndex, 1);
-
-        const newDestSubItems = [...destSubItems];
-        newDestSubItems.splice(destIndex, 0, draggedItem);
-        newItems = newItems.map((item) => {
-          if (item.id === sourceParentId) {
-            item.children = newSourceSubItems;
-          } else if (item.id === destParentId) {
-            item.children = newDestSubItems;
-          }
-          return item;
-        });
-        setItems(newItems);
-      }
-    }
+    setItems(newItems);
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppable" type="droppableItem">
-        {(provided, snapshot) => (
+      <Droppable droppableId="droppable">
+        {(dropProvided, snapshot) => (
           <div
-            ref={provided.innerRef}
+            {...dropProvided.droppableProps}
+            ref={dropProvided.innerRef}
             style={getListStyle(snapshot.isDraggingOver)}
           >
             {items.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided, snapshot) => (
-                  <div>
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style,
-                      )}
-                    >
-                      {item.content}
-                      <span
-                        {...provided.dragHandleProps}
-                        style={{
-                          display: 'inline-block',
-                          margin: '0 10px',
-                          border: '1px solid #000',
-                        }}
-                      >
-                        Drag
-                      </span>
-                    </div>
-                    {provided.placeholder}
+                {(provided, dragSnapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    style={getItemStyle(
+                      dragSnapshot.isDragging,
+                      provided.draggableProps.style,
+                    )}
+                  >
+                    <PageItem
+                      // ref={provided.innerRef}
+                      name={item.label}
+                    />
                   </div>
                 )}
               </Draggable>
             ))}
-            {provided.placeholder}
+            {dropProvided.placeholder}
           </div>
         )}
       </Droppable>

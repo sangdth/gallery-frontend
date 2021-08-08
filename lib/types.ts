@@ -5,12 +5,6 @@ import {
   OptionKey,
 } from './enums';
 
-export type DragMenuItem = {
-  id: string;
-  label: string;
-  children: DragMenuItem[];
-};
-
 export type StorageResponse = {
   AcceptRanges: string;
   ContentLength: number;
@@ -47,24 +41,30 @@ export type BaseType = {
   status: Status;
 };
 
-export type OptionValue = Record<string, unknown> | Record<string, unknown>[];
+export type OptionValue = { [k: string]: string | number | OptionValue[] };
 
 export type BaseOption = BaseType & {
   site_id: string;
-  name: OptionKey;
+  key: OptionKey;
 };
 
 export type MenuOption = BaseOption & {
-  name: OptionKey.Menu;
-  value: Record<string, unknown>[];
+  key: OptionKey.Menu;
+  value: OptionValue[];
 };
 
 export type StyleOption = BaseOption & {
-  name: OptionKey.Style;
-  value: Record<string, unknown>;
+  key: OptionKey.Style;
+  value: OptionValue;
 };
 
 export type OptionType = MenuOption | StyleOption;
+
+export type DragItemType = {
+  id: string;
+  label: string;
+  children: DragItemType[];
+};
 
 export type SiteType = BaseType & {
   name: string;

@@ -3,20 +3,21 @@ import { Flex, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import {
   CreatePageModal,
-  // MenuGenerator,
+  MenuGenerator,
   PageItem,
 } from '../../../components';
 import { OptionKey } from '../../../lib/enums';
 import type {
-  PageInsertedData,
-  PagesAggregateData,
+  DragItemType,
+  OptionType,
+  OptionUpdated,
+  OptionValue,
   PageDeletedData,
+  PageInsertedData,
   PageType,
+  PagesAggregateData,
   SiteType,
   UserType,
-  OptionType,
-  OptionValue,
-  OptionUpdated,
 } from '../../../lib/types';
 
 export const ALL_OPTIONS = gql`
@@ -25,7 +26,7 @@ export const ALL_OPTIONS = gql`
       where: {site_id: {_eq: $id}}
     ) {
       id
-      name
+      key
       value
     }
   }
@@ -36,7 +37,7 @@ export const UPDATE_OPTIONS = gql`
    update_options(where: {site_id: {_eq: $siteId}, name: {_eq: $key}}, _set: {value: $value}) {
       returning {
         id
-        name
+        key
         value
       }
     }
@@ -88,6 +89,14 @@ export const DELETE_PAGE_BY_PK = gql`
     }
   }
 `;
+
+// export const convertMenuOptiopnToDragItem = (
+//   options: OptionValue[],
+// ): DragItemType[] => options.map((option) => ({
+//   id: option.id,
+//   label: option.label,
+//   children: convertMenuOptiopnToDragItem(Array.isArray(option.children) ? option.children : []),
+// }));
 
 type Props = {
   site: SiteType;
@@ -156,13 +165,13 @@ export const Pages = (props: Props) => {
     // },
   ] = useMutation<OptionUpdated>(UPDATE_OPTIONS);
 
-  const currentMenuData = optionData?.options.find((option) => option.name === OptionKey.Menu);
+  const currentMenuData = optionData?.options.find((option) => option.key === OptionKey.Menu);
   const currentMenu = currentMenuData?.value ?? [];
 
   // console.log('### updatedOption: ', updatedOption);
-  // console.log('### currentMenu: ', currentMenu);
+  console.log('### currentMenu: ', currentMenu);
 
-  const handleUpdateMenu = async (newValue: OptionValue) => {
+  const handleUpdateMenu = async (newValue: OptionValue[]) => {
     await updateOption({
       variables: {
         siteId: site.id,
@@ -212,6 +221,14 @@ export const Pages = (props: Props) => {
         },
       },
     });
+
+    // TODO: use the menu to get id path, then delete page and update menu
+    // This way can not delete page nested
+    if (Array.isArray(currentMenu)) {
+      const remainedMenu = currentMenu.filter((o) => o.id !== id);
+      await handleUpdateMenu(remainedMenu);
+    }
+
     pagesRefetch();
   };
 
@@ -247,10 +264,15 @@ export const Pages = (props: Props) => {
         <PageItem
           key={page.id}
           name={page.name}
-          // onClick={() => handleEdit(page.id)}
+          id={page.id}
           onDelete={() => handleDelete(page.id)}
         />
       ))}
+
+      <MenuGenerator
+        menu={currentMenu as DragItemType[]}
+        onChange={(what) => console.log('what', what)}
+      />
     </Flex>
   );
 };

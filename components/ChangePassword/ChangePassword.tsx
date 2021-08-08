@@ -5,20 +5,32 @@ import {
   FormControl,
   FormLabel,
   Stack,
+  useToast,
 } from '@chakra-ui/react';
 import { PasswordInput } from '../PasswordInput';
 import { auth } from '../../lib/nhost';
 
 export const ChangePassword = () => {
+  const toast = useToast();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+
+  const shouldDisable = !currentPassword || !newPassword || newPassword !== confirmNewPassword;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     try {
       await auth.changePassword(currentPassword, newPassword);
+
+      toast({
+        title: 'Updated password successfully',
+        position: 'top',
+        status: 'success',
+        isClosable: true,
+        duration: 1000,
+      });
     } catch (error) {
       console.log(error); // eslint-disable-line
       // return alert('update failed'); // eslint-disable-line
@@ -60,8 +72,8 @@ export const ChangePassword = () => {
             </Stack>
           </FormControl>
         </Flex>
-        <Flex>
-          <Button onClick={handleSubmit}>
+        <Flex marginTop={5}>
+          <Button disabled={shouldDisable} onClick={handleSubmit}>
             Change Password
           </Button>
         </Flex>

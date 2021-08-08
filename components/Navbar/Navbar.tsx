@@ -4,7 +4,6 @@ import {
   Collapse,
   Flex,
   IconButton,
-  LinkOverlay,
   Stack,
   Text,
   useBreakpointValue,
@@ -66,7 +65,7 @@ export const Navbar = ({ items }: Props) => {
           </Text>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-            <DesktopNav items={items} />
+            {false && <DesktopNav items={items} />}
           </Flex>
         </Flex>
 
