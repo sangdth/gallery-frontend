@@ -34,7 +34,7 @@ export const ALL_OPTIONS = gql`
 
 export const UPDATE_OPTIONS = gql`
   mutation UPDATE_OPTIONS($siteId: uuid!, $key: String!, $value: jsonb!) {
-   update_options(where: {site_id: {_eq: $siteId}, name: {_eq: $key}}, _set: {value: $value}) {
+   update_options(where: {site_id: {_eq: $siteId}, key: {_eq: $key}}, _set: {value: $value}) {
       returning {
         id
         key
@@ -148,6 +148,7 @@ export const Pages = (props: Props) => {
     data: optionData,
     // loading: optionLoading,
     // error: optionError,
+    refetch: optionRefetch,
   } = useQuery<{ options: OptionType[] }>(ALL_OPTIONS, {
     variables: { id: site.id },
     context: {
@@ -184,6 +185,8 @@ export const Pages = (props: Props) => {
         },
       },
     });
+
+    optionRefetch();
   };
 
   const handleSubmit = async (input: Partial<PageType>) => {
@@ -234,7 +237,7 @@ export const Pages = (props: Props) => {
 
   useEffect(() => {
     if (insertData) {
-      pagesRefetch();
+      // pagesRefetch();
       toast({
         title: `Created ${insertData.insert_pages_one.name} successful`,
         position: 'top',
@@ -260,18 +263,11 @@ export const Pages = (props: Props) => {
         onSubmit={handleSubmit}
       />
 
-      {pages.map((page) => (
-        <PageItem
-          key={page.id}
-          name={page.name}
-          id={page.id}
-          onDelete={() => handleDelete(page.id)}
-        />
-      ))}
-
       <MenuGenerator
+        pages={pages}
         menu={currentMenu as DragItemType[]}
-        onChange={(what) => console.log('what', what)}
+        onChange={handleUpdateMenu}
+        onDelete={handleDelete}
       />
     </Flex>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DragDropContext,
   Droppable,
@@ -6,7 +6,7 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 import { PageItem } from '../PageItem';
-import type { DragItemType } from '../../lib/types';
+import type { DragItemType, PageType } from '../../lib/types';
 
 const grid = 8;
 
@@ -34,14 +34,21 @@ const getListStyle = (isDraggingOver: boolean) => ({
 });
 
 type Props = {
+  pages: PageType[];
   menu: DragItemType[];
   onChange: (newMenu: DragItemType[]) => void;
+  onDelete: (id: string) => void;
 };
 
 export const MenuGenerator = (props: Props) => {
-  const { menu } = props;
+  const { menu, pages, onChange, onDelete } = props;
 
   const [items, setItems] = useState(menu);
+
+  const pagesMap = pages.reduce((acc, page) => {
+    acc[page.id] = page;
+    return acc;
+  }, {} as {[key: string]: PageType });
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -53,7 +60,14 @@ export const MenuGenerator = (props: Props) => {
     const newItems = reorder(items, source.index, destination.index);
 
     setItems(newItems);
+    onChange(newItems);
   };
+
+  useEffect(() => {
+    if (menu !== items) {
+      setItems(menu);
+    }
+  }, [menu]);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -77,8 +91,9 @@ export const MenuGenerator = (props: Props) => {
                     )}
                   >
                     <PageItem
-                      // ref={provided.innerRef}
+                      {...pagesMap[item.id]}
                       name={item.label}
+                      onDelete={() => onDelete(item.id)}
                     />
                   </div>
                 )}
