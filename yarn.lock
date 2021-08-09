@@ -5000,10 +5000,10 @@ supertokens-auth-react@0.14.0:
     react-shadow "^19.0.2"
     supertokens-website "^8.0.0"
 
-supertokens-node@6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/supertokens-node/-/supertokens-node-6.0.2.tgz#6def9568903daecfa91415c921e28ec3c930c696"
-  integrity sha512-LkIMpU237dkm0SKhtms3hfcmviEk945KwMjDfHSi+cJQBKSwlFBFDEG7LfULqRqTZBOV60WzdJlunRmnxx28ig==
+supertokens-node@6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/supertokens-node/-/supertokens-node-6.0.4.tgz#2fd54c15b622fcd79ab85d331a05850ab5dea126"
+  integrity sha512-kEKa29n58hu3sORHbqwJa8zOgupxH+OCPDaOHJx2MxaIdLeG5v6vKQY+kZvEfCI6hQWWKZuJAtQy0YfoM9BDaw==
   dependencies:
     axios "0.21.1"
     body-parser "1.19.0"
