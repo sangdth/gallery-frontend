@@ -5073,17 +5073,17 @@ subscriptions-transport-ws@^0.9.19:
     symbol-observable "^1.0.4"
     ws "^5.2.0 || ^6.0.0 || ^7.0.0"
 
-supertokens-auth-react@0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/supertokens-auth-react/-/supertokens-auth-react-0.14.0.tgz#110c49493222bb982e675e664ab1e97492e3da90"
-  integrity sha512-NDKka0jL3RQb0RY1Nc+DzierIgUhmyqDIWRuYhjZA2zsaglAWSp8ZM7t5+c5QyEbpqk1MCQy2w7qv9XXgGPt9A==
+supertokens-auth-react@0.15.3:
+  version "0.15.3"
+  resolved "https://registry.yarnpkg.com/supertokens-auth-react/-/supertokens-auth-react-0.15.3.tgz#c41f8aabd773c1775e6397fd9d044478d67f2146"
+  integrity sha512-VB442KtyhDmTU1XDEY+bsYNQed26tQy8VrucBH3ghB+tIqI+1LKS9e0bD9IYu5TpOJ2WP79619lg2YlmEbsy9A==
   dependencies:
     "@emotion/cache" "^11.1.0"
     "@emotion/react" "^11.1.0"
     "@emotion/server" "^11.1.0"
     chroma-js "^2.1.2"
     react-shadow "^19.0.2"
-    supertokens-website "^8.0.0"
+    supertokens-website "^8.1.0"
 
 supertokens-node@6.0.4:
   version "6.0.4"
@@ -5097,10 +5097,10 @@ supertokens-node@6.0.4:
     jsonwebtoken "8.5.1"
     psl "1.8.0"
 
-supertokens-website@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/supertokens-website/-/supertokens-website-8.0.0.tgz#e93a3737b10b28a2493b9ec41c9f92654b159a9a"
-  integrity sha512-PxQS7pm/6YM6585vdZ6A94tXEQsAT0EVvvwiRn3rF1egm/Miym56rb5iQTvqMLZqSVUkaPExzDam2aF9QFrnew==
+supertokens-website@^8.1.0:
+  version "8.1.2"
+  resolved "https://registry.yarnpkg.com/supertokens-website/-/supertokens-website-8.1.2.tgz#0b7f8964afcb63a75f532db77703b0bbe3bc52cc"
+  integrity sha512-GOthi9rmeh38fgDY8yj5VQDScWBIxPPei+CXpB8mWifjI4BVO+ruPetv6Y2/slQc5KkhFWKHeN9WipI4SBsKlw==
   dependencies:
     browser-tabs-lock "^1.2.14"
 
