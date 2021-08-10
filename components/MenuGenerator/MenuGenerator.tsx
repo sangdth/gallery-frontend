@@ -4,6 +4,7 @@ import {
   Droppable,
   Draggable,
   DropResult,
+  DraggableProvidedDraggableProps,
 } from 'react-beautiful-dnd';
 import { PageItem } from '../PageItem';
 import type { DragItemType, PageType } from '../../lib/types';
@@ -18,17 +19,15 @@ const reorder = (list: DragItemType[], startIndex: number, endIndex: number) => 
   return result;
 };
 
-const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: 'none',
-  padding: grid * 2,
+const getItemStyle = (isDragging: boolean, draggableProps: DraggableProvidedDraggableProps) => ({
+  // padding: grid * 2,
+  ...draggableProps.style,
   margin: `0 0 ${grid}px 0`,
-  background: isDragging ? 'lightgreen' : 'grey',
-  ...draggableStyle,
+  background: isDragging ? 'lightgreen' : 'white',
 });
 
 const getListStyle = (isDraggingOver: boolean) => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  background: isDraggingOver ? '#ECECEC' : 'white',
   padding: grid,
   width: 'auto',
 });
@@ -80,15 +79,12 @@ export const MenuGenerator = (props: Props) => {
           >
             {items.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided, dragSnapshot) => (
+                {(provided, { isDragging }) => (
                   <div
-                    ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    style={getItemStyle(
-                      dragSnapshot.isDragging,
-                      provided.draggableProps.style,
-                    )}
+                    ref={provided.innerRef}
+                    style={getItemStyle(isDragging, provided.draggableProps)}
                   >
                     <PageItem
                       {...pagesMap[item.id]}

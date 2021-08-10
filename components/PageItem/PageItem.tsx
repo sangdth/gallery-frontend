@@ -30,9 +30,9 @@ export const PageItem = (props: Props) => {
     <HStack
       ref={ref}
       border="1px"
-      borderColor="gray.200"
+      borderColor="gray.400"
       borderRadius="4px"
-      marginY="10px"
+      // marginY="10px"
       padding="20px"
       _hover={{ bg: useColorModeValue('blue.50', 'gray.900'), cursor: 'pointer' }}
       style={style}
