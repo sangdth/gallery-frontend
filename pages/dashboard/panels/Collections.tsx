@@ -104,7 +104,7 @@ export const Collections = (props: Props) => {
     upsertCollection,
     {
       // data: insertData,
-      loading: insertLoading,
+      loading: upsertLoading,
       // error: insertError,
     },
   ] = useMutation<CollectionInsertedData>(UPSERT_COLLECTION_ONE);
@@ -187,7 +187,7 @@ export const Collections = (props: Props) => {
   return (
     <Flex direction="column">
       <CreateCollectionModal
-        loading={insertLoading || deleteLoading}
+        loading={upsertLoading || deleteLoading}
         onSubmit={handleSubmit}
         refetch={collectionsRefetch}
       />

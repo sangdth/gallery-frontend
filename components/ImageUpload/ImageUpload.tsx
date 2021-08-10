@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Skeleton } from "@chakra-ui/react"
 import Uppy from '@uppy/core';
 import { useAtom } from 'jotai';
 import { DragDrop, useUppy } from '@uppy/react';
@@ -34,6 +35,7 @@ type DragDropEvent = MouseEvent | React.DragEvent<HTMLDivElement>;
 export const ImageUpload = (props: Props) => {
   const { collectionId, onUpload } = props;
   const [siteId] = useAtom(siteIdAtom);
+  const [loading, setLoading] = useState(false);
 
   const uppy = useUppy(
     () => new (Uppy as any)({ id: 'image-upload' }),
@@ -43,7 +45,7 @@ export const ImageUpload = (props: Props) => {
     try {
       if (e.dataTransfer) {
         const files = Array.from(e.dataTransfer.files);
-
+        setLoading(true);
         const responses: StorageResponse[] = await Promise.all(
           files.map(async (file) => {
             const path = `/site/${siteId}/collection/${collectionId}/${file.name}`;
@@ -61,25 +63,29 @@ export const ImageUpload = (props: Props) => {
       }
     } catch (error) {
       console.log(error); // eslint-disable-line
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <DragDrop
-      width="100%"
-      height="150px"
-      uppy={uppy}
-      note="Remember to press Submit to save collection!"
-      onDrop={(e: DragDropEvent) => handleDrop(e as React.DragEvent<HTMLDivElement>)}
-      locale={{
-        strings: {
-          // Text to show on the droppable area.
-          // `%{browse}` is replaced with a link that opens the system file selection dialog.
-          dropHereOr: 'Drop file here, browse does not work', // 'Drop here or %{browse}',
-          // Used as the label for the link that opens the system file selection dialog.
-        },
-      }}
-    />
+    <Skeleton speed={0.3} isLoaded={!loading}>
+      <DragDrop
+        width="100%"
+        height="150px"
+        uppy={uppy}
+        note="Remember to press Submit to save collection!"
+        onDrop={(e: DragDropEvent) => handleDrop(e as React.DragEvent<HTMLDivElement>)}
+        locale={{
+          strings: {
+            // Text to show on the droppable area.
+            // `%{browse}` is replaced with a link that opens the system file selection dialog.
+            dropHereOr: 'Drop file here, browse does not work', // 'Drop here or %{browse}',
+            // Used as the label for the link that opens the system file selection dialog.
+          },
+        }}
+      />
+    </Skeleton>
   );
 };
 

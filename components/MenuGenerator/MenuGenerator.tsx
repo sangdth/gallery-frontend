@@ -27,12 +27,13 @@ const getItemStyle = (isDragging: boolean, draggableProps: DraggableProvidedDrag
 });
 
 const getListStyle = (isDraggingOver: boolean) => ({
-  background: isDraggingOver ? '#ECECEC' : 'white',
-  padding: grid,
+  background: isDraggingOver ? 'white' : 'white',
+  padding: 0,
   width: 'auto',
 });
 
 type Props = {
+  id?: string;
   pages: PageType[];
   menu: DragItemType[];
   onChange: (newMenu: DragItemType[]) => void;
@@ -40,7 +41,7 @@ type Props = {
 };
 
 export const MenuGenerator = (props: Props) => {
-  const { menu, pages, onChange, onDelete } = props;
+  const { menu, pages, onChange, onDelete, id = 'root' } = props;
 
   const [items, setItems] = useState(menu);
 
@@ -70,7 +71,7 @@ export const MenuGenerator = (props: Props) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppable">
+      <Droppable droppableId={`droppable-${id}`}>
         {(dropProvided, snapshot) => (
           <div
             {...dropProvided.droppableProps}

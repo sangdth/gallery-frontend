@@ -4,7 +4,6 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 import {
   CreatePageModal,
   MenuGenerator,
-  PageItem,
 } from '../../../components';
 import { OptionKey } from '../../../lib/enums';
 import type {
@@ -168,9 +167,6 @@ export const Pages = (props: Props) => {
 
   const currentMenuData = optionData?.options.find((option) => option.key === OptionKey.Menu);
   const currentMenu = currentMenuData?.value ?? [];
-
-  // console.log('### updatedOption: ', updatedOption);
-  console.log('### currentMenu: ', currentMenu);
 
   const handleUpdateMenu = async (newValue: OptionValue[]) => {
     await updateOption({

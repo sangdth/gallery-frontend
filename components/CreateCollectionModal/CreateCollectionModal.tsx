@@ -30,6 +30,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { ConfirmButton } from '../ConfirmButton';
 import { userIdAtom, siteIdAtom } from '../../lib/jotai';
 import { storage } from '../../lib/nhost';
 import { BASE_ENDPOINT } from '../../lib/constants';
@@ -61,17 +62,16 @@ const CreatecollectionModal = (props: Props) => {
     images: [],
     ...(collection ?? {}),
   }), [siteId, collection]);
+    // console.log('### initialInput: ', initialInput);
 
   const [input, setInput] = useState<CollectionInput & { id: string }>(initialInput);
 
   const cleanUp = useCallback(() => {
-    setInput(initialInput);
+    setInput({ ...initialInput, id: uuidv4() });
     setCollection(null);
     setUploaded([]);
   }, [setInput, setCollection, setUploaded, initialInput]);
 
-  // TODO: Use the confirmation button here to detect the removing only when it has images
-  // TODO: Make the ConfirmButton has option to by pass alert
   const handleCancel = async () => {
     if (uploaded.length > 0) {
       await Promise.all(uploaded.map((image) => storage.delete(`/${image.path}`)));
@@ -237,12 +237,14 @@ const CreatecollectionModal = (props: Props) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              mr={3}
-              onClick={handleCancel}
-            >
-              Cancel
-            </Button>
+            <ConfirmButton
+              label="Cancel"
+              message="Delete uploaded images?"
+              buttonProps={{ marginRight: 3 }}
+              ignoreConfirm={uploaded.length === 0}
+              onConfirm={handleCancel}
+            />
+
             <Button
               isLoading={loading}
               loadingText={collection ? 'Updating...' : 'Creating...'}

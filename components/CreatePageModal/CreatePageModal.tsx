@@ -60,7 +60,7 @@ const CreatePageModal = (props: Props) => {
 
   return (
     <>
-      <Flex justify="flex-end">
+      <Flex justify="flex-end" marginBottom="20px">
         <Button
           size="lg"
           fontWeight={600}

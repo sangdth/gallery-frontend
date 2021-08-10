@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -12,14 +12,15 @@ import {
 } from '@chakra-ui/react';
 
 export type Props = {
-  iconOnly?: boolean;
-  icon?: JSX.Element;
-  message?: string;
-  label: string;
   alertProps?: Partial<React.ComponentProps<typeof AlertDialog>>;
   buttonProps?: Partial<React.ComponentProps<typeof Button | typeof IconButton>>;
   cancelText?: string;
   confirmText?: string;
+  icon?: JSX.Element;
+  iconOnly?: boolean;
+  ignoreConfirm?: boolean;
+  label: string;
+  message?: string;
   onCancel?: () => void;
   onConfirm: () => void;
 };
@@ -30,10 +31,11 @@ export const ConfirmButton = (props: Props) => {
     buttonProps,
     cancelText = 'Cancel',
     confirmText = 'Confirm',
+    icon,
     iconOnly = false,
+    ignoreConfirm = false,
     label,
     message = '',
-    icon,
     onCancel,
     onConfirm,
   } = props;
@@ -54,7 +56,21 @@ export const ConfirmButton = (props: Props) => {
     onClose();
   };
 
+  const handleAnchorClick = () => {
+    if (ignoreConfirm) {
+      onConfirm();
+    } else {
+      setIsOpen(true);
+    }
+  };
+
   const hoverBg = useColorModeValue('red.400', 'gray.600');
+
+  useEffect(() => {
+    if (isOpen) {
+      return () => setIsOpen(false);
+    }
+  }, [isOpen, setIsOpen]);
 
   return (
     <>
@@ -65,7 +81,7 @@ export const ConfirmButton = (props: Props) => {
           icon={icon}
           borderRadius="4px"
           _hover={{ bg: hoverBg, color: 'white' }}
-          onClick={() => setIsOpen(true)}
+          onClick={handleAnchorClick}
         />
       ) : (
         <Button
@@ -73,7 +89,7 @@ export const ConfirmButton = (props: Props) => {
           leftIcon={icon}
           borderRadius="4px"
           _hover={{ bg: hoverBg, color: 'white' }}
-          onClick={() => setIsOpen(true)}
+          onClick={handleAnchorClick}
         >
           {label}
         </Button>

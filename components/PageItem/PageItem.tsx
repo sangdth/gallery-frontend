@@ -3,6 +3,7 @@ import {
   Flex,
   HStack,
   IconButton,
+  Stack,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -10,6 +11,7 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import type { PageType } from '../../lib/types';
 
 type Props = Partial<PageType> & {
+  children?: React.ReactNode;
   // onClick: () => void;
   onDelete: () => void;
   ref?: any;
@@ -18,6 +20,7 @@ type Props = Partial<PageType> & {
 
 export const PageItem = (props: Props) => {
   const {
+    children,
     id,
     name,
     onDelete,
@@ -27,29 +30,32 @@ export const PageItem = (props: Props) => {
   } = props;
 
   return (
-    <HStack
+    <Stack
       ref={ref}
       border="1px"
       borderColor="gray.400"
       borderRadius="4px"
       // marginY="10px"
-      padding="20px"
+      padding="10px 20px"
       _hover={{ bg: useColorModeValue('blue.50', 'gray.900'), cursor: 'pointer' }}
       style={style}
     >
-      <Flex direction="column">
-        <Text fontSize="2em">{name}</Text>
-        <Text fontSize="0.8em">{id}</Text>
-      </Flex>
-      <IconButton
-        aria-label="Delete this site"
-        colorScheme="red"
-        variant="outline"
-        icon={<DeleteIcon />}
-        _hover={{ bg: useColorModeValue('red.400', 'gray.900'), color: 'white' }}
-        onClick={onDelete}
-      />
-    </HStack>
+      <HStack padding="10px 20px">
+        <Flex direction="column">
+          <Text fontSize="2em">{name}</Text>
+          <Text fontSize="0.8em">{id}</Text>
+        </Flex>
+        <IconButton
+          aria-label="Delete this site"
+          colorScheme="red"
+          variant="outline"
+          icon={<DeleteIcon />}
+          _hover={{ bg: useColorModeValue('red.400', 'gray.900'), color: 'white' }}
+          onClick={onDelete}
+        />  
+      </HStack>
+      {children}
+    </Stack>
   );
 };
 
