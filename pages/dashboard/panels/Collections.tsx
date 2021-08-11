@@ -4,6 +4,7 @@ import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { CreateCollectionModal } from '../../../components/CreateCollectionModal';
 import { ActionItem } from '../../../components';
+import { siteIdAtom } from '../../../lib/jotai';
 import type {
   CollectionInsertedData,
   CollectionsAggregateData,
@@ -78,7 +79,8 @@ export const Collections = (props: Props) => {
   console.log('### Render Collections'); // eslint-disable-line no-console
   const toast = useToast();
 
-  const { site, user } = props;
+  const { user } = props;
+  const [siteId] = useAtom(siteIdAtom);
   const [, setCollection] = useAtom(collectionAtom);
 
   const {
@@ -89,7 +91,7 @@ export const Collections = (props: Props) => {
   } = useQuery<CollectionsAggregateData>(
     COLLECTIONS_AGGREGATE,
     {
-      variables: { userId: user.id, siteId: site.id },
+      variables: { userId: user.id, siteId },
       context: {
         headers: {
           'x-hasura-role': 'me',
@@ -123,7 +125,7 @@ export const Collections = (props: Props) => {
       variables: {
         object: {
           ...data,
-          site_id: site.id, // TODO: move to use atom instead of props
+          site_id: siteId,
           images: {
             data: (data?.images ?? []).map((o) => ({
               id: o.id,
@@ -153,7 +155,7 @@ export const Collections = (props: Props) => {
       isClosable: true,
       duration: 1000,
     });
-  }, [site, toast, upsertCollection, collectionsRefetch]);
+  }, [toast, upsertCollection, collectionsRefetch]);
 
   const handleDelete = async (id: string) => {
     await deleteCollection({

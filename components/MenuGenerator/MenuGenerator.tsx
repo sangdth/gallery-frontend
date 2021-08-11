@@ -110,7 +110,7 @@ export const MenuGenerator = <T extends ActionItemDataType>(props: MenuGenerator
                   >
                     <ActionItem
                       draggable
-                      data={dataMap[item.id]}
+                      data={dataMap[item.id] ?? {}}
                       onEdit={() => handleEdit(dataMap[item.id])}
                       onDelete={() => handleDelete(item.id)}
                     />

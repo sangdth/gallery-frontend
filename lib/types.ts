@@ -104,7 +104,15 @@ export type CollectionPicked =
   | 'type'
   | 'site_id';
 
-export type CollectionInput = RecursivePartial<Pick<CollectionType, CollectionPicked>>;
+export type PagePicked =
+  | 'id'
+  | 'name'
+  | 'content'
+  | 'slug'
+  | 'status';
+
+export type CollectionInput = RecursivePartial<Pick<CollectionType, CollectionPicked>> & { id: string };
+export type PageInput = RecursivePartial<Pick<PageType, PagePicked>> & { id: string };
 
 export type AccountType = Exclude<BaseType, 'status'> & {
   active: boolean;

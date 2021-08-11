@@ -63,7 +63,7 @@ const CreatecollectionModal = (props: Props) => {
     ...(collection ?? {}),
   }), [siteId, collection]);
 
-  const [input, setInput] = useState<CollectionInput & { id: string }>(initialInput);
+  const [input, setInput] = useState<CollectionInput>(initialInput);
 
   const cleanUp = useCallback(() => {
     setInput({ ...initialInput, id: uuidv4() });
@@ -142,7 +142,8 @@ const CreatecollectionModal = (props: Props) => {
   }, [collection, onOpen, input, isOpen]);
 
   useEffect(() => {
-    if (!isOpen && (uploaded.length > 0 || input.name || input.description)) {
+    const isEmptyInput = input.name || input.description;
+    if (!isOpen && (uploaded.length > 0 || isEmptyInput)) {
       cleanUp();
     }
   }, [isOpen, uploaded, input, cleanUp]);

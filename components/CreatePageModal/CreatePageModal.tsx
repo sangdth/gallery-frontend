@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
 import { useAtom } from 'jotai';
 import {
@@ -17,36 +18,59 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { userIdAtom } from '../../lib/jotai';
-import type { PageType } from '../../lib/types';
+import { ConfirmButton } from '../ConfirmButton';
+import { userIdAtom, pageAtom } from '../../lib/jotai';
+import type { PageInput } from '../../lib/types';
 
 type Props = {
   loading?: boolean;
-  onSubmit: (input: Partial<PageType>) => Promise<void>;
+  onSubmit: (input: PageInput) => Promise<void>;
+  refetch: () => void;
 };
 
 const CreatePageModal = (props: Props) => {
-  const { loading, onSubmit } = props;
+  const { loading, onSubmit, refetch } = props;
   const [userId] = useAtom(userIdAtom);
+  const [selectedPage, setSelectedPage] = useAtom(pageAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [input, setInput] = useState<Partial<PageType>>({
+
+  const initialInput = {
+    id: uuidv4(),
     name: '',
     content: '',
     slug: '',
-  });
+    ...(selectedPage ?? {}),
+  };
 
-  const handleClose = () => {
-    setInput({
-      name: '',
-      content: '',
-      slug: '',
-    });
-    onClose();
+  const [input, setInput] = useState<PageInput>(initialInput);
+
+  const shouldDisable = !userId || loading;
+  const isEmptyInput = !input.name && !input.content;
+  const hasChanged = selectedPage && (
+    input.name !== selectedPage.name || input.content !== selectedPage.content
+  );
+
+  const cleanUp = () => {
+    setInput({ ...initialInput, id: uuidv4() });
+    setSelectedPage(null);
   };
 
   const handleSubmit = async () => {
     await onSubmit(input);
-    handleClose();
+    onClose();
+    refetch();
+  };
+
+  const handleCancel = async () => {
+    cleanUp();
+    onClose();
+  };
+
+  const handleOnChange = (key: string, value: string) => {
+    setInput({
+      ...input,
+      [key]: value,
+    });
   };
 
   useEffect(() => {
@@ -56,7 +80,26 @@ const CreatePageModal = (props: Props) => {
     }
   }, [input]);
 
-  const shouldDisable = !userId || loading;
+  useEffect(() => {
+    if (!isOpen && selectedPage && (!input.name && !input.content)) {
+      setInput({
+        id: selectedPage.id,
+        name: selectedPage.name,
+        content: selectedPage.content,
+        slug: selectedPage.slug,
+        status: selectedPage.status,
+      });
+
+      onOpen();
+    }
+  }, [isOpen, onOpen, selectedPage, input]);
+
+  useEffect(() => {
+    const isEmptyInput = input.name || input.content;
+    if (!isOpen && isEmptyInput) {
+      cleanUp();
+    }
+  }, [isOpen, input, cleanUp]);
 
   return (
     <>
@@ -84,7 +127,7 @@ const CreatePageModal = (props: Props) => {
       <Modal
         closeOnOverlayClick={false}
         isOpen={isOpen}
-        onClose={handleClose}
+        onClose={handleCancel}
       >
         <ModalOverlay />
         <ModalContent>
@@ -96,7 +139,7 @@ const CreatePageModal = (props: Props) => {
               <Input
                 placeholder="Page name"
                 value={input.name}
-                onChange={(e) => setInput({ ...input, name: e.currentTarget.value })}
+                onChange={(e) => handleOnChange('name', e.currentTarget.value)}
               />
             </FormControl>
 
@@ -110,12 +153,19 @@ const CreatePageModal = (props: Props) => {
               <Input
                 placeholder="Page content"
                 value={input.content ?? ''}
-                onChange={(e) => setInput({ ...input, content: e.currentTarget.value })}
+                onChange={(e) => handleOnChange('content', e.currentTarget.value)}
               />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
+            <ConfirmButton
+              label="Cancel"
+              message="Ignore changes?"
+              buttonProps={{ marginRight: 3 }}
+              ignoreConfirm={isEmptyInput || !hasChanged}
+              onConfirm={handleCancel}
+            />
             <Button
               isLoading={loading}
               loadingText="Creating..."
@@ -125,7 +175,6 @@ const CreatePageModal = (props: Props) => {
             >
               Submit
             </Button>
-            <Button onClick={handleClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

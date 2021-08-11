@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useUpdateAtom } from 'jotai/utils';
 import { Flex, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import {
@@ -6,6 +7,7 @@ import {
   MenuGenerator,
 } from '../../../components';
 import { OptionKey } from '../../../lib/enums';
+import { pageAtom } from '../../../lib/jotai';
 import type {
   DragItemType,
   OptionType,
@@ -13,7 +15,7 @@ import type {
   OptionValue,
   PageDeletedData,
   PageInsertedData,
-  PageType,
+  PageInput,
   PagesAggregateData,
   SiteType,
   UserType,
@@ -66,9 +68,12 @@ export const PAGES_AGGREGATE = gql`
   }
 `;
 
-export const INSERT_PAGE_ONE = gql`
+export const UPSERT_PAGE_ONE = gql`
   mutation INSERT_PAGE_ONE($object: pages_insert_input!) {
-    insert_pages_one(object: $object) {
+    insert_pages_one(
+      object: $object,
+      on_conflict: {constraint: pages_pkey, update_columns: [name, content, slug, status]}
+    ) {
       created_at
       updated_at
       id
@@ -105,6 +110,7 @@ type Props = {
 export const Pages = (props: Props) => {
   const { site, user } = props;
   const toast = useToast();
+  const setSelectedPage = useUpdateAtom(pageAtom);
 
   const {
     data: pagesData,
@@ -132,7 +138,7 @@ export const Pages = (props: Props) => {
       loading: insertLoading,
       // error: insertError,
     },
-  ] = useMutation<PageInsertedData>(INSERT_PAGE_ONE);
+  ] = useMutation<PageInsertedData>(UPSERT_PAGE_ONE);
 
   const [
     deletePage,
@@ -185,7 +191,7 @@ export const Pages = (props: Props) => {
     optionRefetch();
   };
 
-  const handleSubmit = async (input: Partial<PageType>) => {
+  const handleSubmit = async (input: PageInput) => {
     const response = await insertPage({
       variables: { object: { ...input, site_id: site.id } },
       context: {
@@ -199,12 +205,14 @@ export const Pages = (props: Props) => {
     if (response && response.data && Array.isArray(currentMenu)) {
       const tmpMenu = [...currentMenu];
       const newMenuItem = response?.data?.insert_pages_one;
-      tmpMenu.push({
-        id: newMenuItem.id,
-        label: newMenuItem.name,
-        children: [],
-      });
-
+      const found = tmpMenu.find(o => o.id === newMenuItem.id);
+      if (!found) {
+        tmpMenu.push({
+          id: newMenuItem.id,
+          label: newMenuItem.name,
+          children: [],
+        });
+      }
       await handleUpdateMenu(tmpMenu);
     }
 
@@ -257,6 +265,7 @@ export const Pages = (props: Props) => {
       <CreatePageModal
         loading={insertLoading || deleteLoading}
         onSubmit={handleSubmit}
+        refetch={pagesRefetch}
       />
 
       <MenuGenerator
@@ -264,6 +273,7 @@ export const Pages = (props: Props) => {
         menu={currentMenu as DragItemType[]}
         onChange={handleUpdateMenu}
         onDelete={handleDelete}
+        onEdit={(p) => setSelectedPage(p)}
       />
     </Flex>
   );
