@@ -39,9 +39,9 @@ const getIndex = (name: string) => {
 };
 
 const Dashboard = () => {
+  const router = useRouter();
   const [site, setSite] = useAtom(siteAtom);
   const [me] = useAtom(meAtom);
-  const router = useRouter();
   const { site: siteId, tab } = router.query;
   const [index, setIndex] = useState(0);
 

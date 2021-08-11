@@ -11,7 +11,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-export type Props = {
+export type ConfirmButtonProps = {
   alertProps?: Partial<React.ComponentProps<typeof AlertDialog>>;
   buttonProps?: Partial<React.ComponentProps<typeof Button | typeof IconButton>>;
   cancelText?: string;
@@ -22,10 +22,10 @@ export type Props = {
   label: string;
   message?: string;
   onCancel?: () => void;
-  onConfirm: () => void;
+  onConfirm?: () => void;
 };
 
-export const ConfirmButton = (props: Props) => {
+export const ConfirmButton = (props: ConfirmButtonProps) => {
   const {
     alertProps,
     buttonProps,
@@ -45,7 +45,9 @@ export const ConfirmButton = (props: Props) => {
   const cancelRef = useRef(null);
 
   const handleConfirm = () => {
-    onConfirm();
+    if (typeof onConfirm === 'function') {
+      onConfirm();
+    }
     onClose();
   };
 
@@ -57,7 +59,7 @@ export const ConfirmButton = (props: Props) => {
   };
 
   const handleAnchorClick = () => {
-    if (ignoreConfirm) {
+    if (ignoreConfirm && typeof onConfirm === 'function') {
       onConfirm();
     } else {
       setIsOpen(true);

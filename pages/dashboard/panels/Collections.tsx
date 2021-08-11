@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { atom, useAtom } from 'jotai';
-import { Flex, useToast } from '@chakra-ui/react';
+import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { CreateCollectionModal } from '../../../components/CreateCollectionModal';
-import { CollectionItem } from '../../../components/CollectionItem';
+import { ActionItem } from '../../../components';
 import type {
   CollectionInsertedData,
   CollectionsAggregateData,
@@ -76,10 +76,10 @@ export const collectionAtom = atom<CollectionInput | null>(null);
 
 export const Collections = (props: Props) => {
   console.log('### Render Collections'); // eslint-disable-line no-console
+  const toast = useToast();
 
   const { site, user } = props;
-  const toast = useToast();
-  const [input, setInput] = useAtom(collectionAtom);
+  const [, setCollection] = useAtom(collectionAtom);
 
   const {
     data: collectionsData,
@@ -192,14 +192,16 @@ export const Collections = (props: Props) => {
         refetch={collectionsRefetch}
       />
 
-      {collections.map((collection) => (
-        <CollectionItem
-          key={collection.id}
-          name={collection.name ?? ''}
-          onEdit={() => !input && setInput(collection)}
-          onDelete={() => handleDelete(collection.id)}
-        />
-      ))}
+      <Stack spacing="10px" marginTop="20px">
+        {collections.map((collection) => (
+          <ActionItem
+            key={collection.id}
+            data={collection}
+            onEdit={() => setCollection(collection)}
+            onDelete={() => handleDelete(collection.id)}
+          />
+        ))}
+      </Stack>
     </Flex>
   );
 };

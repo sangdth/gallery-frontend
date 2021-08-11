@@ -62,7 +62,6 @@ const CreatecollectionModal = (props: Props) => {
     images: [],
     ...(collection ?? {}),
   }), [siteId, collection]);
-    // console.log('### initialInput: ', initialInput);
 
   const [input, setInput] = useState<CollectionInput & { id: string }>(initialInput);
 
@@ -129,7 +128,7 @@ const CreatecollectionModal = (props: Props) => {
   const shouldDisable = !userId || loading;
 
   useEffect(() => {
-    if (collection && (!input.name && !input.description)) {
+    if (!isOpen && collection && (!input.name && !input.description)) {
       setInput({
         description: collection.description,
         id: collection.id ?? uuidv4(),
@@ -140,7 +139,7 @@ const CreatecollectionModal = (props: Props) => {
       });
       onOpen();
     }
-  }, [collection, onOpen, input]);
+  }, [collection, onOpen, input, isOpen]);
 
   useEffect(() => {
     if (!isOpen && (uploaded.length > 0 || input.name || input.description)) {

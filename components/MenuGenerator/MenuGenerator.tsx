@@ -6,10 +6,10 @@ import {
   DropResult,
   DraggableProvidedDraggableProps,
 } from 'react-beautiful-dnd';
-import { PageItem } from '../PageItem';
-import type { DragItemType, PageType } from '../../lib/types';
+import { ActionItem } from '../ActionItem';
+import type { DragItemType, ActionItemDataType } from '../../lib/types';
 
-const grid = 8;
+const grid = 10;
 
 const reorder = (list: DragItemType[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -23,6 +23,7 @@ const getItemStyle = (isDragging: boolean, draggableProps: DraggableProvidedDrag
   // padding: grid * 2,
   ...draggableProps.style,
   margin: `0 0 ${grid}px 0`,
+  borderRadius: '4px',
   background: isDragging ? 'lightgreen' : 'white',
 });
 
@@ -32,23 +33,31 @@ const getListStyle = (isDraggingOver: boolean) => ({
   width: 'auto',
 });
 
-type Props = {
+type MenuGeneratorProps<T> = {
   id?: string;
-  pages: PageType[];
+  data: T[];
   menu: DragItemType[];
   onChange: (newMenu: DragItemType[]) => void;
-  onDelete: (id: string) => void;
+  onDelete?: (id: string) => void;
+  onEdit?: (o: T) => void;
 };
 
-export const MenuGenerator = (props: Props) => {
-  const { menu, pages, onChange, onDelete, id = 'root' } = props;
+export const MenuGenerator = <T extends ActionItemDataType>(props: MenuGeneratorProps<T>) => {
+  const {
+    menu,
+    data,
+    onChange,
+    onDelete,
+    onEdit,
+    id = 'root',
+  } = props;
 
   const [items, setItems] = useState(menu);
 
-  const pagesMap = pages.reduce((acc, page) => {
-    acc[page.id] = page;
+  const dataMap = data.reduce((acc, row) => {
+    acc[row.id] = row;
     return acc;
-  }, {} as {[key: string]: PageType });
+  }, {} as {[key: string]: T });
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -61,6 +70,18 @@ export const MenuGenerator = (props: Props) => {
 
     setItems(newItems);
     onChange(newItems);
+  };
+
+  const handleEdit = (o: T) => {
+    if (typeof onEdit === 'function') {
+      onEdit(o);
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    if (typeof onDelete === 'function') {
+      onDelete(id);
+    }
   };
 
   useEffect(() => {
@@ -80,17 +101,18 @@ export const MenuGenerator = (props: Props) => {
           >
             {items.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided, { isDragging }) => (
+                {(provided, draggableSnapshot) => (
                   <div
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
-                    style={getItemStyle(isDragging, provided.draggableProps)}
+                    style={getItemStyle(draggableSnapshot.isDragging, provided.draggableProps)}
                   >
-                    <PageItem
-                      {...pagesMap[item.id]}
-                      name={item.label}
-                      onDelete={() => onDelete(item.id)}
+                    <ActionItem
+                      draggable
+                      data={dataMap[item.id]}
+                      onEdit={() => handleEdit(dataMap[item.id])}
+                      onDelete={() => handleDelete(item.id)}
                     />
                   </div>
                 )}

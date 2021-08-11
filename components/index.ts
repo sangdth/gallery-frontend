@@ -1,3 +1,4 @@
+export * from './ActionItem';
 export * from './ChangePassword';
 export * from './CollectionItem';
 export * from './ConfirmButton';

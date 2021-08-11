@@ -260,7 +260,7 @@ export const Pages = (props: Props) => {
       />
 
       <MenuGenerator
-        pages={pages}
+        data={pages}
         menu={currentMenu as DragItemType[]}
         onChange={handleUpdateMenu}
         onDelete={handleDelete}

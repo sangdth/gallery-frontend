@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { Flex, useToast } from '@chakra-ui/react';
+import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { WithPrivateRoute } from '../components/WithPrivateRoute';
 import { Layout } from '../components/Layout';
-import { SiteItem } from '../components/SiteItem';
+import { ActionItem } from '../components/ActionItem';
 import { CreateSiteModal } from '../components/CreateSiteModal';
 import { auth } from '../lib/nhost';
 import { siteAtom } from '../lib/jotai';
@@ -19,7 +20,7 @@ import type {
 } from '../lib/types';
 
 const defaultOptions: Partial<OptionType>[] = [
-  { name: OptionKey.Menu, value: [] },
+  { key: OptionKey.Menu, value: [] },
 ];
 
 export const SITES_AGGREGATE = gql`
@@ -68,6 +69,7 @@ export const DELETE_SITE_BY_PK = gql`
 `;
 
 function Home() {
+  const router = useRouter();
   const toast = useToast();
   const [site, setSite] = useAtom(siteAtom);
 
@@ -124,6 +126,10 @@ function Home() {
         },
       },
     });
+  };
+
+  const handleClick = (id: string) => {
+    router.push(`/dashboard?site=${id}&tab=pages`);
   };
 
   const handleDelete = async (id: string) => {
@@ -193,15 +199,16 @@ function Home() {
             onSubmit={handleSubmit}
           />
 
-          {sites.map((s) => (
-            <SiteItem
-              key={s.id}
-              name={s.name}
-              path={`/dashboard?site=${s.id}&tab=pages`}
-              onClick={() => setSite(s)}
-              onDelete={() => handleDelete(s.id)}
-            />
-          ))}
+          <Stack spacing="10px" marginTop="20px">
+            {sites.map((s) => (
+              <ActionItem
+                key={s.id}
+                data={s}
+                onClick={() => handleClick(s.id)}
+                onDelete={() => handleDelete(s.id)}
+              />
+            ))}
+          </Stack>
         </Flex>
       </Layout>
     </>

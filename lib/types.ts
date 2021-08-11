@@ -93,6 +93,8 @@ export type CollectionType = BaseType & {
   images: ImageType[];
 };
 
+export type ActionItemDataType = SiteType | PageType | CollectionType;
+
 export type CollectionPicked =
   | 'id'
   | 'name'
