@@ -9,7 +9,6 @@ import { useAtom } from 'jotai';
 import {
   Button,
   Flex,
-  Image,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -20,7 +19,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  SimpleGrid,
   Tab,
   TabList,
   TabPanel,
@@ -29,30 +27,31 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { ConfirmButton } from '../ConfirmButton';
 import { userIdAtom, siteIdAtom } from '../../lib/jotai';
 import { storage } from '../../lib/nhost';
-import { BASE_ENDPOINT } from '../../lib/constants';
 import { collectionAtom } from '../../pages/dashboard/panels/Collections';
 import { ImageUpload } from '../ImageUpload';
+import { ImageController } from '../ImageController';
 import type { CollectionInput, ImageType } from '../../lib/types';
 
 type Props = {
-  loading?: boolean;
   onSubmit: (input: CollectionInput) => Promise<void>;
   refetch: () => void;
 };
 
 const CreatecollectionModal = (props: Props) => {
   const toast = useToast();
-  const { loading, onSubmit, refetch } = props;
+  const { onSubmit, refetch } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [userId] = useAtom(userIdAtom);
   const [siteId] = useAtom(siteIdAtom);
   const [collection, setCollection] = useAtom(collectionAtom);
+  const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState<Partial<ImageType>[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
 
   const initialInput = useMemo(() => ({
     id: uuidv4(),
@@ -87,7 +86,7 @@ const CreatecollectionModal = (props: Props) => {
     });
   };
 
-  const handleUpload = (images: Partial<ImageType>[]) => {
+  const handleUploadImages = (images: Partial<ImageType>[]) => {
     const recentUploaded = images.map((image) => ({ ...image, id: uuidv4() }));
 
     setUploaded((prevUploaded) => {
@@ -117,6 +116,34 @@ const CreatecollectionModal = (props: Props) => {
       return updatedImages;
     });
 
+    refetch();
+  };
+
+  const handleOnSelect = (selections: string[]) => {
+    setSelected(selections);
+  };
+
+  const handleDeleteImages = async () => {
+    setLoading(true);
+    const selectedImages = selected
+      .map(id => (input.images ?? []).find(o => o.id === id));
+
+    await Promise.all(
+      selectedImages.map(async (image) => {
+        if (!!image) {
+          return await storage.delete(`/${image.path}`);
+        }
+      }),
+    );
+
+    const remainedImages = (input.images ?? []).filter(o => !selected.includes(o.id ?? ''));
+
+    setInput(preInput => ({
+      ...preInput,
+      images: remainedImages,
+    }));
+
+    setLoading(false);
     refetch();
   };
 
@@ -180,7 +207,7 @@ const CreatecollectionModal = (props: Props) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {collection ? 'Edit collection' : 'Create new collection'}
+            {collection ? `Edit collection: ${input.name}` : 'Create new collection'}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -210,26 +237,14 @@ const CreatecollectionModal = (props: Props) => {
                   </FormControl>
                 </TabPanel>
                 <TabPanel>
-                  <SimpleGrid
-                    mb={6}
-                    columns={5}
-                    spacingY={5}
-                    maxHeight={300}
-                    overflowY="scroll"
-                  >
-                    {(input.images ?? []).map((image) => (
-                      <Image
-                        key={image.id}
-                        fit="cover"
-                        boxSize="100px"
-                        src={`${BASE_ENDPOINT}/storage/o/${image.path}`}
-                      />
-                    ))}
-                  </SimpleGrid>
+                  <ImageController
+                    images={input.images ?? []}
+                    onSelect={handleOnSelect}
+                  />
 
                   <ImageUpload
                     collectionId={input.id}
-                    onUpload={handleUpload}
+                    onUpload={handleUploadImages}
                   />
                 </TabPanel>
               </TabPanels>
@@ -237,22 +252,36 @@ const CreatecollectionModal = (props: Props) => {
           </ModalBody>
 
           <ModalFooter>
-            <ConfirmButton
-              label="Cancel"
-              message="Delete uploaded images?"
-              buttonProps={{ marginRight: 3 }}
-              ignoreConfirm={uploaded.length === 0}
-              onConfirm={handleCancel}
-            />
+            <Flex justifyContent="space-between" width="100%">
+              {selected.length > 0 ? (
+                <ConfirmButton
+                  label="Delete"
+                  message="Delete selected images?"
+                  icon={<DeleteIcon />}
+                  buttonProps={{color: 'red', isLoading: loading }}
+                  onConfirm={handleDeleteImages}
+                />
+              ) : <Flex />}
 
-            <Button
-              isLoading={loading}
-              loadingText={collection ? 'Updating...' : 'Creating...'}
-              colorScheme="blue"
-              onClick={handleSubmit}
-            >
-              Submit
-            </Button>
+              <Flex>
+                <ConfirmButton
+                  label="Cancel"
+                  message="Delete uploaded images?"
+                  buttonProps={{ marginRight: 3 }}
+                  ignoreConfirm={uploaded.length === 0}
+                  onConfirm={handleCancel}
+                />
+
+                <Button
+                  isLoading={loading}
+                  loadingText={collection ? 'Updating...' : 'Creating...'}
+                  colorScheme="blue"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+              </Flex>
+            </Flex>
           </ModalFooter>
         </ModalContent>
       </Modal>

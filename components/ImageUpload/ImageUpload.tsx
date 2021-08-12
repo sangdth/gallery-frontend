@@ -16,22 +16,6 @@ type Props = {
 
 type DragDropEvent = MouseEvent | React.DragEvent<HTMLDivElement>;
 
-// export const INSERT_IMAGES = gql`
-//   mutation INSERT_IMAGES($objects: [images_insert_input!]!) {
-//     insert_images(
-//       objects: $objects,
-//       on_conflict: {constraint: images_pkey, update_columns: [meta, path, status, collection_id]}
-//     ) {
-//       returning {
-//         created_at
-//         updated_at
-//         id
-//         path
-//       }
-//     }
-//   }
-// `;
-
 export const ImageUpload = (props: Props) => {
   const { collectionId, onUpload } = props;
   const [siteId] = useAtom(siteIdAtom);
