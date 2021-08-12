@@ -91,8 +91,9 @@ export const UserInfo = () => {
         </HStack>
       </MenuButton>
       <MenuList>
-        <MenuItem>Dashboard</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>
+          Logout
+        </MenuItem>
       </MenuList>
     </Menu>
   );

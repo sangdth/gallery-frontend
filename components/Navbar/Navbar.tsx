@@ -4,15 +4,16 @@ import {
   Collapse,
   Flex,
   IconButton,
+  LinkBox,
+  LinkOverlay,
   Stack,
-  Text,
-  useBreakpointValue,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { useAuth } from '@nhost/react-auth';
+import { Logo } from '../Logo'
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
 import { UserInfo } from './UserInfo';
@@ -54,15 +55,13 @@ export const Navbar = ({ items }: Props) => {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily="heading"
-            color={useColorModeValue('gray.800', 'white')}
-          >
-            <NextLink href="/" passHref>
-              Gallery
-            </NextLink>
-          </Text>
+          <LinkBox>
+          <NextLink href="/" passHref>
+            <LinkOverlay>
+              <Logo />
+            </LinkOverlay>
+          </NextLink>
+        </LinkBox>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             {false && <DesktopNav items={items} />}

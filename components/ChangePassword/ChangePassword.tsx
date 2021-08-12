@@ -7,8 +7,8 @@ import {
   Stack,
   useToast,
 } from '@chakra-ui/react';
-import { PasswordInput } from '../PasswordInput';
 import { auth } from '../../lib/nhost';
+import { Input } from '../Input';
 
 export const ChangePassword = () => {
   const toast = useToast();
@@ -47,13 +47,15 @@ export const ChangePassword = () => {
           <FormControl>
             <FormLabel>Change Password</FormLabel>
             <Stack spacing={3}>
-              <PasswordInput
+              <Input
+                type="password"
                 id="current-password"
                 placeholder="Enter current password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
               />
-              <PasswordInput
+              <Input
+                type="password"
                 id="new-password"
                 placeholder="Enter new password"
                 isInvalid={newPassword !== confirmNewPassword}
@@ -61,7 +63,8 @@ export const ChangePassword = () => {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
               />
-              <PasswordInput
+              <Input
+                type="password"
                 id="confirm-new-password"
                 placeholder="Confirm new password"
                 isInvalid={newPassword !== confirmNewPassword}

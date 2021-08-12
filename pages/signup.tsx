@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  Flex,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
+import { Logo, Input } from '../components';
 import { auth } from '../lib/nhost';
 
-export default function Register() {
+export default function SignUp() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter();
+  const [error, setError] = useState('');
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     try {
+      setLoading(true);
       await auth.register({
         email,
         password,
@@ -23,54 +34,72 @@ export default function Register() {
           },
         },
       });
-    } catch (error) {
-      console.log(error); // eslint-disable-line
-      return alert('signup failed'); // eslint-disable-line
-    }
 
-    alert('Registration OK. Logging you in...'); // eslint-disable-line
-    return router.push('/');
+      return router.push('/');
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <div>
-      <div>Register</div>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <input
-              type="text"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              placeholder="Name"
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              value={email}
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              value={password}
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div>
-            <button type="submit">Register</button>
-          </div>
-        </form>
-      </div>
-      <div>
+    <Flex
+      direction="column"
+      alignItems="center"
+      justifyContent="space-between"
+      width="300px"
+      height={error ? '400px' : '350px'}
+      marginX="auto"
+      marginTop="100px"
+    >
+      <Logo />
+
+      <Stack spacing="10px" alignItems="center">
+        <Text as="h2" fontSize="2xl" color="gray">
+          Sign Up
+        </Text>
+
+        {error && (
+          <Alert status="error" variant="subtle" fontSize="xs">
+            <AlertIcon />
+            {error}
+          </Alert>
+        )}
+
+        <Input
+          type="text"
+          placeholder="Display name"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+        />
+        <Input
+          type="text"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          type="password"
+          value={password}
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button
+          isFullWidth
+          isLoading={loading}
+          disabled={!email || !password}
+          variant="solid"
+          colorScheme="green"
+          onClick={handleSubmit}
+        >
+          Agree Terms & Sign Up
+        </Button>
+
         <Link href="/login">
           Login
         </Link>
-      </div>
-    </div>
+      </Stack>
+    </Flex>
   );
 }

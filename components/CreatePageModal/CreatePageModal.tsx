@@ -4,6 +4,7 @@ import slugify from 'slugify';
 import { useAtom } from 'jotai';
 import {
   Button,
+  Code,
   Flex,
   Modal,
   ModalOverlay,
@@ -141,11 +142,7 @@ const CreatePageModal = (props: Props) => {
                 value={input.name}
                 onChange={(e) => handleOnChange('name', e.currentTarget.value)}
               />
-            </FormControl>
-
-            <FormControl>
-              <FormLabel>Slug (auto generated)</FormLabel>
-              <Input placeholder="page-slug" value={input.slug} readOnly />
+              Slug: <Code children={`/pages/${input.slug}`} />
             </FormControl>
 
             <FormControl mt={4}>

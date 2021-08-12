@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import slugify from 'slugify';
 import { useAtom } from 'jotai';
 import {
+  Box,
   Button,
+  Code,
   Flex,
   Modal,
   ModalOverlay,
@@ -98,11 +100,9 @@ const CreateSiteModal = (props: Props) => {
                 value={input.name}
                 onChange={(e) => setInput({ ...input, name: e.currentTarget.value })}
               />
-            </FormControl>
-
-            <FormControl>
-              <FormLabel>Slug (auto generated)</FormLabel>
-              <Input placeholder="site-slug" value={input.slug} readOnly />
+              <Box>
+                Slug: <Code children={`/sites/${input.slug}`} />
+              </Box>
             </FormControl>
 
             <FormControl mt={4}>
