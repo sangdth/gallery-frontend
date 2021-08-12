@@ -76,7 +76,6 @@ type Props = {
 export const collectionAtom = atom<CollectionInput | null>(null);
 
 export const Collections = (props: Props) => {
-  console.log('### Render Collections'); // eslint-disable-line no-console
   const toast = useToast();
 
   const { user } = props;
