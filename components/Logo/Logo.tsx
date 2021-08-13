@@ -1,5 +1,11 @@
 import React, { useMemo } from 'react';
-import { Heading } from '@chakra-ui/react';
+import {
+  Heading,
+  LinkBox,
+  LinkOverlay,
+} from '@chakra-ui/react';
+import NextLink from 'next/link';
+import { useAuth } from '@nhost/react-auth';
 
 type LogoProps = {
   size?: 'huge' | 'default' | 'small';
@@ -7,6 +13,7 @@ type LogoProps = {
 
 export const Logo = (props: LogoProps) => {
   const { size = 'default'} = props;
+    const { signedIn } = useAuth();
   
   const style = useMemo(() => {
     switch (size) {
@@ -32,9 +39,15 @@ export const Logo = (props: LogoProps) => {
   }, []);
 
   return (
-    <Heading size={style.size} fontWeight="bold">
-      GALLERY
-    </Heading>
+    <LinkBox>
+      <NextLink href={signedIn ? '/home' : '/'} passHref>
+        <LinkOverlay>
+          <Heading size={style.size} fontWeight="bold">
+            GALLERY
+          </Heading>
+        </LinkOverlay>
+      </NextLink>
+    </LinkBox>
   );
 };
 

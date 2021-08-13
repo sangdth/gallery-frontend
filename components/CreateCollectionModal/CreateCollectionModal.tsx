@@ -153,6 +153,11 @@ const CreatecollectionModal = (props: Props) => {
   };
 
   const shouldDisable = !userId || loading;
+  const hasChanged = collection && (
+    uploaded.length > 0
+    || input.name !== collection.name
+    || input.description !== collection.description
+  );
 
   useEffect(() => {
     if (!isOpen && collection && (!input.name && !input.description)) {
@@ -169,8 +174,8 @@ const CreatecollectionModal = (props: Props) => {
   }, [collection, onOpen, input, isOpen]);
 
   useEffect(() => {
-    const isEmptyInput = input.name || input.description;
-    if (!isOpen && (uploaded.length > 0 || isEmptyInput)) {
+    const isDirtyInput = input.name || input.description;
+    if (!isOpen && (uploaded.length > 0 || isDirtyInput)) {
       cleanUp();
     }
   }, [isOpen, uploaded, input, cleanUp]);
@@ -267,9 +272,9 @@ const CreatecollectionModal = (props: Props) => {
               <Flex>
                 <ConfirmButton
                   label="Cancel"
-                  message="Delete uploaded images?"
+                  message="Discard all changes?"
                   buttonProps={{ marginRight: 3 }}
-                  ignoreConfirm={uploaded.length === 0}
+                  ignoreConfirm={!hasChanged}
                   onConfirm={handleCancel}
                 />
 

@@ -55,7 +55,6 @@ const CreateSiteModal = (props: Props) => {
 
   const [input, setInput] = useState<SiteInput>(initialInput);
   const [manual, setManual] = useState(false);
-  console.log('### manual: ', manual);
 
   const shouldDisable = !userId || loading;
   const isEmptyInput = !input.name && !input.description;

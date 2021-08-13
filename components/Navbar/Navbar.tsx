@@ -4,13 +4,10 @@ import {
   Collapse,
   Flex,
   IconButton,
-  LinkBox,
-  LinkOverlay,
   Stack,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import NextLink from 'next/link';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { useAuth } from '@nhost/react-auth';
 import { Logo } from '../Logo'
@@ -55,13 +52,7 @@ export const Navbar = ({ items }: Props) => {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <LinkBox>
-          <NextLink href="/" passHref>
-            <LinkOverlay>
-              <Logo />
-            </LinkOverlay>
-          </NextLink>
-        </LinkBox>
+            <Logo />
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             {false && <DesktopNav items={items} />}
@@ -82,22 +73,9 @@ export const Navbar = ({ items }: Props) => {
               fontSize="sm"
               fontWeight={400}
               variant="link"
-              href="#"
+              href="/login"
             >
-              Sign In
-            </Button>
-            <Button
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize="sm"
-              fontWeight={600}
-              color="white"
-              bg="pink.400"
-              href="#"
-              _hover={{
-                bg: 'pink.300',
-              }}
-            >
-              Sign Up
+              Login / Sign up
             </Button>
           </Stack>
         )}
