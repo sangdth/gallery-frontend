@@ -5,7 +5,7 @@ import {
   FormControl,
   FormLabel,
   Stack,
-  useToast,
+  useToast
 } from '@chakra-ui/react';
 import { auth } from '../../lib/nhost';
 import { Input } from '../Input';
