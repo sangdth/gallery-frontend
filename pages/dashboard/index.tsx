@@ -12,7 +12,7 @@ import {
 import { WithPrivateRoute } from '../../components/WithPrivateRoute';
 import { siteAtom, meAtom } from '../../lib/jotai';
 import { Layout } from '../../components/Layout';
-import { Pages, Collections, Settings } from './panels';
+import { Pages, Collections } from './panels';
 import type { SiteData } from '../../lib/types';
 
 export const SITE_BY_PK = gql`
@@ -100,7 +100,6 @@ const Dashboard = () => {
         <TabList>
           <Tab>Pages</Tab>
           <Tab>Collections</Tab>
-          <Tab>Settings</Tab>
         </TabList>
         <TabPanels paddingX="0">
           <TabPanel>
@@ -108,9 +107,6 @@ const Dashboard = () => {
           </TabPanel>
           <TabPanel>
             {(site && me) && <Collections site={site} user={me} />}
-          </TabPanel>
-          <TabPanel>
-            <Settings />
           </TabPanel>
         </TabPanels>
       </Tabs>

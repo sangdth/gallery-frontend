@@ -3,7 +3,7 @@ import {
   Button,
   Flex,
   FormControl,
-  FormLabel,
+  Heading,
   Stack,
   useToast
 } from '@chakra-ui/react';
@@ -45,7 +45,9 @@ export const ChangePassword = () => {
       <Flex direction="column">
         <Flex direction="column">
           <FormControl>
-            <FormLabel>Change Password</FormLabel>
+            <Heading as="h4" size="md">
+              Change Password
+            </Heading>
             <Stack spacing={3}>
               <Input
                 type="password"

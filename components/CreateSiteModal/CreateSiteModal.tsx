@@ -27,6 +27,7 @@ import type { SiteType, SiteInput } from '../../lib/types';
 type Props = {
   isEditing: boolean;
   loading?: boolean;
+  onOpen: () => void;
   onClose: () => void;
   onSubmit: (input: Partial<SiteType>) => Promise<void>;
   refetch: () => void;
@@ -37,6 +38,7 @@ const CreateSiteModal = (props: Props) => {
   isEditing,
   loading,
   onClose: onCloseTmp,
+  onOpen: onOpenTmp,
   onSubmit,
   refetch
   } = props;
@@ -68,6 +70,11 @@ const CreateSiteModal = (props: Props) => {
     await onSubmit(input);
     onClose();
     refetch();
+  };
+
+  const handleOpen = () => {
+    onOpen();
+    onOpenTmp();
   };
 
   const handleCancel = () => {
@@ -129,7 +136,7 @@ const CreateSiteModal = (props: Props) => {
           _hover={{
             bg: 'green.300',
           }}
-          onClick={onOpen}
+          onClick={handleOpen}
         >
           Create new site
         </Button>

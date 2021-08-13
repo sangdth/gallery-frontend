@@ -194,7 +194,7 @@ const CreatecollectionModal = (props: Props) => {
           }}
           onClick={onOpen}
         >
-          Create new collection
+          Create New Collection
         </Button>
       </Flex>
 

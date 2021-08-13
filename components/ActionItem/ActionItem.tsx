@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Box,
   Flex,
   HStack,
   IconButton,
@@ -63,42 +64,46 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
           <Text fontSize="0.8em">{data.id}</Text>
         </Flex>
       </HStack>
-      <HStack spacing="20px">
-        {onClick && (
-          <IconButton
-            aria-label="Open"
-            colorScheme="green"
-            variant="outline"
-            borderRadius="4px"
-            icon={<ArrowForwardIcon />}
-            _hover={{ bg: useColorModeValue('green.400', 'gray.600'), color: 'white' }}
-            onClick={onClick}
-          />
-        )}
-      
-        {onEdit && (
-          <IconButton
-            aria-label="Edit"
-            colorScheme="blue"
-            variant="outline"
-            borderRadius="4px"
-            icon={<EditIcon />}
-            _hover={{ bg: useColorModeValue('blue.400', 'gray.600'), color: 'white' }}
-            onClick={onEdit}
-          />
-        )}
+      <Flex width="50%" justifyContent="space-between">
+        <HStack spacing="20px">
+          {onClick && (
+            <IconButton
+              aria-label="Open"
+              colorScheme="green"
+              variant="outline"
+              borderRadius="4px"
+              icon={<ArrowForwardIcon />}
+              _hover={{ bg: useColorModeValue('green.400', 'gray.600'), color: 'white' }}
+              onClick={onClick}
+            />
+          )}
+        </HStack>
+        
+        <HStack spacing="20px">
+          {onEdit && (
+            <IconButton
+              aria-label="Edit"
+              colorScheme="blue"
+              variant="outline"
+              borderRadius="4px"
+              icon={<EditIcon />}
+              _hover={{ bg: useColorModeValue('blue.400', 'gray.600'), color: 'white' }}
+              onClick={onEdit}
+            />
+          )}
 
-        {onDelete && (
-          <ConfirmButton
-            {...confirmButtonProps}
-            iconOnly
-            icon={<DeleteIcon />}
-            label="Delete"
-            message="Delete this item?"
-            onConfirm={onDelete}
-          />
-        )}
-      </HStack>
+          {onDelete && (
+            <ConfirmButton
+              {...confirmButtonProps}
+              iconOnly
+              icon={<DeleteIcon />}
+              label="Delete"
+              message="Delete this item?"
+              onConfirm={onDelete}
+            />
+          )}
+        </HStack>
+      </Flex>
     </Flex>
   );
 };

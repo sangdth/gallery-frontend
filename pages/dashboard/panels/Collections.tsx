@@ -202,7 +202,7 @@ export const Collections = (props: Props) => {
 
         {(collections.length === 0) && (
           <Flex>
-            Empty rows! Start create some collection by clicking the green button
+            Empty collections! Start create new collection by clicking the green button
           </Flex>
         )}
       </Stack>

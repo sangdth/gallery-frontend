@@ -7,10 +7,15 @@ import {
   HStack,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
 } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import {
+  ArrowBackIcon,
+  ChevronDownIcon,
+  SettingsIcon,
+} from '@chakra-ui/icons';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';
 import { meAtom } from '../../lib/jotai';
@@ -65,6 +70,10 @@ export const UserInfo = () => {
     return <div>Error getting user data</div>;
   }
 
+  const handleSettings = async () => {
+    return router.push('/settings');
+  };
+
   const handleLogout = async () => {
     await auth.logout();
 
@@ -91,7 +100,13 @@ export const UserInfo = () => {
         </HStack>
       </MenuButton>
       <MenuList>
-        <MenuItem onClick={handleLogout}>
+        <MenuItem icon={<SettingsIcon />} onClick={handleSettings}>
+          Settings
+        </MenuItem>
+
+        <MenuDivider />
+
+        <MenuItem icon={<ArrowBackIcon />} onClick={handleLogout}>
           Logout
         </MenuItem>
       </MenuList>

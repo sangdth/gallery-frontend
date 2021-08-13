@@ -126,7 +126,13 @@ function Home() {
       variables: {
         object: {
           ...input,
-          options: { data: defaultOptions },
+          options: !isEditing ? {
+            data: defaultOptions,
+            on_conflict: {
+              constraint: 'options_pkey',
+              update_columns: ['key', 'value', 'status'],
+            },
+          } : undefined,
         },
       },
       context: {
@@ -135,6 +141,8 @@ function Home() {
         },
       },
     });
+
+    setEditing(false);
   };
 
   const handleClick = (o: SiteType) => {
@@ -209,6 +217,7 @@ function Home() {
             loading={insertLoading || deleteLoading}
             refetch={queryRefetch}
             onSubmit={handleSubmit}
+            onOpen={() => setEditing(true)}
             onClose={() => setEditing(false)}
           />
 
