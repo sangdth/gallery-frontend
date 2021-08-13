@@ -99,6 +99,7 @@ export const ConfirmButton = (props: ConfirmButtonProps) => {
 
       <AlertDialog
         {...alertProps}
+        isCentered
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
         onClose={handleCancel}

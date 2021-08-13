@@ -128,6 +128,7 @@ export const Collections = (props: Props) => {
               id: o.id,
               meta: o.meta,
               path: o.path,
+              description: o.description,
             })),
             on_conflict: {
               constraint: 'images_pkey',

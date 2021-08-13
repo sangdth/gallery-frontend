@@ -92,7 +92,6 @@ const Dashboard = () => {
     <Layout>
       <Tabs
         width="100%"
-        isLazy
         index={index}
         onChange={handleTabsChange}
       >

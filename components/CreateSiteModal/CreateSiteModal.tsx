@@ -16,11 +16,11 @@ import {
   ModalFooter,
   FormControl,
   FormLabel,
-  Input,
   useDisclosure,
 } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, RepeatIcon } from '@chakra-ui/icons';
 import { ConfirmButton } from '../ConfirmButton';
+import { Input } from '../Input';
 import { userIdAtom, siteAtom } from '../../lib/jotai';
 import type { SiteType, SiteInput } from '../../lib/types';
 
@@ -54,6 +54,8 @@ const CreateSiteModal = (props: Props) => {
   };
 
   const [input, setInput] = useState<SiteInput>(initialInput);
+  const [manual, setManual] = useState(false);
+  console.log('### manual: ', manual);
 
   const shouldDisable = !userId || loading;
   const isEmptyInput = !input.name && !input.description;
@@ -84,6 +86,10 @@ const CreateSiteModal = (props: Props) => {
   };
 
   const handleOnChange = (key: string, value: string) => {
+    if (key === 'slug') {
+      setManual(true);
+    }
+
     setInput({
       ...input,
       [key]: value,
@@ -92,10 +98,10 @@ const CreateSiteModal = (props: Props) => {
 
   useEffect(() => {
     const slug = slugify(input.name ?? '', { lower: true });
-    if (input.name && input.slug !== slug) {
+    if (input.name && input.slug !== slug && !manual) {
       setInput({ ...input, slug });
     }
-  }, [input]);
+  }, [input, manual, setManual]);
 
   useEffect(() => {
     if (isOpen && selectedSite && isEmptyInput) {
@@ -164,6 +170,18 @@ const CreateSiteModal = (props: Props) => {
               <Box>
                 Slug: <Code children={`/sites/${input.slug}`} />
               </Box>
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Slug</FormLabel>
+              <Input
+                type="action"
+                icon={<RepeatIcon />}
+                placeholder="site-slug"
+                value={input.slug ?? ''}
+                onClick={() => setManual(false)}
+                onChange={(e) => handleOnChange('slug', e.currentTarget.value)}
+              />
             </FormControl>
 
             <FormControl mt={4}>

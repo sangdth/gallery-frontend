@@ -239,6 +239,7 @@ const CreatecollectionModal = (props: Props) => {
                 <TabPanel>
                   <ImageController
                     images={input.images ?? []}
+                    selected={selected}
                     onSelect={handleOnSelect}
                   />
 

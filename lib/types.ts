@@ -76,6 +76,7 @@ export type ImageType = BaseType & {
   meta: string;
   path: string;
   collection_id: string;
+  description: string | null;
 };
 
 export type PageType = BaseType & {

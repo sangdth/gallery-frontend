@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Image,
   SimpleGrid,
@@ -8,30 +8,27 @@ import type { RecursivePartial, ImageType } from '../../lib/types';
 
 type ImageControllerProps = {
   images: RecursivePartial<ImageType>[];
+  selected: string[];
   onSelect: (selections: string[]) => void;
 };
 
 export const ImageController = (props: ImageControllerProps) => {
-  const { images, onSelect } = props;
-  const [selected, setSelected] = useState<string[]>([]);
+  const { images, selected, onSelect } = props;
 
   const isSelected = (target: string) => selected.some(id => id === target);
 
   const handleSelect = (target: string) => {
-    const tmpSelected = [...selected];
-    const foundIndex = selected.findIndex(id => id === target);
+    const tmp = [...selected];
+    const foundIndex = tmp.findIndex(id => id === target);
+
     if (foundIndex > -1) {
-      tmpSelected.splice(foundIndex, 1);
+      tmp.splice(foundIndex, 1);
     } else {
-      tmpSelected.push(target);
+      tmp.push(target);
     }
-    setSelected(tmpSelected);
 
-    if (typeof onSelect === 'function') {
-      onSelect(tmpSelected);
-    }
+    onSelect(tmp);
   };
-
 
   return (
     <SimpleGrid
