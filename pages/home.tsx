@@ -150,6 +150,10 @@ function Home() {
     router.push(`/dashboard?site=${o.id}&tab=pages`);
   };
 
+  const handlePreview = (o: SiteType) => {
+    router.push(`/sites/${o.slug}?preview`);
+  };
+
   const handleDelete = async (id: string) => {
     await deleteSite({
       variables: { id },
@@ -160,6 +164,7 @@ function Home() {
       },
     });
   };
+
 
   useEffect(() => {
     if (site) {
@@ -227,6 +232,7 @@ function Home() {
                 key={s.id}
                 data={s}
                 onClick={() => handleClick(s)}
+                onClickExternal={() => handlePreview(s)}
                 onDelete={() => handleDelete(s.id)}
                 onEdit={() => handleEdit(s)}
               />

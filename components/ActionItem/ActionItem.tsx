@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Box,
   Flex,
   HStack,
   IconButton,
@@ -8,10 +7,11 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import {
-ArrowForwardIcon,
-DeleteIcon,
-DragHandleIcon,
-EditIcon
+  ArrowForwardIcon,
+  DeleteIcon,
+  DragHandleIcon,
+  EditIcon,
+  ExternalLinkIcon,
 } from '@chakra-ui/icons';
 import { ConfirmButton } from '../ConfirmButton';
 import type { ConfirmButtonProps } from '../ConfirmButton';
@@ -22,6 +22,7 @@ export type ActionItemProps<T> = {
   data: T;
   draggable?: boolean;
   onClick?: () => void;
+  onClickExternal?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
 };
@@ -34,6 +35,7 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
     onDelete,
     onEdit,
     onClick,
+    onClickExternal,
   } = props;
   
   return (
@@ -60,7 +62,17 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
         )}
         
         <Flex direction="column">
-          <Text fontSize="2em" fontWeight="bold">{data.name}</Text>
+          <Text fontSize="2em" fontWeight="bold">
+            {data.name}
+            <IconButton
+              aria-label="Preview"
+              marginLeft="10px"
+              icon={<ExternalLinkIcon />}
+              variant="link"
+              target="_blank"
+              onClick={onClickExternal}
+            />
+          </Text>
           <Text fontSize="0.8em">{data.id}</Text>
         </Flex>
       </HStack>
@@ -69,7 +81,7 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
           {onClick && (
             <IconButton
               aria-label="Open"
-              colorScheme="green"
+              colorScheme="blue"
               variant="outline"
               borderRadius="4px"
               icon={<ArrowForwardIcon />}
