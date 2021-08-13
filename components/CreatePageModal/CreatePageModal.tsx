@@ -121,7 +121,7 @@ const CreatePageModal = (props: Props) => {
           }}
           onClick={onOpen}
         >
-          Create new page
+          Create New Page
         </Button>
       </Flex>
 
@@ -132,7 +132,9 @@ const CreatePageModal = (props: Props) => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create new page</ModalHeader>
+          <ModalHeader>
+            {selectedPage ? `Edit page: ${selectedPage.name}` : 'Create new page'}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
