@@ -64,7 +64,7 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
           <Text fontSize="0.8em">{data.id}</Text>
         </Flex>
       </HStack>
-      <Flex width="50%" justifyContent="space-between">
+      <Flex width="250px" justifyContent="space-between">
         <HStack spacing="20px">
           {onClick && (
             <IconButton

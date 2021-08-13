@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useUpdateAtom } from 'jotai/utils';
 import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';

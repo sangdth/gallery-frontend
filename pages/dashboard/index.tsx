@@ -29,7 +29,8 @@ export const SITE_BY_PK = gql`
   }
 `;
 
-const tabs = ['pages', 'collections', 'settings'];
+const tabs = ['pages', 'collections'];
+
 const getIndex = (name: string) => {
   const found = tabs.findIndex((tab) => tab === name);
   if (found !== -1) {
@@ -39,7 +40,6 @@ const getIndex = (name: string) => {
 };
 
 const Dashboard = () => {
-  console.log('### Dashboard always first');
   const router = useRouter();
   const [me] = useAtom(meAtom);
   const [siteTom] = useAtom(siteAtom);
@@ -74,7 +74,6 @@ const Dashboard = () => {
         getSite();
       }
       if (siteData && !siteError) {
-      console.log('### siteData: ', siteData);
         setLocalSite(siteData.sites_by_pk);
       }
     }
