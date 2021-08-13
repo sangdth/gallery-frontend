@@ -1,6 +1,10 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import { ChangePassword, Layout } from '../components';
+import {
+  ChangePassword,
+  Layout,
+  WithPrivateRoute,
+} from '../components';
 
 export const Settings = () => {
   return (
@@ -12,4 +16,4 @@ export const Settings = () => {
   );
 };
 
-export default Settings;
+export default WithPrivateRoute(Settings);
