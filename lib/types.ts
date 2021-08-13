@@ -73,6 +73,7 @@ export type SiteType = BaseType & {
 };
 
 export type ImageType = BaseType & {
+  name: string;
   meta: string;
   path: string;
   collection_id: string;

@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-import { useAuth } from '@nhost/react-auth';
 import { Flex } from '@chakra-ui/react';
 import { Navbar } from '../Navbar';
 import { NAV_ITEMS } from '../../lib/constants';
@@ -17,8 +16,6 @@ export const Layout = (props: LayoutProps) => {
     site,
   } = props;
 
-  const { signedIn } = useAuth();
-
   return (
     <>
       <Head>
@@ -27,7 +24,7 @@ export const Layout = (props: LayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Flex direction="column">
-        {signedIn && <Navbar items={NAV_ITEMS} />}
+        {!site && <Navbar items={NAV_ITEMS} />}
 
         <Flex>{children}</Flex>
       </Flex>
