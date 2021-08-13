@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -44,9 +44,12 @@ export const SITES_AGGREGATE = gql`
   }
 `;
 
-export const INSERT_SITE_ONE = gql`
-  mutation INSERT_SITE_ONE($object: sites_insert_input!) {
-    insert_sites_one(object: $object) {
+export const UPSERT_SITE_ONE = gql`
+  mutation UPSERT_SITE_ONE($object: sites_insert_input!) {
+    insert_sites_one(
+      object: $object,
+      on_conflict: {constraint: sites_pkey, update_columns: [name,description,slug,status]}
+    ) {
       created_at
       updated_at
       id
@@ -72,6 +75,7 @@ function Home() {
   const router = useRouter();
   const toast = useToast();
   const [site, setSite] = useAtom(siteAtom);
+  const [isEditing, setEditing] = useState(false);
 
   const {
     loading: queryLoading,
@@ -99,7 +103,7 @@ function Home() {
       loading: insertLoading,
       // error: insertError,
     },
-  ] = useMutation<SiteInsertedData>(INSERT_SITE_ONE);
+  ] = useMutation<SiteInsertedData>(UPSERT_SITE_ONE);
 
   const [
     deleteSite,
@@ -111,6 +115,11 @@ function Home() {
   ] = useMutation<SiteDeletedData>(DELETE_SITE_BY_PK);
 
   const sites = queryData?.sites_aggregate?.nodes?.filter((s) => !!s);
+
+  const handleEdit = (o: SiteType) => {
+    setSite(o);
+    setEditing(true);
+  };
 
   const handleSubmit = async (input: Partial<SiteType>) => {
     await insertSite({
@@ -128,8 +137,9 @@ function Home() {
     });
   };
 
-  const handleClick = (id: string) => {
-    router.push(`/dashboard?site=${id}&tab=pages`);
+  const handleClick = (o: SiteType) => {
+    setSite(o);
+    router.push(`/dashboard?site=${o.id}&tab=pages`);
   };
 
   const handleDelete = async (id: string) => {
@@ -195,8 +205,11 @@ function Home() {
       <Layout>
         <Flex direction="column" width="100%" padding="20px">
           <CreateSiteModal
+            isEditing={isEditing}
             loading={insertLoading || deleteLoading}
+            refetch={queryRefetch}
             onSubmit={handleSubmit}
+            onClose={() => setEditing(false)}
           />
 
           <Stack spacing="10px" marginTop="20px">
@@ -204,8 +217,9 @@ function Home() {
               <ActionItem
                 key={s.id}
                 data={s}
-                onClick={() => handleClick(s.id)}
+                onClick={() => handleClick(s)}
                 onDelete={() => handleDelete(s.id)}
+                onEdit={() => handleEdit(s)}
               />
             ))}
           </Stack>

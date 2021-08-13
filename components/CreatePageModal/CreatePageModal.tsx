@@ -96,8 +96,7 @@ const CreatePageModal = (props: Props) => {
   }, [isOpen, onOpen, selectedPage, input]);
 
   useEffect(() => {
-    const isEmptyInput = input.name || input.content;
-    if (!isOpen && isEmptyInput) {
+    if (!isOpen && !isEmptyInput) {
       cleanUp();
     }
   }, [isOpen, input, cleanUp]);

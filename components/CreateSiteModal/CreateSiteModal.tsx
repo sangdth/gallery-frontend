@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
 import { useAtom } from 'jotai';
 import {
@@ -19,36 +20,67 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { userIdAtom } from '../../lib/jotai';
-import type { SiteType } from '../../lib/types';
+import { ConfirmButton } from '../ConfirmButton';
+import { userIdAtom, siteAtom } from '../../lib/jotai';
+import type { SiteType, SiteInput } from '../../lib/types';
 
 type Props = {
+  isEditing: boolean;
   loading?: boolean;
+  onClose: () => void;
   onSubmit: (input: Partial<SiteType>) => Promise<void>;
+  refetch: () => void;
 };
 
 const CreateSiteModal = (props: Props) => {
-  const { loading, onSubmit } = props;
+  const {
+  isEditing,
+  loading,
+  onClose: onCloseTmp,
+  onSubmit,
+  refetch
+  } = props;
   const [userId] = useAtom(userIdAtom);
+  const [selectedSite, setSelectedSite] = useAtom(siteAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [input, setInput] = useState<Partial<SiteType>>({
+
+  const initialInput = {
+    id: uuidv4(),
     name: '',
     description: '',
     slug: '',
-  });
+  };
 
-  const handleClose = () => {
-    setInput({
-      name: '',
-      description: '',
-      slug: '',
-    });
-    onClose();
+  const [input, setInput] = useState<SiteInput>(initialInput);
+
+  const shouldDisable = !userId || loading;
+  const isEmptyInput = !input.name && !input.description;
+  const hasChanged = selectedSite && (
+    input.name !== selectedSite.name || input.description !== selectedSite.description
+  );
+
+  const cleanUp = () => {
+    setInput({ ...initialInput, id: uuidv4() });
+    setSelectedSite(null);
   };
 
   const handleSubmit = async () => {
     await onSubmit(input);
-    handleClose();
+    onClose();
+    refetch();
+  };
+
+  const handleCancel = () => {
+    cleanUp();
+    onClose();
+    onCloseTmp();
+  };
+
+  const handleOnChange = (key: string, value: string) => {
+    setInput({
+      ...input,
+      [key]: value,
+    });
   };
 
   useEffect(() => {
@@ -58,7 +90,27 @@ const CreateSiteModal = (props: Props) => {
     }
   }, [input]);
 
-  const shouldDisable = !userId || loading;
+  useEffect(() => {
+    if (isOpen && selectedSite && isEmptyInput) {
+      setInput({
+        id: selectedSite.id,
+        name: selectedSite.name,
+        slug: selectedSite.slug,
+        description: selectedSite.description,
+        status: selectedSite.status,
+      });
+    }
+  }, [isOpen, selectedSite, input]);
+
+  useEffect(() => {
+    if (!isOpen && isEditing) {
+      onOpen();
+    }
+    if (isOpen && !isEditing) {
+      cleanUp();
+      onClose();
+    }
+  }, [isOpen, isEditing, input, cleanUp]);
 
   return (
     <>
@@ -86,11 +138,13 @@ const CreateSiteModal = (props: Props) => {
       <Modal
         closeOnOverlayClick={false}
         isOpen={isOpen}
-        onClose={handleClose}
+        onClose={handleCancel}
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create new site</ModalHeader>
+          <ModalHeader>
+            {selectedSite ? `Edit Site: ${selectedSite.name}` : 'Create new site'}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
@@ -98,7 +152,7 @@ const CreateSiteModal = (props: Props) => {
               <Input
                 placeholder="Site name"
                 value={input.name}
-                onChange={(e) => setInput({ ...input, name: e.currentTarget.value })}
+                onChange={(e) => handleOnChange('name', e.currentTarget.value)}
               />
               <Box>
                 Slug: <Code children={`/sites/${input.slug}`} />
@@ -110,12 +164,19 @@ const CreateSiteModal = (props: Props) => {
               <Input
                 placeholder="Site description"
                 value={input.description ?? ''}
-                onChange={(e) => setInput({ ...input, description: e.currentTarget.value })}
+                onChange={(e) => handleOnChange('description', e.currentTarget.value)}
               />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
+            <ConfirmButton
+              label="Cancel"
+              message="Ignore changes?"
+              buttonProps={{ marginRight: 3 }}
+              ignoreConfirm={isEmptyInput || !hasChanged}
+              onConfirm={handleCancel}
+            />
             <Button
               isLoading={loading}
               loadingText="Creating..."
@@ -125,7 +186,6 @@ const CreateSiteModal = (props: Props) => {
             >
               Submit
             </Button>
-            <Button onClick={handleClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

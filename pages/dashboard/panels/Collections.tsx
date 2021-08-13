@@ -4,7 +4,6 @@ import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import { CreateCollectionModal } from '../../../components/CreateCollectionModal';
 import { ActionItem } from '../../../components';
-import { siteIdAtom } from '../../../lib/jotai';
 import type {
   CollectionInsertedData,
   CollectionsAggregateData,
@@ -78,8 +77,7 @@ export const collectionAtom = atom<CollectionInput | null>(null);
 export const Collections = (props: Props) => {
   const toast = useToast();
 
-  const { user } = props;
-  const [siteId] = useAtom(siteIdAtom);
+  const { site, user } = props;
   const [, setCollection] = useAtom(collectionAtom);
 
   const {
@@ -90,7 +88,7 @@ export const Collections = (props: Props) => {
   } = useQuery<CollectionsAggregateData>(
     COLLECTIONS_AGGREGATE,
     {
-      variables: { userId: user.id, siteId },
+      variables: { userId: user.id, siteId: site.id },
       context: {
         headers: {
           'x-hasura-role': 'me',
@@ -124,7 +122,7 @@ export const Collections = (props: Props) => {
       variables: {
         object: {
           ...data,
-          site_id: siteId,
+          site_id: site.id,
           images: {
             data: (data?.images ?? []).map((o) => ({
               id: o.id,
@@ -201,6 +199,12 @@ export const Collections = (props: Props) => {
             onDelete={() => handleDelete(collection.id)}
           />
         ))}
+
+        {(collections.length === 0) && (
+          <Flex>
+            Empty rows! Start create some collection by clicking the green button
+          </Flex>
+        )}
       </Stack>
     </Flex>
   );

@@ -39,11 +39,13 @@ const getIndex = (name: string) => {
 };
 
 const Dashboard = () => {
+  console.log('### Dashboard always first');
   const router = useRouter();
-  const [site, setSite] = useAtom(siteAtom);
   const [me] = useAtom(meAtom);
+  const [siteTom] = useAtom(siteAtom);
   const { site: siteId, tab } = router.query;
   const [index, setIndex] = useState(0);
+  const [site, setLocalSite] = useState(siteTom);
 
   const [
     getSite,
@@ -72,10 +74,11 @@ const Dashboard = () => {
         getSite();
       }
       if (siteData && !siteError) {
-        setSite(siteData.sites_by_pk);
+      console.log('### siteData: ', siteData);
+        setLocalSite(siteData.sites_by_pk);
       }
     }
-  }, [site, getSite, siteData, siteId, siteError, setSite]);
+  }, [site, getSite, siteData, siteId, siteError, setLocalSite]);
 
   useEffect(() => {
     if (typeof tab === 'string') {

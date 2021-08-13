@@ -100,9 +100,9 @@ export type CollectionPicked =
   | 'name'
   | 'description'
   | 'images'
-  | 'status'
   | 'type'
-  | 'site_id';
+  | 'site_id'
+  | 'status';
 
 export type PagePicked =
   | 'id'
@@ -111,8 +111,18 @@ export type PagePicked =
   | 'slug'
   | 'status';
 
-export type CollectionInput = RecursivePartial<Pick<CollectionType, CollectionPicked>> & { id: string };
-export type PageInput = RecursivePartial<Pick<PageType, PagePicked>> & { id: string };
+export type SitePicked =
+  | 'id'
+  | 'name'
+  | 'description'
+  | 'slug'
+  | 'status';
+
+export type MakeInputType<T, K extends keyof T> = RecursivePartial<Pick<T, K>> & { id: string };
+
+export type CollectionInput = MakeInputType<CollectionType, CollectionPicked>;
+export type PageInput = MakeInputType<PageType, PagePicked>;
+export type SiteInput = MakeInputType<SiteType, SitePicked>;
 
 export type AccountType = Exclude<BaseType, 'status'> & {
   active: boolean;

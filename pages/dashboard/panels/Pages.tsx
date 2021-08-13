@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useUpdateAtom } from 'jotai/utils';
-import { Flex, useToast } from '@chakra-ui/react';
+import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
 import {
+  ActionItem,
   CreatePageModal,
-  MenuGenerator,
+  // MenuGenerator,
 } from '../../../components';
 import { OptionKey } from '../../../lib/enums';
 import { pageAtom } from '../../../lib/jotai';
 import type {
-  DragItemType,
+  // DragItemType,
   OptionType,
   OptionUpdated,
   OptionValue,
@@ -93,14 +94,6 @@ export const DELETE_PAGE_BY_PK = gql`
     }
   }
 `;
-
-// export const convertMenuOptiopnToDragItem = (
-//   options: OptionValue[],
-// ): DragItemType[] => options.map((option) => ({
-//   id: option.id,
-//   label: option.label,
-//   children: convertMenuOptiopnToDragItem(Array.isArray(option.children) ? option.children : []),
-// }));
 
 type Props = {
   site: SiteType;
@@ -260,6 +253,14 @@ export const Pages = (props: Props) => {
     return <div>Error getting pages data</div>;
   }
 
+  // <MenuGenerator
+  //   data={pages}
+  //   menu={currentMenu as DragItemType[]}
+  //   onChange={handleUpdateMenu}
+  //   onDelete={handleDelete}
+  //   onEdit={(p) => setSelectedPage(p)}
+  // />
+
   return (
     <Flex direction="column">
       <CreatePageModal
@@ -268,13 +269,23 @@ export const Pages = (props: Props) => {
         refetch={pagesRefetch}
       />
 
-      <MenuGenerator
-        data={pages}
-        menu={currentMenu as DragItemType[]}
-        onChange={handleUpdateMenu}
-        onDelete={handleDelete}
-        onEdit={(p) => setSelectedPage(p)}
-      />
+      <Stack spacing="10px" marginTop="20px">
+        {pages.map((p) => (
+          <ActionItem
+            key={p.id}
+            data={p}
+            onEdit={() => setSelectedPage(p)}
+            onDelete={() => handleDelete(p.id)}
+          />
+        ))}
+
+        {(pages.length === 0) && (
+          <Flex>
+            Empty pages! Start create new page by clicking the green button
+          </Flex>
+        )}
+      </Stack>
+
     </Flex>
   );
 };
