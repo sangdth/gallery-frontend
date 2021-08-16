@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { ConfirmButton } from '../ConfirmButton';
-import { userIdAtom, pageAtom } from '../../lib/jotai';
+import { meAtom, pageAtom } from '../../lib/jotai';
 import type { PageInput } from '../../lib/types';
 
 type Props = {
@@ -29,9 +29,9 @@ type Props = {
   refetch: () => void;
 };
 
-const CreatePageModal = (props: Props) => {
+const PageEditorModal = (props: Props) => {
   const { loading, onSubmit, refetch } = props;
-  const [userId] = useAtom(userIdAtom);
+  const [me] = useAtom(meAtom);
   const [selectedPage, setSelectedPage] = useAtom(pageAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -45,7 +45,7 @@ const CreatePageModal = (props: Props) => {
 
   const [input, setInput] = useState<PageInput>(initialInput);
 
-  const shouldDisable = !userId || loading;
+  const shouldDisable = !me?.id || loading;
   const isEmptyInput = !input.name && !input.content;
   const hasChanged = selectedPage && (
     input.name !== selectedPage.name || input.content !== selectedPage.content
@@ -180,4 +180,4 @@ const CreatePageModal = (props: Props) => {
   );
 };
 
-export default CreatePageModal;
+export default PageEditorModal;

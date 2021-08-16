@@ -95,7 +95,8 @@ export type CollectionType = BaseType & {
   images: ImageType[];
 };
 
-export type ActionItemDataType = SiteType | PageType | CollectionType;
+export type DataType = SiteType | PageType | CollectionType | ImageType;
+export type ActionItemDataType = DataType;
 
 export type CollectionPicked =
   | 'id'
@@ -125,6 +126,8 @@ export type MakeInputType<T, K extends keyof T> = RecursivePartial<Pick<T, K>> &
 export type CollectionInput = MakeInputType<CollectionType, CollectionPicked>;
 export type PageInput = MakeInputType<PageType, PagePicked>;
 export type SiteInput = MakeInputType<SiteType, SitePicked>;
+
+export type DataInput = SiteInput | PageInput | CollectionInput;
 
 export type AccountType = Exclude<BaseType, 'status'> & {
   active: boolean;
@@ -164,6 +167,8 @@ export type UpdatedData<T, K extends Entity> = Record<
   `update_${Lowercase<K>}`, Returning<T>
 >;
 
+export type UserData = SingleData<UserType, Entity.Users>;
+
 export type SitesAggregateData = AggregateData<SiteType, Entity.Sites>;
 export type SiteData = SingleData<SiteType, Entity.Sites>;
 export type SiteInsertedData = InsertedData<SiteType, Entity.Sites>;
@@ -185,3 +190,16 @@ export type ImageInsertedData = InsertedData<ImageType, Entity.Images>;
 export type ImageDeletedData = DeletedData<ImageType, Entity.Images>;
 
 export type OptionUpdated = UpdatedData<OptionType, Entity.Options>;
+
+export type EditingItem<T extends ActionItemDataType> = {
+  type: Entity;
+  value: T;
+  newValue: RecursivePartial<T>;
+  error: string | string[] | null;
+};
+
+export type SiteEditingItem = EditingItem<SiteType>;
+export type PageEditingItem = EditingItem<PageType>;
+export type CollectionEditingItem = EditingItem<CollectionType>;
+
+export type EditingItemType = SiteEditingItem | PageEditingItem | CollectionEditingItem;

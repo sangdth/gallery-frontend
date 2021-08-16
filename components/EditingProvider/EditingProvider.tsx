@@ -1,42 +1,52 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext } from 'react';
 // import { v4 as uuidv4 } from 'uuid';
 // import { atom, useAtom } from 'jotai';
+// import { Entity } from '../../lib/enums';
 import type {
-  // ActionItemDataType,
-  RecursivePartial,
+  DataType,
+  EditingItem,
+  EditingItemType,
 } from '../../lib/types';
 
-export type EditingItem = {
-  value?: any | null;
-  edited?: RecursivePartial<any> | null;
+export type EditingContextType<T extends DataType> = {
+  // isEditing: boolean;
+  // isLoading: boolean;
+  editingItems: EditingItem<T>[];
+  setItems?: (items: EditingItem<T>[]) => void;
+  // getItems: () => void;
 };
 
-export type EditingProviderProps = {
+const EditingContext = createContext<EditingContextType<DataType>>({
+  // isEditing: false,
+  // isLoading: false,
+  editingItems: [],
+});
+
+export type EditingProviderProps<ItemType extends EditingItemType> = {
+  // changeType?: Entity;
   children: React.ReactNode;
+  mapDataToEditingItems: (row: DataType) => ItemType;
 };
 
-export type EditingContextType = {
-  current: EditingItem;
-};
-
-
-export const EditingProvider = (props: EditingProviderProps) => {
+export const EditingProvider = <ItemType extends EditingItemType>(
+  props: EditingProviderProps<ItemType>
+) => {
   const {
     children,
+    // changeType,
+    // mapDataToEditingItems,
   } = props;
 
-  const EditingContext = createContext({
-    value: null,
-  });
   
-  const [value, setValue] = useState(null);
-  const [edited, setEdited] = useState(null);
+  // const [value, setValue] = useState(null);
+  // const [edited, setEdited] = useState(null);
 
   const context = {
-    value,
-    edited,
-    setValue,
-    setEdited,
+    editingItems: [],
+    // value,
+    // edited,
+    // setValue,
+    // setEdited,
   };
 
   return (

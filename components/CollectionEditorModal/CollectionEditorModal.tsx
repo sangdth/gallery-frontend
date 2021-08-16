@@ -29,7 +29,7 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { ConfirmButton } from '../ConfirmButton';
-import { userIdAtom, siteIdAtom } from '../../lib/jotai';
+import { meAtom, siteAtom } from '../../lib/jotai';
 import { storage } from '../../lib/nhost';
 import { collectionAtom } from '../../pages/dashboard/panels/Collections';
 import { ImageUpload } from '../ImageUpload';
@@ -41,13 +41,13 @@ type Props = {
   refetch: () => void;
 };
 
-const CreatecollectionModal = (props: Props) => {
+const CollectionEditorModal = (props: Props) => {
   const toast = useToast();
   const { onSubmit, refetch } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [userId] = useAtom(userIdAtom);
-  const [siteId] = useAtom(siteIdAtom);
+  const [me] = useAtom(meAtom);
+  const [site] = useAtom(siteAtom);
   const [collection, setCollection] = useAtom(collectionAtom);
   const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState<Partial<ImageType>[]>([]);
@@ -55,12 +55,12 @@ const CreatecollectionModal = (props: Props) => {
 
   const initialInput = useMemo(() => ({
     id: uuidv4(),
-    site_id: siteId,
+    site_id: site?.id,
     name: '',
     description: '',
     images: [],
     ...(collection ?? {}),
-  }), [siteId, collection]);
+  }), [site, collection]);
 
   const [input, setInput] = useState<CollectionInput>(initialInput);
 
@@ -152,7 +152,7 @@ const CreatecollectionModal = (props: Props) => {
     onClose();
   };
 
-  const shouldDisable = !userId || loading;
+  const shouldDisable = !me?.id || loading;
   const hasChanged = collection && (
     uploaded.length > 0
     || input.name !== collection.name
@@ -295,4 +295,4 @@ const CreatecollectionModal = (props: Props) => {
   );
 };
 
-export default CreatecollectionModal;
+export default CollectionEditorModal;

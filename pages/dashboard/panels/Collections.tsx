@@ -2,8 +2,7 @@ import React, { useCallback } from 'react';
 import { atom, useAtom } from 'jotai';
 import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { CreateCollectionModal } from '../../../components/CreateCollectionModal';
-import { ActionItem } from '../../../components';
+import { ActionItem, CollectionEditorModal } from '../../../components';
 import type {
   CollectionInsertedData,
   CollectionsAggregateData,
@@ -186,7 +185,7 @@ export const Collections = (props: Props) => {
 
   return (
     <Flex direction="column">
-      <CreateCollectionModal
+      <CollectionEditorModal
         onSubmit={handleSubmit}
         refetch={collectionsRefetch}
       />

@@ -21,7 +21,7 @@ import {
 import { AddIcon, RepeatIcon } from '@chakra-ui/icons';
 import { ConfirmButton } from '../ConfirmButton';
 import { Input } from '../Input';
-import { userIdAtom, siteAtom } from '../../lib/jotai';
+import { meAtom, siteAtom } from '../../lib/jotai';
 import type { SiteType, SiteInput } from '../../lib/types';
 
 type Props = {
@@ -33,16 +33,17 @@ type Props = {
   refetch: () => void;
 };
 
-const CreateSiteModal = (props: Props) => {
+const SiteEditorModal = (props: Props) => {
   const {
-  isEditing,
-  loading,
-  onClose: onCloseTmp,
-  onOpen: onOpenTmp,
-  onSubmit,
-  refetch
+    isEditing,
+    loading,
+    onClose: onCloseTmp,
+    onOpen: onOpenTmp,
+    onSubmit,
+    refetch
   } = props;
-  const [userId] = useAtom(userIdAtom);
+
+  const [me] = useAtom(meAtom);
   const [selectedSite, setSelectedSite] = useAtom(siteAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -56,7 +57,7 @@ const CreateSiteModal = (props: Props) => {
   const [input, setInput] = useState<SiteInput>(initialInput);
   const [manual, setManual] = useState(false);
 
-  const shouldDisable = !userId || loading;
+  const shouldDisable = !me?.id || loading;
   const isEmptyInput = !input.name && !input.description;
   const hasChanged = selectedSite && (
     input.name !== selectedSite.name || input.description !== selectedSite.description
@@ -217,4 +218,4 @@ const CreateSiteModal = (props: Props) => {
   );
 };
 
-export default CreateSiteModal;
+export default SiteEditorModal;

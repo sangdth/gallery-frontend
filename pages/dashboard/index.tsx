@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { WithPrivateRoute } from '../../components/WithPrivateRoute';
 import { siteAtom, meAtom } from '../../lib/jotai';
-import { Layout } from '../../components/Layout';
+import { EditingProvider, Layout } from '../../components';
 import { Pages, Collections } from './panels';
 import type { SiteData } from '../../lib/types';
 
@@ -90,24 +90,26 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <Tabs
-        width="100%"
-        index={index}
-        onChange={handleTabsChange}
-      >
-        <TabList>
-          <Tab>Pages</Tab>
-          <Tab>Collections</Tab>
-        </TabList>
-        <TabPanels paddingX="0">
-          <TabPanel>
-            {(site && me) && <Pages site={site} user={me} />}
-          </TabPanel>
-          <TabPanel>
-            {(site && me) && <Collections site={site} user={me} />}
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      <EditingProvider>
+        <Tabs
+          width="100%"
+          index={index}
+          onChange={handleTabsChange}
+        >
+          <TabList>
+            <Tab>Pages</Tab>
+            <Tab>Collections</Tab>
+          </TabList>
+          <TabPanels paddingX="0">
+            <TabPanel>
+              {(site && me) && <Pages site={site} user={me} />}
+            </TabPanel>
+            <TabPanel>
+              {(site && me) && <Collections site={site} user={me} />}
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </EditingProvider>
     </Layout>
   );
 };

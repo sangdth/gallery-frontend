@@ -5,7 +5,7 @@ import { useAtom } from 'jotai';
 import { DragDrop, useUppy } from '@uppy/react';
 import '@uppy/core/dist/style.css';
 import '@uppy/drag-drop/dist/style.css';
-import { siteIdAtom } from '../../lib/jotai';
+import { siteAtom } from '../../lib/jotai';
 import { storage } from '../../lib/nhost';
 import type { StorageResponse, ImageType } from '../../lib/types';
 
@@ -18,7 +18,7 @@ type DragDropEvent = MouseEvent | React.DragEvent<HTMLDivElement>;
 
 export const ImageUpload = (props: Props) => {
   const { collectionId, onUpload } = props;
-  const [siteId] = useAtom(siteIdAtom);
+  const [site] = useAtom(siteAtom);
   const [loading, setLoading] = useState(false);
 
   const uppy = useUppy(
@@ -27,12 +27,12 @@ export const ImageUpload = (props: Props) => {
 
   const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     try {
-      if (e.dataTransfer) {
+      if (e.dataTransfer && site) {
         const files = Array.from(e.dataTransfer.files);
         setLoading(true);
         const responses: StorageResponse[] = await Promise.all(
           files.map(async (file) => {
-            const path = `/site/${siteId}/collection/${collectionId}/${file.name}`;
+            const path = `/site/${site.id}/collection/${collectionId}/${file.name}`;
             return storage.put(path, file);
           }),
         );
