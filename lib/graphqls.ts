@@ -157,3 +157,50 @@ export const DELETE_PAGE_BY_PK = gql`
     }
   }
 `;
+
+export const LAYOUTS_AGGREGATE = gql`
+  query LAYOUTS_AGGREGATE($userId: uuid!, $siteId: uuid!) {
+    layouts_aggregate(
+      limit: 999,
+      offset: 0,
+      where: {
+        user_id: {_eq: $userId},
+        site_id: {_eq: $siteId}
+      }
+    ) {
+      nodes {
+        created_at
+        updated_at
+        id
+        name
+        value
+        status
+      }
+    }
+  }
+`;
+
+export const UPSERT_LAYOUT_ONE = gql`
+  mutation UPSERT_LAYOUT_ONE($object: layouts_insert_input!) {
+    insert_layouts_one(
+      object: $object,
+      on_conflict: {constraint: layouts_pkey, update_columns: [name, value, status]}
+    ) {
+      created_at
+      updated_at
+      id
+      name
+      value
+      status
+    }
+  }
+`;
+
+export const DELETE_LAYOUT_BY_PK = gql`
+  mutation DELETE_LAYOUT_BY_PK($id: uuid!) {
+    delete_layouts_by_pk(id: $id) {
+      id
+      name
+    }
+  }
+`;

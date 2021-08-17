@@ -101,7 +101,7 @@ export type LayoutValue = {
 export type LayoutType = BaseType & {
   site_id: string;
   name: string;
-  value: LayoutValue;
+  value: LayoutValue | null;
 };
 
 export type DataType = SiteType | PageType | CollectionType | ImageType | LayoutType;

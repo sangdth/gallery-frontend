@@ -31,18 +31,19 @@ const LayoutEditorModal = (props: Props) => {
   const {
     loading,
     onSubmit,
-    refetch
+    refetch,
   } = props;
 
   const [me] = useAtom(meAtom);
   const [selectedLayout, setSelectedLayout] = useAtom(layoutAtom);
+  console.log('### selectedLayout: ', selectedLayout);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialInput = {
     id: uuidv4(),
     name: '',
-    description: '',
-    slug: '',
+    value: null,
+    ...(selectedLayout ?? {})
   };
 
   const [input, setInput] = useState<LayoutInput>(initialInput);
@@ -81,7 +82,7 @@ const LayoutEditorModal = (props: Props) => {
   };
 
   useEffect(() => {
-    if (isOpen && selectedLayout && isEmptyInput) {
+    if (!isOpen && selectedLayout && isEmptyInput) {
       setInput({
         id: selectedLayout.id,
         name: selectedLayout.name,
@@ -94,7 +95,9 @@ const LayoutEditorModal = (props: Props) => {
   }, [isOpen, onOpen, selectedLayout, input]);
 
   useEffect(() => {
-    if (!isOpen && !isEmptyInput) {
+    // TODO: Compare input.value with default layout
+    const isDirtyInput = !!input.name;
+    if (!isOpen && isDirtyInput) {
       cleanUp();
     }
   }, [isOpen, input, cleanUp]);
@@ -144,6 +147,7 @@ const LayoutEditorModal = (props: Props) => {
                 onChange={(e) => handleOnChange('name', e.currentTarget.value)}
               />
             </FormControl>
+
           </ModalBody>
 
           <ModalFooter>

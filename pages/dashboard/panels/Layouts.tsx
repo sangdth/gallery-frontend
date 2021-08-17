@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
 import { useUpdateAtom } from 'jotai/utils';
 import { Flex, Stack, useToast } from '@chakra-ui/react';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import {
   ActionItem,
   LayoutEditorModal,
   // MenuGenerator,
 } from '../../../components';
 import { layoutAtom } from '../../../lib/jotai';
+import {
+  LAYOUTS_AGGREGATE,
+  UPSERT_LAYOUT_ONE,
+  DELETE_LAYOUT_BY_PK,
+} from '../../../lib/graphqls';
 import type {
   LayoutDeletedData,
   LayoutInsertedData,
@@ -16,53 +21,6 @@ import type {
   SiteType,
   UserType,
 } from '../../../lib/types';
-
-export const LAYOUTS_AGGREGATE = gql`
-  query LAYOUTS_AGGREGATE($userId: uuid!, $siteId: uuid!) {
-    layouts_aggregate(
-      limit: 999,
-      offset: 0,
-      where: {
-        user_id: {_eq: $userId},
-        site_id: {_eq: $siteId}
-      }
-    ) {
-      nodes {
-        created_at
-        updated_at
-        id
-        name
-        value
-        status
-      }
-    }
-  }
-`;
-
-export const UPSERT_LAYOUT_ONE = gql`
-  mutation UPSERT_LAYOUT_ONE($object: layouts_insert_input!) {
-    insert_layouts_one(
-      object: $object,
-      on_conflict: {constraint: layouts_pkey, update_columns: [name, value, status]}
-    ) {
-      created_at
-      updated_at
-      id
-      name
-      value
-      status
-    }
-  }
-`;
-
-export const DELETE_LAYOUT_BY_PK = gql`
-  mutation DELETE_LAYOUT_BY_PK($id: uuid!) {
-    delete_layouts_by_pk(id: $id) {
-      id
-      name
-    }
-  }
-`;
 
 type Props = {
   site: SiteType;
@@ -94,7 +52,7 @@ export const Layouts = (props: Props) => {
   const layouts = layoutsData?.layouts_aggregate?.nodes;
 
   const [
-    insertLAYOUT,
+    insertLayout,
     {
       data: insertData,
       loading: insertLoading,
@@ -112,8 +70,14 @@ export const Layouts = (props: Props) => {
   ] = useMutation<LayoutDeletedData>(DELETE_LAYOUT_BY_PK);
 
   const handleSubmit = async (input: LayoutInput) => {
-    await insertLAYOUT({
-      variables: { object: { ...input, site_id: site.id } },
+    await insertLayout({
+      variables: {
+        object: {
+          ...input,
+          site_id: site.id,
+          value: input.value ?? {},
+        },
+      },
       context: {
         headers: {
           'x-hasura-role': 'me',
@@ -156,14 +120,6 @@ export const Layouts = (props: Props) => {
     return <div>Error getting layouts data</div>;
   }
 
-  // <MenuGenerator
-  //   data={layouts}
-  //   menu={currentMenu as DragItemType[]}
-  //   onChange={handleUpdateMenu}
-  //   onDelete={handleDelete}
-  //   onEdit={(p) => setSelectedLAYOUT(p)}
-  // />
-
   return (
     <Flex direction="column">
       <LayoutEditorModal
@@ -184,7 +140,7 @@ export const Layouts = (props: Props) => {
 
         {(layouts.length === 0) && (
           <Flex>
-            Empty layouts! Start create new LAYOUT by clicking the green button
+            Empty layouts! Start create new Layout by clicking the green button
           </Flex>
         )}
       </Stack>

@@ -1,12 +1,17 @@
 {
   "extends": [
-    "next",
-    "next/core-web-vitals",
     "prettier",
-    "airbnb-typescript"
+    "airbnb-typescript",
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.eslint.json"
+    "project": "./tsconfig.eslint.json",
+    "tsconfigRootDir": "./",
+    "ecmaFeatures": {
+	    "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
   },
   "rules": {
     "no-plusplus": "off",
@@ -22,13 +27,9 @@
       "ignoreRegExpLiterals": true
     }],
     "@typescript-eslint/indent": [
-			"error",
-			2,
-			{
-				"ignoredNodes": [
-					"TSTypeParameterInstantiation"
-				]
-			}
-		]
+      "error",
+      2,
+      { "ignoredNodes": [ "TSTypeParameterInstantiation" ] }
+    ]
   }
 }
