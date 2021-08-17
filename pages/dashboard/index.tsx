@@ -9,10 +9,9 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { WithPrivateRoute } from '../../components/WithPrivateRoute';
+import { Layout, WithPrivateRoute } from '../../components';
 import { siteAtom, meAtom } from '../../lib/jotai';
-import { EditingProvider, Layout } from '../../components';
-import { Pages, Collections } from './panels';
+import { Pages, Collections, Layouts } from './panels';
 import type { SiteData } from '../../lib/types';
 
 export const SITE_BY_PK = gql`
@@ -29,7 +28,7 @@ export const SITE_BY_PK = gql`
   }
 `;
 
-const tabs = ['pages', 'collections'];
+const tabs = ['pages', 'collections', 'layouts'];
 
 const getIndex = (name: string) => {
   const found = tabs.findIndex((tab) => tab === name);
@@ -90,26 +89,28 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <EditingProvider>
-        <Tabs
-          width="100%"
-          index={index}
-          onChange={handleTabsChange}
-        >
-          <TabList>
-            <Tab>Pages</Tab>
-            <Tab>Collections</Tab>
-          </TabList>
-          <TabPanels paddingX="0">
-            <TabPanel>
-              {(site && me) && <Pages site={site} user={me} />}
-            </TabPanel>
-            <TabPanel>
-              {(site && me) && <Collections site={site} user={me} />}
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </EditingProvider>
+      <Tabs
+        width="100%"
+        index={index}
+        onChange={handleTabsChange}
+      >
+        <TabList>
+          <Tab>Pages</Tab>
+          <Tab>Collections</Tab>
+          <Tab>Layouts</Tab>
+        </TabList>
+        <TabPanels paddingX="0">
+          <TabPanel>
+            {(site && me) && <Pages site={site} user={me} />}
+          </TabPanel>
+          <TabPanel>
+            {(site && me) && <Collections site={site} user={me} />}
+          </TabPanel>
+          <TabPanel>
+            {(site && me) && <Layouts site={site} user={me} />}
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Layout>
   );
 };

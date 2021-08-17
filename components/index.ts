@@ -10,6 +10,7 @@ export * from './EditingProvider';
 export * from './Footer';
 export * from './ImageUpload';
 export * from './Layout';
+export * from './LayoutEditorModal';
 export * from './Logo';
 export * from './MenuGenerator';
 export * from './Navbar';

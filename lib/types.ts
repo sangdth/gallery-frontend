@@ -95,7 +95,16 @@ export type CollectionType = BaseType & {
   images: ImageType[];
 };
 
-export type DataType = SiteType | PageType | CollectionType | ImageType;
+export type LayoutValue = {
+  [k: string]: string | number;
+};
+export type LayoutType = BaseType & {
+  site_id: string;
+  name: string;
+  value: LayoutValue;
+};
+
+export type DataType = SiteType | PageType | CollectionType | ImageType | LayoutType;
 export type ActionItemDataType = DataType;
 
 export type CollectionPicked =
@@ -121,11 +130,18 @@ export type SitePicked =
   | 'slug'
   | 'status';
 
+export type LayoutPicked =
+  | 'id'
+  | 'name'
+  | 'value'
+  | 'status';
+
 export type MakeInputType<T, K extends keyof T> = RecursivePartial<Pick<T, K>> & { id: string };
 
 export type CollectionInput = MakeInputType<CollectionType, CollectionPicked>;
 export type PageInput = MakeInputType<PageType, PagePicked>;
 export type SiteInput = MakeInputType<SiteType, SitePicked>;
+export type LayoutInput = MakeInputType<LayoutType, LayoutPicked>;
 
 export type DataInput = SiteInput | PageInput | CollectionInput;
 
@@ -188,6 +204,11 @@ export type ImagesAggregateData = AggregateData<ImageType, Entity.Images>;
 export type ImageData = SingleData<ImageType, Entity.Images>;
 export type ImageInsertedData = InsertedData<ImageType, Entity.Images>;
 export type ImageDeletedData = DeletedData<ImageType, Entity.Images>;
+
+export type LayoutsAggregateData = AggregateData<LayoutType, Entity.Layouts>;
+export type LayoutData = SingleData<LayoutType, Entity.Layouts>;
+export type LayoutInsertedData = InsertedData<LayoutType, Entity.Layouts>;
+export type LayoutDeletedData = DeletedData<LayoutType, Entity.Layouts>;
 
 export type OptionUpdated = UpdatedData<OptionType, Entity.Options>;
 

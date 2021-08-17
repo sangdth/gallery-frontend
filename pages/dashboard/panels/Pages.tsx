@@ -1,14 +1,21 @@
 import React, { useEffect } from 'react';
 import { useUpdateAtom } from 'jotai/utils';
 import { Flex, Stack, useToast } from '@chakra-ui/react';
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import {
   ActionItem,
-  CreatePageModal,
+  PageEditorModal,
   // MenuGenerator,
 } from '../../../components';
 import { OptionKey } from '../../../lib/enums';
 import { pageAtom } from '../../../lib/jotai';
+import {
+  PAGES_AGGREGATE,
+  UPSERT_PAGE_ONE,
+  DELETE_PAGE_BY_PK,
+  ALL_OPTIONS,
+  UPDATE_OPTIONS,
+} from '../../../lib/graphqls';
 import type {
   // DragItemType,
   OptionType,
@@ -21,79 +28,6 @@ import type {
   SiteType,
   UserType,
 } from '../../../lib/types';
-
-export const ALL_OPTIONS = gql`
-  query ALL_OPTIONS($id: uuid!) {
-    options(
-      where: {site_id: {_eq: $id}}
-    ) {
-      id
-      key
-      value
-    }
-  }
-`;
-
-export const UPDATE_OPTIONS = gql`
-  mutation UPDATE_OPTIONS($siteId: uuid!, $key: String!, $value: jsonb!) {
-   update_options(where: {site_id: {_eq: $siteId}, key: {_eq: $key}}, _set: {value: $value}) {
-      returning {
-        id
-        key
-        value
-      }
-    }
-  }
-`;
-
-export const PAGES_AGGREGATE = gql`
-  query PAGES_AGGREGATE($userId: uuid!, $siteId: uuid!) {
-    pages_aggregate(
-      limit: 999,
-      offset: 0,
-      where: {
-        user_id: {_eq: $userId},
-        site_id: {_eq: $siteId}
-      }
-    ) {
-      nodes {
-        created_at
-        updated_at
-        id
-        name
-        content
-        slug
-        status
-      }
-    }
-  }
-`;
-
-export const UPSERT_PAGE_ONE = gql`
-  mutation INSERT_PAGE_ONE($object: pages_insert_input!) {
-    insert_pages_one(
-      object: $object,
-      on_conflict: {constraint: pages_pkey, update_columns: [name, content, slug, status]}
-    ) {
-      created_at
-      updated_at
-      id
-      name
-      content
-      slug
-      status
-    }
-  }
-`;
-
-export const DELETE_PAGE_BY_PK = gql`
-  mutation DELETE_PAGE_BY_PK($id: uuid!) {
-    delete_pages_by_pk(id: $id) {
-      id
-      name
-    }
-  }
-`;
 
 type Props = {
   site: SiteType;
@@ -263,7 +197,7 @@ export const Pages = (props: Props) => {
 
   return (
     <Flex direction="column">
-      <CreatePageModal
+      <PageEditorModal
         loading={insertLoading || deleteLoading}
         onSubmit={handleSubmit}
         refetch={pagesRefetch}

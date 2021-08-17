@@ -5,6 +5,7 @@ export enum Entity {
   Images = 'IMAGES',
   Users = 'USERS',
   Options = 'OPTIONS',
+  Layouts = 'LAYOUTS',
 }
 export enum Status {
   Public = 'PUBLIC',
