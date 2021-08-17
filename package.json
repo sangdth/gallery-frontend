@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "3.4.7",
+    "@apollo/client": "3.4.8",
     "@chakra-ui/icons": "1.0.15",
     "@chakra-ui/react": "1.6.6",
     "@emotion/react": "11.4.1",
@@ -32,7 +32,7 @@
     "react": "17.0.2",
     "react-beautiful-dnd": "13.1.0",
     "react-dom": "17.0.2",
-    "react-grid-layout": "^1.2.5",
+    "react-grid-layout": "1.2.5",
     "slugify": "1.6.0",
     "supertokens-auth-react": "0.15.3",
     "supertokens-node": "6.0.4",
@@ -42,7 +42,7 @@
     "@testing-library/react": "12.0.0",
     "@types/react": "17.0.18",
     "@types/react-beautiful-dnd": "13.1.1",
-    "@types/react-grid-layout": "^1.1.2",
+    "@types/react-grid-layout": "1.1.2",
     "@types/uuid": "8.3.1",
     "@typescript-eslint/eslint-plugin": "4.29.2",
     "eslint": "7.32.0",
