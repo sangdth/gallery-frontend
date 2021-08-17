@@ -9,7 +9,7 @@ import {
 import {
   CloseIcon,
   ViewIcon,
-  ViewOffIcon
+  ViewOffIcon,
 } from '@chakra-ui/icons';
 
 export type Props = InputProps & {
@@ -40,11 +40,11 @@ export const Input = (props: Props) => {
 
   const shouldShowAction = () => {
     switch (type) {
-      case 'password':
-      case 'action':
-        return true;
-      default:
-        return false;
+    case 'password':
+    case 'action':
+      return true;
+    default:
+      return false;
     }
   };
 
@@ -58,7 +58,7 @@ export const Input = (props: Props) => {
   const renderIcon = () => {
     if (type === 'password') {
       return show ? <ViewIcon /> : <ViewOffIcon />;
-    } else if (type === 'action' && icon) {
+    } if (type === 'action' && icon) {
       return icon;
     }
     return <CloseIcon />;

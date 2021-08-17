@@ -1,5 +1,7 @@
 import '../styles/globals.css';
-import { Provider as JotaiProvider } from "jotai";
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+import { Provider as JotaiProvider } from 'jotai';
 import { NhostAuthProvider } from '@nhost/react-auth';
 import { NhostApolloProvider } from '@nhost/react-apollo';
 import { ChakraProvider } from '@chakra-ui/react';

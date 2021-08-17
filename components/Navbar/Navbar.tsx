@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { useAuth } from '@nhost/react-auth';
-import { Logo } from '../Logo'
+import { Logo } from '../Logo';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
 import { UserInfo } from './UserInfo';
@@ -52,7 +52,7 @@ export const Navbar = ({ items }: Props) => {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-            <Logo />
+          <Logo />
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             {false && <DesktopNav items={items} />}

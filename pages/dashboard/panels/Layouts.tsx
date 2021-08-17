@@ -5,7 +5,6 @@ import { useQuery, useMutation } from '@apollo/client';
 import {
   ActionItem,
   LayoutEditorModal,
-  // MenuGenerator,
 } from '../../../components';
 import { layoutAtom } from '../../../lib/jotai';
 import {

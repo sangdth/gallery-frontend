@@ -143,7 +143,9 @@ const PageEditorModal = (props: Props) => {
                 value={input.name}
                 onChange={(e) => handleOnChange('name', e.currentTarget.value)}
               />
-              Slug: <Code children={`/pages/${input.slug}`} />
+              Slug:
+              {' '}
+              <Code children={`/pages/${input.slug}`} />
             </FormControl>
 
             <FormControl mt={4}>

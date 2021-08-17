@@ -126,19 +126,19 @@ const CollectionEditorModal = (props: Props) => {
   const handleDeleteImages = async () => {
     setLoading(true);
     const selectedImages = selected
-      .map(id => (input.images ?? []).find(o => o.id === id));
+      .map((id) => (input.images ?? []).find((o) => o.id === id));
 
     await Promise.all(
       selectedImages.map(async (image) => {
-        if (!!image) {
-          return await storage.delete(`/${image.path}`);
+        if (image) {
+          return storage.delete(`/${image.path}`);
         }
       }),
     );
 
-    const remainedImages = (input.images ?? []).filter(o => !selected.includes(o.id ?? ''));
+    const remainedImages = (input.images ?? []).filter((o) => !selected.includes(o.id ?? ''));
 
-    setInput(preInput => ({
+    setInput((preInput) => ({
       ...preInput,
       images: remainedImages,
     }));
@@ -264,7 +264,7 @@ const CollectionEditorModal = (props: Props) => {
                   label="Delete"
                   message="Delete selected images?"
                   icon={<DeleteIcon />}
-                  buttonProps={{color: 'red', isLoading: loading }}
+                  buttonProps={{ color: 'red', isLoading: loading }}
                   onConfirm={handleDeleteImages}
                 />
               ) : <Flex />}

@@ -37,7 +37,7 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
     onClick,
     onClickExternal,
   } = props;
-  
+
   return (
     <Flex
       border="1px"
@@ -60,7 +60,7 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
             _hover={{ cursor: 'pointer' }}
           />
         )}
-        
+
         <Flex direction="column">
           <Text fontSize="2em" fontWeight="bold">
             {data.name}
@@ -90,7 +90,7 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
             />
           )}
         </HStack>
-        
+
         <HStack spacing="20px">
           {onEdit && (
             <IconButton

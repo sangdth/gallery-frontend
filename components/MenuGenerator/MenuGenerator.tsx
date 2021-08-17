@@ -57,7 +57,7 @@ export const MenuGenerator = <T extends ActionItemDataType>(props: MenuGenerator
   const dataMap = data.reduce((acc, row) => {
     acc[row.id] = row;
     return acc;
-  }, {} as {[key: string]: T });
+  }, {} as { [key: string]: T });
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -78,9 +78,9 @@ export const MenuGenerator = <T extends ActionItemDataType>(props: MenuGenerator
     }
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (item: DragItemType) => {
     if (typeof onDelete === 'function') {
-      onDelete(id);
+      onDelete(item.id);
     }
   };
 
@@ -112,7 +112,7 @@ export const MenuGenerator = <T extends ActionItemDataType>(props: MenuGenerator
                       draggable
                       data={dataMap[item.id] ?? {}}
                       onEdit={() => handleEdit(dataMap[item.id])}
-                      onDelete={() => handleDelete(item.id)}
+                      onDelete={() => handleDelete(item)}
                     />
                   </div>
                 )}

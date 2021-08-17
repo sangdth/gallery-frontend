@@ -40,7 +40,7 @@ const SiteEditorModal = (props: Props) => {
     onClose: onCloseTmp,
     onOpen: onOpenTmp,
     onSubmit,
-    refetch
+    refetch,
   } = props;
 
   const [me] = useAtom(meAtom);
@@ -168,7 +168,9 @@ const SiteEditorModal = (props: Props) => {
                 onChange={(e) => handleOnChange('name', e.currentTarget.value)}
               />
               <Box>
-                Slug: <Code children={`/sites/${input.slug}`} />
+                Slug:
+                {' '}
+                <Code children={`/sites/${input.slug}`} />
               </Box>
             </FormControl>
 

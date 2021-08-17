@@ -6,14 +6,12 @@ import {
   WithPrivateRoute,
 } from '../components';
 
-export const Settings = () => {
-  return (
-    <Layout>
-      <Flex direction="column" padding="20px">
-        <ChangePassword />
-      </Flex>
-    </Layout>
-  );
-};
+export const Settings = () => (
+  <Layout>
+    <Flex direction="column" padding="20px">
+      <ChangePassword />
+    </Flex>
+  </Layout>
+);
 
 export default WithPrivateRoute(Settings);

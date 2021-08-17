@@ -29,7 +29,7 @@ export type EditingProviderProps<ItemType extends EditingItemType> = {
 };
 
 export const EditingProvider = <ItemType extends EditingItemType>(
-  props: EditingProviderProps<ItemType>
+  props: EditingProviderProps<ItemType>,
 ) => {
   const {
     children,
@@ -37,7 +37,6 @@ export const EditingProvider = <ItemType extends EditingItemType>(
     // mapDataToEditingItems,
   } = props;
 
-  
   // const [value, setValue] = useState(null);
   // const [edited, setEdited] = useState(null);
 

@@ -52,7 +52,7 @@ export const PageItem = (props: Props) => {
           icon={<DeleteIcon />}
           _hover={{ bg: useColorModeValue('red.400', 'gray.900'), color: 'white' }}
           onClick={onDelete}
-        />  
+        />
       </HStack>
       {children}
     </Stack>

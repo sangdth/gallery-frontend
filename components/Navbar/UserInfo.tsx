@@ -23,9 +23,7 @@ export const UserInfo = () => {
   const router = useRouter();
   const [me] = useAtom(meAtom);
 
-  const handleSettings = async () => {
-    return router.push('/settings');
-  };
+  const handleSettings = async () => router.push('/settings');
 
   const handleLogout = async () => {
     await auth.logout();

@@ -15,11 +15,11 @@ type ImageControllerProps = {
 export const ImageController = (props: ImageControllerProps) => {
   const { images, selected, onSelect } = props;
 
-  const isSelected = (target: string) => selected.some(id => id === target);
+  const isSelected = (target: string) => selected.some((id) => id === target);
 
   const handleSelect = (target: string) => {
     const tmp = [...selected];
-    const foundIndex = tmp.findIndex(id => id === target);
+    const foundIndex = tmp.findIndex((id) => id === target);
 
     if (foundIndex > -1) {
       tmp.splice(foundIndex, 1);

@@ -132,7 +132,7 @@ export const Pages = (props: Props) => {
     if (response && response.data && Array.isArray(currentMenu)) {
       const tmpMenu = [...currentMenu];
       const newMenuItem = response?.data?.insert_pages_one;
-      const found = tmpMenu.find(o => o.id === newMenuItem.id);
+      const found = tmpMenu.find((o) => o.id === newMenuItem.id);
       if (!found) {
         tmpMenu.push({
           id: newMenuItem.id,

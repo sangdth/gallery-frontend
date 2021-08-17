@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { useAuth } from '@nhost/react-auth';
 import { useQuery } from '@apollo/client';
@@ -27,7 +27,7 @@ export function WithPrivateRoute<P>(Component: React.ComponentType<P>) {
 
     const meData = data?.users_by_pk;
 
-    useLayoutEffect(() => {
+    useEffect(() => {
       if (!me && meData) {
         setMe(meData);
       }

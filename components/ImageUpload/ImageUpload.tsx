@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Skeleton } from "@chakra-ui/react"
+import { Skeleton } from '@chakra-ui/react';
 import Uppy from '@uppy/core';
 import { useAtom } from 'jotai';
 import { DragDrop, useUppy } from '@uppy/react';

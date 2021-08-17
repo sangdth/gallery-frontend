@@ -18,6 +18,7 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 import { ConfirmButton } from '../ConfirmButton';
 import { Input } from '../Input';
+import { GridEditor } from '../GridEditor';
 import { meAtom, layoutAtom } from '../../lib/jotai';
 import type { LayoutInput } from '../../lib/types';
 
@@ -36,14 +37,13 @@ const LayoutEditorModal = (props: Props) => {
 
   const [me] = useAtom(meAtom);
   const [selectedLayout, setSelectedLayout] = useAtom(layoutAtom);
-  console.log('### selectedLayout: ', selectedLayout);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialInput = {
     id: uuidv4(),
     name: '',
     value: null,
-    ...(selectedLayout ?? {})
+    ...(selectedLayout ?? {}),
   };
 
   const [input, setInput] = useState<LayoutInput>(initialInput);
@@ -134,7 +134,7 @@ const LayoutEditorModal = (props: Props) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {selectedLayout ? `Edit Layout: ${selectedLayout.name}` : 'Create new layout'}
+            {selectedLayout ? `Edit Layout: ${selectedLayout.name}` : 'Create New Layout'}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
@@ -148,6 +148,7 @@ const LayoutEditorModal = (props: Props) => {
               />
             </FormControl>
 
+            <GridEditor />
           </ModalBody>
 
           <ModalFooter>

@@ -25,7 +25,7 @@ export default function Login() {
     try {
       setLoading(true);
       await auth.login({ email, password });
-      return router.push('/');
+      return await router.push('/');
     } catch (error) {
       setError(error.message);
     } finally {

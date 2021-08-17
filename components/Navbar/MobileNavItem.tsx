@@ -24,10 +24,12 @@ export const MobileNavItem = ({ label, children, href }: NavItem) => {
         align="center"
         _hover={{
           textDecoration: 'none',
-        }}>
+        }}
+      >
         <Text
           fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}>
+          color={useColorModeValue('gray.600', 'gray.200')}
+        >
           {label}
         </Text>
         {children && (
@@ -48,9 +50,10 @@ export const MobileNavItem = ({ label, children, href }: NavItem) => {
           borderLeft={1}
           borderStyle="solid"
           borderColor={useColorModeValue('gray.200', 'gray.700')}
-          align="start">
-          {children &&
-            children.map((child) => (
+          align="start"
+        >
+          {children
+            && children.map((child) => (
               <Link key={child.label} py={2} href={child.href}>
                 {child.label}
               </Link>
