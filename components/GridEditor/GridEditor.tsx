@@ -1,7 +1,7 @@
 import React from 'react';
 import GridLayout from 'react-grid-layout';
 // import { Navbar } from '../Navbar';
-import { Logo } from '../index';
+import { GridItem, Logo } from '../index';
 
 type GridEditorProps = {
 };
@@ -22,9 +22,9 @@ export const GridEditor = (props: GridEditorProps) => {
 
   return (
     <GridLayout layout={layout} cols={12} rowHeight={30} width={1200}>
-      <div key="a"><Logo key="a" preview /></div>
-      <div key="b">b</div>
-      <div key="c">c</div>
+      <GridItem key="a"><Logo key="a" preview /></GridItem>
+      <GridItem key="b">b</GridItem>
+      <GridItem key="c">c</GridItem>
     </GridLayout>
   );
 };

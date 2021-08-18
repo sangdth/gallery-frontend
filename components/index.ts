@@ -9,6 +9,7 @@ export * from './SiteEditorModal';
 export * from './EditingProvider';
 export * from './Footer';
 export * from './GridEditor';
+export * from './GridItem';
 export * from './ImageUpload';
 export * from './Layout';
 export * from './LayoutEditorModal';
