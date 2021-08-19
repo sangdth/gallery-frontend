@@ -3816,10 +3816,10 @@ next@11.1.0:
     vm-browserify "1.1.2"
     watchpack "2.1.1"
 
-nextjs-cors@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/nextjs-cors/-/nextjs-cors-1.0.5.tgz#fcb8f7740c9206ea63c837439b8bd042c2094ef8"
-  integrity sha512-BPTe2CYzVCxAgzx8WdW5vNu11Fx3IDQ5afMLxNWvsXRBJSHTOiGK2n8E2qUO9pj3Mo/wsGYVod4JzmHnYUoW4Q==
+nextjs-cors@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/nextjs-cors/-/nextjs-cors-1.0.6.tgz#7537f81dbb23c3ca40968481c297d1934d91b28d"
+  integrity sha512-w00Xj01Xox8WWdUfUmOjzuNgEVf8ju4sM2R5O/eiEeKkSiUm7elx0aiI+aSXYzzBW5XdTLcnBf9L/VnHqQelcw==
   dependencies:
     cors "^2.8.5"
 
