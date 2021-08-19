@@ -1,31 +1,75 @@
-import React from 'react';
-import GridLayout from 'react-grid-layout';
+import React, { useState } from 'react';
+// import { isEqual } from 'lodash';
+import { Responsive, WidthProvider } from 'react-grid-layout';
+import type { Layout, Layouts } from 'react-grid-layout';
 // import { Navbar } from '../Navbar';
 import { GridItem, Logo } from '../index';
+import { DEFAULT_LAYOUT } from '../../lib/constants';
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type GridEditorProps = {
+  onLayoutChange: (currentLayout: Layout[], allLayouts: Layouts) => void;
 };
 
 export const GridEditor = (props: GridEditorProps) => {
-  console.log('### props: ', props);
-  const layout = [
-    {
-      i: 'a', x: 0, y: 0, w: 1, h: 2,
-    },
-    {
-      i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4,
-    },
-    {
-      i: 'c', x: 4, y: 0, w: 1, h: 2,
-    },
-  ];
+  const { onLayoutChange } = props;
+
+  const [layouts] = useState(DEFAULT_LAYOUT.layouts);
+  const [currentItem, setCurrentItem] = useState<Layout | null>(null);
+
+  const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
+    if (typeof onLayoutChange === 'function') {
+      onLayoutChange(currentLayout, allLayouts);
+    }
+  };
+
+  const handleOnDragStart = (_: Layout[], item: Layout) => {
+    setCurrentItem(item);
+  };
+
+  const handleItemOnClick = () => setCurrentItem(null);
+  const isDragged = (id: string) => currentItem?.i === id;
 
   return (
-    <GridLayout layout={layout} cols={12} rowHeight={30} width={1200}>
-      <GridItem key="a"><Logo key="a" preview /></GridItem>
-      <GridItem key="b">b</GridItem>
-      <GridItem key="c">c</GridItem>
-    </GridLayout>
+    <ResponsiveGridLayout
+      layouts={layouts}
+      cols={DEFAULT_LAYOUT.cols}
+      rowHeight={40}
+      width={900}
+      onDragStart={handleOnDragStart}
+      onDragStop={() => setCurrentItem(null)}
+      onLayoutChange={handleLayoutChange}
+    >
+      <GridItem
+        key="logo"
+        isDragged={isDragged('logo')}
+        onClick={handleItemOnClick}
+      >
+        <Logo key="a" preview />
+      </GridItem>
+      <GridItem
+        key="menu"
+        isDragged={isDragged('menu')}
+        onClick={handleItemOnClick}
+      >
+        Menu
+      </GridItem>
+      <GridItem
+        key="side"
+        onClick={handleItemOnClick}
+        isDragged={isDragged('side')}
+      >
+        Side
+      </GridItem>
+      <GridItem
+        key="main"
+        onClick={handleItemOnClick}
+        isDragged={isDragged('main')}
+      >
+        Main
+      </GridItem>
+    </ResponsiveGridLayout>
   );
 };
 

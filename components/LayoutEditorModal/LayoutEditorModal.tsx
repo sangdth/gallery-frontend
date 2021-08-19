@@ -92,7 +92,7 @@ const LayoutEditorModal = (props: Props) => {
 
       onOpen();
     }
-  }, [isOpen, onOpen, selectedLayout, input]);
+  }, [isEmptyInput, isOpen, onOpen, selectedLayout, input]);
 
   useEffect(() => {
     // TODO: Compare input.value with default layout

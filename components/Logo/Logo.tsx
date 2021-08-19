@@ -9,7 +9,6 @@ import { useAuth } from '@nhost/react-auth';
 
 type LogoProps = {
   preview?: boolean;
-  style?: any;
   size?: 'huge' | 'default' | 'small';
 };
 
@@ -17,7 +16,6 @@ export const Logo = (props: LogoProps) => {
   const {
     preview = false,
     size = 'default',
-    style,
   } = props;
   const { signedIn } = useAuth();
 
@@ -44,20 +42,21 @@ export const Logo = (props: LogoProps) => {
         size: 'md',
       };
     }
-  }, []);
+  }, [size]);
 
   return (
-    <div style={style}>
-      <LinkBox textAlign="center">
-        <NextLink href={preview ? '' : href} passHref>
-          <LinkOverlay>
-            <Heading size={styles.size} fontWeight="bold">
-              GALLERY
-            </Heading>
-          </LinkOverlay>
-        </NextLink>
-      </LinkBox>
-    </div>
+    <LinkBox
+      textAlign="center"
+      style={{ pointerEvents: preview ? 'none' : 'auto' }}
+    >
+      <NextLink passHref href={href}>
+        <LinkOverlay>
+          <Heading size={styles.size} fontWeight="bold">
+            GALLERY
+          </Heading>
+        </LinkOverlay>
+      </NextLink>
+    </LinkBox>
   );
 };
 

@@ -1,34 +1,47 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
 type GridItemProps = {
   children?: React.ReactNode;
-  style?: any;
+  style?: React.CSSProperties;
   className?: string;
+  isDragged?: boolean;
+  onClick?: () => void;
 };
 
-export const GridItem = React.forwardRef(
-  (props: GridItemProps, ref: any) => {
+export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
+  (props, forwardedRef) => {
     const {
       children,
       style,
       className,
+      isDragged,
+      onClick,
       ...restProps
     } = props;
 
+    const handleOnClick = () => {
+      if (typeof onClick === 'function') {
+        onClick();
+      }
+    };
+
     return (
-      <Box
-        style={{
-          borderWidth: 1,
-          borderColor: '#C3C3C3',
-          ...style,
-        }}
+      <Flex
+        as="div"
+        alignItems="center"
+        justifyContent="center"
+        backgroundColor="#FFFFFF"
+        borderRadius="4px"
+        boxShadow={isDragged ? 'dark-lg' : 'base'}
         className={className}
-        ref={ref}
+        ref={forwardedRef}
+        style={style}
+        onClick={handleOnClick}
         {...restProps}
       >
         {children}
-      </Box>
+      </Flex>
     );
   },
 );
