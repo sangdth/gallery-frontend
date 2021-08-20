@@ -33,8 +33,7 @@ export function WithPrivateRoute<P>(Component: React.ComponentType<P>) {
       }
     }, [me, setMe, meData]);
 
-    if (signedIn === null || loading || !meData) {
-      // TODO: add styling for these messages (Loading, Redirecting...)
+    if (signedIn === null && loading) {
       return <div>Checking auth...</div>;
     }
 

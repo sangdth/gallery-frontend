@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useAtom } from 'jotai';
 import {
@@ -16,6 +21,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import type { Layout, Layouts } from 'react-grid-layout';
 import { ConfirmButton } from '../ConfirmButton';
 import { Input } from '../Input';
 import { GridEditor } from '../GridEditor';
@@ -35,16 +41,17 @@ const LayoutEditorModal = (props: Props) => {
     refetch,
   } = props;
 
+
   const [me] = useAtom(meAtom);
   const [selectedLayout, setSelectedLayout] = useAtom(layoutAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const initialInput = {
+  const initialInput = useMemo(() => ({
     id: uuidv4(),
     name: '',
     value: null,
     ...(selectedLayout ?? {}),
-  };
+  }), [selectedLayout]);
 
   const [input, setInput] = useState<LayoutInput>(initialInput);
 
@@ -54,10 +61,10 @@ const LayoutEditorModal = (props: Props) => {
     input.name !== selectedLayout.name || input.value !== selectedLayout.value
   );
 
-  const cleanUp = () => {
+  const cleanUp = useCallback(() => {
     setInput({ ...initialInput, id: uuidv4() });
     setSelectedLayout(null);
-  };
+  }, [initialInput, setSelectedLayout]);
 
   const handleSubmit = async () => {
     await onSubmit(input);
@@ -79,6 +86,11 @@ const LayoutEditorModal = (props: Props) => {
       ...input,
       [key]: value,
     });
+  };
+
+  const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
+    console.log('### allLayouts: ', allLayouts);
+    console.log('### currentLayout: ', currentLayout);
   };
 
   useEffect(() => {
@@ -127,12 +139,12 @@ const LayoutEditorModal = (props: Props) => {
 
       <Modal
         closeOnOverlayClick={false}
-        size="6xl"
+        size="full"
         isOpen={isOpen}
         onClose={handleCancel}
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent borderRadius="0">
           <ModalHeader>
             {selectedLayout ? `Edit Layout: ${selectedLayout.name}` : 'Create New Layout'}
           </ModalHeader>
@@ -147,8 +159,10 @@ const LayoutEditorModal = (props: Props) => {
                 onChange={(e) => handleOnChange('name', e.currentTarget.value)}
               />
             </FormControl>
-
-            <GridEditor />
+            
+            <GridEditor
+              onLayoutChange={handleLayoutChange}
+            />
           </ModalBody>
 
           <ModalFooter>

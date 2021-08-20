@@ -46,45 +46,96 @@ export const NAV_ITEMS: Array<NavItem> = [
   },
 ];
 
-// Disable ESLint spacing for easier calculations
-/* eslint-disable key-spacing */
 const tempLayout = [
   {
-    i:   'logo', x:  0, y:  0, w:  2, h:  1, minW:  1, maxW:  3, minH:  1, maxH:  2,
+    i:   'logo', x:  0, y:  0, w:  2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
   },
   {
-    i:   'menu', x:  3, y:  0, w: 10, h:  2,
+    i:   'menu', x:  3, y:  0, w: 10, h:  1, minW: 6, maxW: 12, minH: 1, maxH: 2,
   },
   {
-    i:   'side', x:  0, y:  1, w:  2, h: 10,
+    i:   'main', x:  0, y:  1, w:  12, h: 10, minW: 6, maxW: 12, minH: 10, maxH: 12,
   },
   {
-    i:   'main', x:  3, y:  1, w:  6, h: 10,
+    i: 'footer', x:  0, y:  11, w:  12, h:  1, minW: 6, maxW: 12, minH: 1, maxH: 2,
+  },
+];
+const mediumLayout = [
+  {
+    i:   'logo', x:  4, y:  0, w:  2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
   },
   {
-    i: 'footer', x:  0, y:  0, w:  2, h:  1,
+    i:   'menu', x:  0, y:  1, w: 10, h:  1, minW: 6, maxW: 10, minH: 1, maxH: 2,
+  },
+  {
+    i:   'main', x:  0, y:  2, w:  10, h: 10, minW: 6, maxW: 10, minH: 10, maxH: 12,
+  },
+  {
+    i: 'footer', x:  0, y:  11, w:  10, h:  1, minW: 6, maxW: 10, minH: 1, maxH: 2,
+  },
+];
+const smallLayout = [
+  {
+    i:   'logo', x:  2, y:  0, w: 2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
+  },
+  {
+    i:   'menu', x:  0, y:  1, w: 6, h:  1, minW: 6, maxW: 6, minH: 1, maxH: 2,
+  },
+  {
+    i:   'main', x:  0, y:  2, w:  6, h: 12, minW: 6, maxW: 6, minH: 12, maxH: 20,
+  },
+  {
+    i: 'footer', x:  0, y:  11, w:  6, h:  1, minW: 6, maxW: 6, minH: 1, maxH: 2,
+  },
+];
+const littleLayout = [
+  {
+    i:   'logo', x: 1, y:  0, w:  2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
+  },
+  {
+    i:   'menu', x: 0, y:  1, w: 4, h:  1, minW: 4, maxW: 4, minH: 1, maxH: 2,
+  },
+  {
+    i:   'main', x: 0, y:  2, w: 4, h: 12, minW: 4, maxW: 4, minH: 12, maxH: 20,
+  },
+  {
+    i: 'footer', x:  0, y:  11, w: 4, h:  1, minW: 4, maxW: 4, minH: 1, maxH: 2,
+  },
+];
+const tinyLayout = [
+  {
+    i:   'logo', x: 0, y:  0, w:  2, h:  2, minW: 1, maxW:  2, minH: 1, maxH:  3,
+  },
+  {
+    i:   'menu', x: 0, y:  1, w: 2, h:  1, minW: 2, maxW: 2, minH: 1, maxH: 2,
+  },
+  {
+    i:   'main', x: 0, y:  2, w: 2, h: 12, minW: 2, maxW: 2, minH: 12, maxH: 20,
+  },
+  {
+    i: 'footer', x:  0, y:  11, w: 2, h:  1, minW: 2, maxW: 2, minH: 1, maxH: 2,
   },
 ];
 export const DEFAULT_LAYOUT = {
   layouts: {
     lg: tempLayout,
-    md: tempLayout,
-    sm: tempLayout,
-    xs: tempLayout,
-    xxs: tempLayout,
+    md: mediumLayout,
+    sm: smallLayout,
+    xs: littleLayout,
+    xxs: tinyLayout,
   },
   breakpoints: {
-    lg: 900,
-    md: 800,
+    lg: 1200,
+    md: 996,
     sm: 768,
     xs: 480,
-    xxs: 480,
+    xxs: 0,
   },
   cols: {
     lg: 12,
-    md: 8,
-    sm: 4,
-    xs: 2,
-    xxs: 1,
+    md: 10,
+    sm: 6,
+    xs: 4,
+    xxs: 2,
   },
 };

@@ -18,5 +18,6 @@ export * from './MenuGenerator';
 export * from './Navbar';
 export * from './PageItem';
 export * from './Input';
+export * from './Ruler';
 export * from './SiteItem';
 export * from './WithPrivateRoute';

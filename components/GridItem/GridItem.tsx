@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Flex } from '@chakra-ui/react';
 
 type GridItemProps = {
@@ -32,8 +32,9 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
         alignItems="center"
         justifyContent="center"
         backgroundColor="#FFFFFF"
-        borderRadius="4px"
-        boxShadow={isDragged ? 'dark-lg' : 'base'}
+        borderWidth="1px"
+        borderColor="#DDDDDD"
+        boxShadow={isDragged ? 'xl' : 'xs'}
         className={className}
         ref={forwardedRef}
         style={style}
@@ -48,4 +49,4 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
 
 GridItem.displayName = 'GridItem';
 
-export default GridItem;
+export default memo(GridItem);
