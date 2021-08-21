@@ -13,20 +13,26 @@ import { DEFAULT_LAYOUT } from '../../lib/constants';
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 type GridEditorProps = {
-  onLayoutChange: (currentLayout: Layout[], allLayouts: Layouts) => void;
+  layouts: Layouts;
+  onLayoutChange: (allLayouts: Layouts) => void;
 };
 
 export const GridEditor = (props: GridEditorProps) => {
-  const { onLayoutChange } = props;
+  const {
+    layouts,
+    onLayoutChange,
+  } = props;
 
   const [ref, { width }] = useMeasure<HTMLDivElement>();
 
-  const [layouts] = useState(DEFAULT_LAYOUT.layouts);
+  const [layoutsLocal, setLayoutsLocal] = useState(layouts);
   const [currentItem, setCurrentItem] = useState<Layout | null>(null);
 
-  const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
+  const handleLayoutChange = ({}, allLayouts: Layouts) => {
+    setLayoutsLocal(allLayouts);
+
     if (typeof onLayoutChange === 'function') {
-      onLayoutChange(currentLayout, allLayouts);
+      onLayoutChange(allLayouts);
     }
   };
 
@@ -80,7 +86,7 @@ export const GridEditor = (props: GridEditorProps) => {
       <Ruler value={width} />
 
       <ResponsiveGridLayout
-        layouts={layouts}
+        layouts={layoutsLocal}
         breakpoints={DEFAULT_LAYOUT.breakpoints}
         cols={DEFAULT_LAYOUT.cols}
         rowHeight={40}

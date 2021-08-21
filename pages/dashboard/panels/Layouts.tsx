@@ -51,7 +51,7 @@ export const Layouts = (props: Props) => {
   const layouts = layoutsData?.layouts_aggregate?.nodes;
 
   const [
-    insertLayout,
+    upsertLayout,
     {
       data: insertData,
       loading: insertLoading,
@@ -69,7 +69,8 @@ export const Layouts = (props: Props) => {
   ] = useMutation<LayoutDeletedData>(DELETE_LAYOUT_BY_PK);
 
   const handleSubmit = async (input: LayoutInput) => {
-    await insertLayout({
+    console.log('### input: ', input);
+    await upsertLayout({
       variables: {
         object: {
           ...input,

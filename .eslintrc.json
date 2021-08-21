@@ -21,6 +21,10 @@
       "ignoreUrls": true,
       "ignoreRegExpLiterals": true
     }],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
     "@typescript-eslint/indent": [
       "error",
       2,

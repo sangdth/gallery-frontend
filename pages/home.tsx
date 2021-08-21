@@ -12,6 +12,7 @@ import {
   UPSERT_SITE_ONE,
   DELETE_SITE_BY_PK,
 } from '../lib/graphqls';
+import { DEFAULT_LAYOUT } from '../lib/constants';
 import { OptionKey } from '../lib/enums';
 import type {
   SiteType,
@@ -51,7 +52,7 @@ function Home() {
   );
 
   const [
-    insertSite,
+    upsertSite,
     {
       data: insertData,
       loading: insertLoading,
@@ -76,18 +77,29 @@ function Home() {
   };
 
   const handleSubmit = async (input: Partial<SiteType>) => {
-    await insertSite({
-      variables: {
-        object: {
-          ...input,
-          options: !isEditing ? {
-            data: defaultOptions,
-            on_conflict: {
-              constraint: 'options_pkey',
-              update_columns: ['key', 'value', 'status'],
-            },
-          } : undefined,
+    const siteDataObject = {
+      ...input,
+      options: !currentSite ? {
+        data: defaultOptions,
+        on_conflict: {
+          constraint: 'options_pkey',
+          update_columns: ['key', 'value', 'status'],
         },
+      } : undefined,
+      layouts: !currentSite ? {
+        data: {
+          name: 'Default Layouts',
+          value: DEFAULT_LAYOUT.layouts,
+        },
+        on_conflict: {
+          constraint: 'layouts_pkey',
+          update_columns: ['name', 'value', 'status'],
+        },
+      } : undefined,
+    };
+    await upsertSite({
+      variables: {
+        object: siteDataObject,
       },
       context: {
         headers: {

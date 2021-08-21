@@ -1,3 +1,4 @@
+import type { Layouts } from 'react-grid-layout';
 import {
   Entity,
   DisplayType,
@@ -101,7 +102,7 @@ export type LayoutValue = {
 export type LayoutType = BaseType & {
   site_id: string;
   name: string;
-  value: LayoutValue | null;
+  value: Layouts | null;
 };
 
 export type DataType = SiteType | PageType | CollectionType | ImageType | LayoutType;

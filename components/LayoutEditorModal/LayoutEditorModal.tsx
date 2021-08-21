@@ -21,11 +21,12 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import type { Layout, Layouts } from 'react-grid-layout';
+import type { Layouts } from 'react-grid-layout';
 import { ConfirmButton } from '../ConfirmButton';
 import { Input } from '../Input';
 import { GridEditor } from '../GridEditor';
 import { meAtom, layoutAtom } from '../../lib/jotai';
+import { DEFAULT_LAYOUT } from '../../lib/constants';
 import type { LayoutInput } from '../../lib/types';
 
 type Props = {
@@ -81,16 +82,15 @@ const LayoutEditorModal = (props: Props) => {
     onClose();
   };
 
-  const handleOnChange = (key: string, value: string) => {
+  const handleOnChange = <T extends keyof LayoutInput>(key: T, value: LayoutInput[T]) => {
     setInput({
       ...input,
       [key]: value,
     });
   };
-
-  const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
-    console.log('### allLayouts: ', allLayouts);
-    console.log('### currentLayout: ', currentLayout);
+  
+  const handleLayoutChange = (layouts: Layouts) => {
+    handleOnChange('value', layouts);
   };
 
   useEffect(() => {
@@ -161,6 +161,7 @@ const LayoutEditorModal = (props: Props) => {
             </FormControl>
             
             <GridEditor
+              layouts={input.value ?? DEFAULT_LAYOUT.layouts}
               onLayoutChange={handleLayoutChange}
             />
           </ModalBody>
