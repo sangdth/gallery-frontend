@@ -113,7 +113,7 @@ const SiteEditorModal = (props: Props) => {
         status: selectedSite.status,
       });
     }
-  }, [isOpen, selectedSite, input]);
+  }, [isOpen, isEmptyInput, selectedSite, input]);
 
   useEffect(() => {
     if (!isOpen && isEditing) {
@@ -123,7 +123,7 @@ const SiteEditorModal = (props: Props) => {
       cleanUp();
       onClose();
     }
-  }, [isOpen, isEditing, input, cleanUp]);
+  }, [isOpen, isEditing, input, cleanUp, onClose, onOpen]);
 
   return (
     <>
@@ -168,9 +168,9 @@ const SiteEditorModal = (props: Props) => {
                 onChange={(e) => handleOnChange('name', e.currentTarget.value)}
               />
               <Box>
-                Slug:
-                {' '}
-                <Code children={`/sites/${input.slug}`} />
+                <Code>
+                  {`/sites/${input.slug}`}
+                </Code>
               </Box>
             </FormControl>
 

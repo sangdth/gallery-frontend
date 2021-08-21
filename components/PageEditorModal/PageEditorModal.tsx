@@ -99,7 +99,7 @@ const PageEditorModal = (props: Props) => {
     if (!isOpen && !isEmptyInput) {
       cleanUp();
     }
-  }, [isOpen, input, cleanUp]);
+  }, [isOpen, isEmptyInput, input, cleanUp]);
 
   return (
     <>
@@ -143,9 +143,9 @@ const PageEditorModal = (props: Props) => {
                 value={input.name}
                 onChange={(e) => handleOnChange('name', e.currentTarget.value)}
               />
-              Slug:
-              {' '}
-              <Code children={`/pages/${input.slug}`} />
+              <Code>
+                {`/pages/${input.slug}`}
+              </Code>
             </FormControl>
 
             <FormControl mt={4}>

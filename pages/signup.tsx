@@ -36,8 +36,8 @@ export default function SignUp() {
       });
 
       return await router.push('/');
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }

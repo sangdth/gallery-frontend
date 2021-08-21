@@ -38,6 +38,9 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
     onClickExternal,
   } = props;
 
+  const greenBackground = useColorModeValue('green.400', 'gray.600');
+  const blueBackground = useColorModeValue('blue.400', 'gray.600');
+
   return (
     <Flex
       border="1px"
@@ -85,7 +88,7 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
               variant="outline"
               borderRadius="4px"
               icon={<ArrowForwardIcon />}
-              _hover={{ bg: useColorModeValue('green.400', 'gray.600'), color: 'white' }}
+              _hover={{ bg: greenBackground, color: 'white' }}
               onClick={onClick}
             />
           )}
@@ -99,7 +102,7 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
               variant="outline"
               borderRadius="4px"
               icon={<EditIcon />}
-              _hover={{ bg: useColorModeValue('blue.400', 'gray.600'), color: 'white' }}
+              _hover={{ bg: blueBackground, color: 'white' }}
               onClick={onEdit}
             />
           )}
