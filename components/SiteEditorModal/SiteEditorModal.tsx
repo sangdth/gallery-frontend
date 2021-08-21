@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
 import { useAtom } from 'jotai';
@@ -47,12 +52,13 @@ const SiteEditorModal = (props: Props) => {
   const [selectedSite, setSelectedSite] = useAtom(siteAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const initialInput = {
+  const initialInput = useMemo(() => ({
     id: uuidv4(),
     name: '',
     description: '',
     slug: '',
-  };
+    ...(selectedSite ?? {}),
+  }), [selectedSite]);
 
   const [input, setInput] = useState<SiteInput>(initialInput);
   const [manual, setManual] = useState(false);
@@ -63,10 +69,10 @@ const SiteEditorModal = (props: Props) => {
     input.name !== selectedSite.name || input.description !== selectedSite.description
   );
 
-  const cleanUp = () => {
+  const cleanUp = useCallback(() => {
     setInput({ ...initialInput, id: uuidv4() });
     setSelectedSite(null);
-  };
+  }, [initialInput, setSelectedSite]);
 
   const handleSubmit = async () => {
     await onSubmit(input);

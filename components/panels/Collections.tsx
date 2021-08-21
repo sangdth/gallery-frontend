@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { atom, useAtom } from 'jotai';
 import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { gql, useQuery, useMutation } from '@apollo/client';
-import { ActionItem, CollectionEditorModal } from '../../../components';
+import { ActionItem, CollectionEditorModal } from '../index';
 import type {
   CollectionInsertedData,
   CollectionsAggregateData,
@@ -10,7 +10,7 @@ import type {
   CollectionInput,
   SiteType,
   UserType,
-} from '../../../lib/types';
+} from '../../lib/types';
 
 export const COLLECTIONS_AGGREGATE = gql`
   query COLLECTIONS_AGGREGATE($userId: uuid!, $siteId: uuid!) {
@@ -152,7 +152,7 @@ export const Collections = (props: Props) => {
       isClosable: true,
       duration: 1000,
     });
-  }, [toast, upsertCollection, collectionsRefetch]);
+  }, [site, toast, upsertCollection, collectionsRefetch]);
 
   const handleDelete = async (id: string) => {
     await deleteCollection({

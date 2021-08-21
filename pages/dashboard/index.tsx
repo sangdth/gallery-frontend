@@ -10,8 +10,8 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { Layout, WithPrivateRoute } from '../../components';
+import { Pages, Collections, Layouts } from '../../components/panels';
 import { siteAtom, meAtom } from '../../lib/jotai';
-import { Pages, Collections, Layouts } from './panels';
 import type { SiteData } from '../../lib/types';
 
 export const SITE_BY_PK = gql`

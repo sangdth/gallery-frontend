@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
 import { useAtom } from 'jotai';
@@ -35,13 +40,13 @@ const PageEditorModal = (props: Props) => {
   const [selectedPage, setSelectedPage] = useAtom(pageAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const initialInput = {
+  const initialInput = useMemo(() => ({
     id: uuidv4(),
     name: '',
     content: '',
     slug: '',
     ...(selectedPage ?? {}),
-  };
+  }), [selectedPage]);
 
   const [input, setInput] = useState<PageInput>(initialInput);
 
@@ -51,10 +56,10 @@ const PageEditorModal = (props: Props) => {
     input.name !== selectedPage.name || input.content !== selectedPage.content
   );
 
-  const cleanUp = () => {
+  const cleanUp = useCallback(() => {
     setInput({ ...initialInput, id: uuidv4() });
     setSelectedPage(null);
-  };
+  }, [initialInput, setSelectedPage]);
 
   const handleSubmit = async () => {
     await onSubmit(input);

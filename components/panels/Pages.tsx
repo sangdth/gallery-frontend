@@ -6,16 +6,16 @@ import {
   ActionItem,
   PageEditorModal,
   // MenuGenerator,
-} from '../../../components';
-import { OptionKey } from '../../../lib/enums';
-import { pageAtom } from '../../../lib/jotai';
+} from '../index';
+import { OptionKey } from '../../lib/enums';
+import { pageAtom } from '../../lib/jotai';
 import {
   PAGES_AGGREGATE,
   UPSERT_PAGE_ONE,
   DELETE_PAGE_BY_PK,
   ALL_OPTIONS,
   UPDATE_OPTIONS,
-} from '../../../lib/graphqls';
+} from '../../lib/graphqls';
 import type {
   // DragItemType,
   OptionType,
@@ -27,7 +27,7 @@ import type {
   PagesAggregateData,
   SiteType,
   UserType,
-} from '../../../lib/types';
+} from '../../lib/types';
 
 type Props = {
   site: SiteType;

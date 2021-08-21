@@ -31,7 +31,7 @@ import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { ConfirmButton } from '../ConfirmButton';
 import { meAtom, siteAtom } from '../../lib/jotai';
 import { storage } from '../../lib/nhost';
-import { collectionAtom } from '../../pages/dashboard/panels/Collections';
+import { collectionAtom } from '../panels/Collections';
 import { ImageUpload } from '../ImageUpload';
 import { ImageController } from '../ImageController';
 import type { CollectionInput, ImageType } from '../../lib/types';
