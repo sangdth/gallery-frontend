@@ -12,6 +12,7 @@ type ImageControllerProps = {
   onSelect: (selections: string[]) => void;
 };
 
+// TODO: Make select all and discard action to select/deselect all
 export const ImageController = (props: ImageControllerProps) => {
   const { images, selected, onSelect } = props;
 
@@ -41,6 +42,7 @@ export const ImageController = (props: ImageControllerProps) => {
       {images.map((image) => (
         <Image
           key={image.id}
+          alt={image.name ?? ''}
           fit="cover"
           padding="1px"
           boxSize="110px"

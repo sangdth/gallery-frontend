@@ -41,6 +41,8 @@ type Props = {
   refetch: () => void;
 };
 
+// TODO:
+// - Delete button should not interfere with other tab or show number selected
 const CollectionEditorModal = (props: Props) => {
   const toast = useToast();
   const { onSubmit, refetch } = props;

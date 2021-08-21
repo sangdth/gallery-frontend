@@ -12,6 +12,7 @@ import type {
   UserType,
 } from '../../lib/types';
 
+// TODO: Bring these gql to lib/graphqls
 export const COLLECTIONS_AGGREGATE = gql`
   query COLLECTIONS_AGGREGATE($userId: uuid!, $siteId: uuid!) {
     collections_aggregate(

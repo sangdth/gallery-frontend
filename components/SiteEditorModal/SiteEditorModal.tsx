@@ -38,6 +38,7 @@ type Props = {
   refetch: () => void;
 };
 
+// TODO: Fix bugs related to confirmation while never change anything
 const SiteEditorModal = (props: Props) => {
   const {
     isEditing,
