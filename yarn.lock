@@ -1521,7 +1521,7 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/faker@^5.5.8":
+"@types/faker@5.5.8":
   version "5.5.8"
   resolved "https://registry.yarnpkg.com/@types/faker/-/faker-5.5.8.tgz#6649adfdfdbb0acf95361fc48f2d0ca6e88bd1cf"
   integrity sha512-bsl0rYsaZVHlZkynL5O04q6YXDmVjcid6MbOHWqvtE2WWs/EKhp0qchDDhVWlWyQXUffX1G83X9LnMxRl8S/Mw==
@@ -1667,7 +1667,7 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/rosie@^0.0.40":
+"@types/rosie@0.0.40":
   version "0.0.40"
   resolved "https://registry.yarnpkg.com/@types/rosie/-/rosie-0.0.40.tgz#3fe51a3ac08d2f1a335999e74ee7b8743610ab11"
   integrity sha512-Snog8oO88AXDhFG1BHPkKSg2urcGhyA+/fqQUuc4Abejt+HHrc2VszujyJGVBlN6DD8Gnp3PV5rogs3uYt/ZOA==
@@ -3563,7 +3563,7 @@ expect@^27.0.6:
     jest-message-util "^27.0.6"
     jest-regex-util "^27.0.6"
 
-faker@^5.5.3:
+faker@5.5.3:
   version "5.5.3"
   resolved "https://registry.yarnpkg.com/faker/-/faker-5.5.3.tgz#c57974ee484431b25205c2c8dc09fda861e51e0e"
   integrity sha512-wLTv2a28wjUyWkbnX7u/ABZBkUkIF2fCd73V6P2oFqEGEktDfzWx4UxrSqtPRw0xPRAcjeAOIiJWqZm3pP4u3g==
@@ -6375,7 +6375,7 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rosie@^2.1.0:
+rosie@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/rosie/-/rosie-2.1.0.tgz#0213a9d2b0401a2549cbce5f1cd914caffa22358"
   integrity sha512-Dbzdc+prLXZuB/suRptDnBUY29SdGvND3bLg6cll8n7PNqzuyCxSlRfrkn8PqjS9n4QVsiM7RCvxCkKAkTQRjA==
