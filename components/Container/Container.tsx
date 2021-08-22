@@ -1,13 +1,10 @@
 import React from 'react';
+import { Box } from '@chakra-ui/react';
 
-type Props = {
-
-};
-
-const Container = (props: Props) => (
-  <div>
+export const Container = () => (
+  <Box>
     Container
-  </div>
+  </Box>
 );
 
 export default Container;

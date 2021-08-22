@@ -1,13 +1,10 @@
 import React from 'react';
+import { Box } from '@chakra-ui/react';
 
-type Props = {
-
-};
-
-const Footer = (props: Props) => (
-  <div>
+export const Footer = () => (
+  <Box>
     Footer
-  </div>
+  </Box>
 );
 
 export default Footer;

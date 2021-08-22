@@ -6,6 +6,7 @@ import {
   DropResult,
   DraggableProvidedDraggableProps,
 } from 'react-beautiful-dnd';
+import { Box } from '@chakra-ui/react';
 import { ActionItem } from '../ActionItem';
 import type { DragItemType, ActionItemDataType } from '../../lib/types';
 
@@ -88,7 +89,7 @@ export const MenuGenerator = <T extends ActionItemDataType>(props: MenuGenerator
     if (menu !== items) {
       setItems(menu);
     }
-  }, [menu]);
+  }, [menu, items]);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -102,7 +103,8 @@ export const MenuGenerator = <T extends ActionItemDataType>(props: MenuGenerator
             {items.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
                 {(provided, draggableSnapshot) => (
-                  <div
+                  <Box
+                    as="div"
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
@@ -114,7 +116,7 @@ export const MenuGenerator = <T extends ActionItemDataType>(props: MenuGenerator
                       onEdit={() => handleEdit(dataMap[item.id])}
                       onDelete={() => handleDelete(item)}
                     />
-                  </div>
+                  </Box>
                 )}
               </Draggable>
             ))}
