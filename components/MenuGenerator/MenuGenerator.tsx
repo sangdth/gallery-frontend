@@ -8,7 +8,7 @@ import {
 } from 'react-beautiful-dnd';
 import { Box } from '@chakra-ui/react';
 import { ActionItem } from '@/components';
-import type { DragItemType, ActionItemDataType } from '@/lib/types';
+import type { DragItemType, ActionItemType } from '@/lib/types';
 
 const grid = 10;
 
@@ -43,7 +43,7 @@ type MenuGeneratorProps<T> = {
   onEdit?: (o: T) => void;
 };
 
-export const MenuGenerator = <T extends ActionItemDataType>(props: MenuGeneratorProps<T>) => {
+export const MenuGenerator = <T extends ActionItemType>(props: MenuGeneratorProps<T>) => {
   const {
     menu,
     data,
@@ -56,7 +56,9 @@ export const MenuGenerator = <T extends ActionItemDataType>(props: MenuGenerator
   const [items, setItems] = useState(menu);
 
   const dataMap = data.reduce((acc, row) => {
-    acc[row.id] = row;
+    if (row.id) {
+      acc[row.id] = row;
+    }
     return acc;
   }, {} as { [key: string]: T });
 

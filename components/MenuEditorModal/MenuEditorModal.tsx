@@ -17,28 +17,29 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { SettingsIcon } from '@chakra-ui/icons';
-import { ConfirmButton, PageSelector } from '@/components';
+import { ActionItem, ConfirmButton, PageSelector } from '@/components';
 import type { MenuOption, PageType } from '@/lib/types';
 
 type Props = {
   loading?: boolean;
   pages: PageType[] | undefined;
   menu: MenuOption | undefined;
-  onSubmit: (menu: MenuOption) => Promise<void>;
-  refetch: () => void;
+  onSubmit?: (menu: MenuOption) => Promise<void>;
+  refetch?: () => void;
 };
 
 export const MenuEditorModal = (props: Props) => {
   const { loading, pages, menu, onSubmit, refetch } = props;
+  // console.log('### menu: ', menu);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleSubmit = async () => {
-    if (menu) {
+    if (menu && typeof onSubmit === 'function' && typeof refetch === 'function') {
       await onSubmit(menu);
+      refetch();
     }
     onClose();
-    refetch();
   };
 
   const handleOpen = () => {
@@ -85,6 +86,13 @@ export const MenuEditorModal = (props: Props) => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
+            {menu?.value.map((o) => (
+              <ActionItem
+                key={typeof o.id === 'string' ? o.id : 'no-id'}
+                data={o}
+              />
+            ))}
+
             {pages && pages.length > 0 && (
               <PageSelector
                 pages={pages}

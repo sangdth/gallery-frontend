@@ -13,9 +13,28 @@ import {
   EditIcon,
   ExternalLinkIcon,
 } from '@chakra-ui/icons';
-import type { ActionItemDataType } from '@/lib/types';
+import type { ActionItemType, DataType } from '@/lib/types';
 import { ConfirmButton } from '../ConfirmButton';
 import type { ConfirmButtonProps } from '../ConfirmButton';
+
+export const mapToActionItem = (o: any): ActionItemType => {
+  let name: string = o.name ?? '';
+  let description: string = o.id;
+
+  if (o.label) {
+    name = o.label;
+  }
+  if (o.slug) {
+    description = o.slug;
+  }
+
+  return {
+    id: o.id,
+    name,
+    description,
+    children: o.children ?? [],
+  };
+};
 
 export type ActionItemProps<T> = {
   confirmButtonProps?: ConfirmButtonProps;
@@ -27,10 +46,10 @@ export type ActionItemProps<T> = {
   onDelete?: () => void;
 };
 
-export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<T>) => {
+export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
   const {
     confirmButtonProps,
-    data,
+    data: originalData,
     draggable = false,
     onDelete,
     onEdit,
@@ -38,6 +57,7 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
     onClickExternal,
   } = props;
 
+  const data = mapToActionItem(originalData);
   const greenBackground = useColorModeValue('green.400', 'gray.600');
   const blueBackground = useColorModeValue('blue.400', 'gray.600');
 
@@ -67,16 +87,18 @@ export const ActionItem = <T extends ActionItemDataType>(props: ActionItemProps<
         <Flex direction="column">
           <Text fontSize="2em" fontWeight="bold">
             {data.name}
-            <IconButton
-              aria-label="Preview"
-              marginLeft="10px"
-              icon={<ExternalLinkIcon />}
-              variant="link"
-              target="_blank"
-              onClick={onClickExternal}
-            />
+            {onClickExternal && (
+              <IconButton
+                aria-label="Preview"
+                marginLeft="10px"
+                icon={<ExternalLinkIcon />}
+                variant="link"
+                target="_blank"
+                onClick={onClickExternal}
+              />
+            )}
           </Text>
-          <Text fontSize="0.8em">{data.id}</Text>
+          <Text fontSize="0.8em">{data.description}</Text>
         </Flex>
       </HStack>
       <Flex width="250px" justifyContent="space-between">

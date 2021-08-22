@@ -105,8 +105,14 @@ export type LayoutType = BaseType & {
   value: Layouts | null;
 };
 
-export type DataType = SiteType | PageType | CollectionType | ImageType | LayoutType;
-export type ActionItemDataType = DataType;
+export type DataType = SiteType | PageType | CollectionType | ImageType | LayoutType | OptionValue;
+
+export type ActionItemType = {
+  id?: string;
+  name?: string;
+  description?: string;
+  children?: ActionItemType[];
+};
 
 export type CollectionPicked =
   | 'id'
@@ -213,7 +219,7 @@ export type LayoutDeletedData = DeletedData<LayoutType, Entity.Layouts>;
 
 export type OptionUpdated = UpdatedData<OptionType, Entity.Options>;
 
-export type EditingItem<T extends ActionItemDataType> = {
+export type EditingItem<T extends DataType> = {
   type: Entity;
   value: T;
   newValue: RecursivePartial<T>;

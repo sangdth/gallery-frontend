@@ -196,7 +196,7 @@ export const Pages = (props: Props) => {
           loading={insertLoading || deleteLoading}
           pages={pages}
           menu={currentMenuData as MenuOption}
-          onSubmit={() => console.log('menu editor submited')}
+          // onSubmit={() => console.log('menu editor submited')}
         />
         <PageEditorModal
           loading={insertLoading || deleteLoading}

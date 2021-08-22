@@ -5,7 +5,6 @@ import { PageSelector } from './PageSelector';
 
 const testPlaceholder = 'test placeholder string';
 const testPages: PageType[] = PageFactory.buildList(3);
-console.log('### testPages: ', testPages);
 
 describe('PageSelector', () => {
   // beforeEach(() => {
