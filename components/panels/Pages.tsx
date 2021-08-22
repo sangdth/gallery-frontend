@@ -4,8 +4,8 @@ import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { useQuery, useMutation } from '@apollo/client';
 import {
   ActionItem,
+  MenuEditorModal,
   PageEditorModal,
-  // MenuGenerator,
 } from '@/components';
 import { OptionKey } from '@/lib/enums';
 import { pageAtom } from '@/lib/jotai';
@@ -17,7 +17,7 @@ import {
   UPDATE_OPTIONS,
 } from '@/lib/graphqls';
 import type {
-  // DragItemType,
+  MenuOption,
   OptionType,
   OptionUpdated,
   OptionValue,
@@ -98,15 +98,15 @@ export const Pages = (props: Props) => {
     // },
   ] = useMutation<OptionUpdated>(UPDATE_OPTIONS);
 
-  const currentMenuData = optionData?.options.find((option) => option.key === OptionKey.Menu);
+  const currentMenuData = optionData?.options.find(({ key }) => key === OptionKey.Menu);
   const currentMenu = currentMenuData?.value ?? [];
 
-  const handleUpdateMenu = async (newValue: OptionValue[]) => {
+  const handleUpdateOption = async (key: OptionKey, value: OptionValue | OptionValue[]) => {
     await updateOption({
       variables: {
         siteId: site.id,
-        key: OptionKey.Menu,
-        value: newValue,
+        key: key,
+        value: value,
       },
       context: {
         headers: {
@@ -136,11 +136,12 @@ export const Pages = (props: Props) => {
       if (!found) {
         tmpMenu.push({
           id: newMenuItem.id,
+          slug: newMenuItem.slug,
           label: newMenuItem.name,
           children: [],
         });
       }
-      await handleUpdateMenu(tmpMenu);
+      await handleUpdateOption(OptionKey.Menu, tmpMenu);
     }
 
     pagesRefetch();
@@ -160,7 +161,7 @@ export const Pages = (props: Props) => {
     // This way can not delete page nested
     if (Array.isArray(currentMenu)) {
       const remainedMenu = currentMenu.filter((o) => o.id !== id);
-      await handleUpdateMenu(remainedMenu);
+      await handleUpdateOption(OptionKey.Menu, remainedMenu);
     }
 
     pagesRefetch();
@@ -187,23 +188,24 @@ export const Pages = (props: Props) => {
     return <div>Error getting pages data</div>;
   }
 
-  // <MenuGenerator
-  //   data={pages}
-  //   menu={currentMenu as DragItemType[]}
-  //   onChange={handleUpdateMenu}
-  //   onDelete={handleDelete}
-  //   onEdit={(p) => setSelectedPage(p)}
-  // />
-
+  // TODO: get rid of 'as MenuOption'
   return (
     <Flex direction="column">
-      <PageEditorModal
-        loading={insertLoading || deleteLoading}
-        onSubmit={handleSubmit}
-        refetch={pagesRefetch}
-      />
+      <Flex justifyContent="space-between">
+        <MenuEditorModal
+          loading={insertLoading || deleteLoading}
+          pages={pages}
+          menu={currentMenuData as MenuOption}
+          onSubmit={() => console.log('menu editor submited')}
+        />
+        <PageEditorModal
+          loading={insertLoading || deleteLoading}
+          onSubmit={handleSubmit}
+          refetch={pagesRefetch}
+        />
+      </Flex>
 
-      <Stack spacing="10px" marginTop="20px">
+      <Stack spacing="10px">
         {pages.map((p) => (
           <ActionItem
             key={p.id}

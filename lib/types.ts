@@ -42,7 +42,7 @@ export type BaseType = {
   status: Status;
 };
 
-export type OptionValue = { [k: string]: string | number | OptionValue[] };
+export type OptionValue = { [k: string]: string | number | boolean | OptionValue | OptionValue[] };
 
 export type BaseOption = BaseType & {
   site_id: string;
