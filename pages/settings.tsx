@@ -4,7 +4,7 @@ import {
   ChangePassword,
   Layout,
   WithPrivateRoute,
-} from '../components';
+} from '@/components';
 
 export const Settings = () => (
   <Layout>

@@ -7,8 +7,8 @@ import { useMeasure } from 'react-use';
 import { Box } from '@chakra-ui/react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import type { Layout, Layouts } from 'react-grid-layout';
-import { GridItem, Ruler } from '../index';
-import { DEFAULT_LAYOUT } from '../../lib/constants';
+import { GridItem, Ruler } from '@/components';
+import { DEFAULT_LAYOUT } from '@/lib/constants';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 

@@ -28,12 +28,10 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
-import { ConfirmButton } from '../ConfirmButton';
 import { meAtom, siteAtom } from '@/lib/jotai';
 import { storage } from '@/lib/nhost';
-import { collectionAtom } from '../panels/Collections';
-import { ImageUpload } from '../ImageUpload';
-import { ImageController } from '../ImageController';
+import { ConfirmButton, ImageUpload, ImageController } from '@/components';
+import { collectionAtom } from '@/components/panels/Collections';
 import type { CollectionInput, ImageType } from '@/lib/types';
 
 type Props = {

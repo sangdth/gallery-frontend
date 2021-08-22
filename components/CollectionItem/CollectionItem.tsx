@@ -7,7 +7,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { ConfirmButton } from '../ConfirmButton';
+import { ConfirmButton } from '@/components';
 
 type Props = {
   name: string;

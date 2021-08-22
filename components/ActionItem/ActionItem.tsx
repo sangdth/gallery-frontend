@@ -13,9 +13,9 @@ import {
   EditIcon,
   ExternalLinkIcon,
 } from '@chakra-ui/icons';
+import type { ActionItemDataType } from '@/lib/types';
 import { ConfirmButton } from '../ConfirmButton';
 import type { ConfirmButtonProps } from '../ConfirmButton';
-import type { ActionItemDataType } from '../../lib/types';
 
 export type ActionItemProps<T> = {
   confirmButtonProps?: ConfirmButtonProps;

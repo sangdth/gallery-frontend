@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import type { PageType } from '../../lib/types';
+import type { PageType } from '@/lib/types';
 
 type Props = Partial<PageType> & {
   children?: React.ReactNode;

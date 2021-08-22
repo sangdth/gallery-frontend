@@ -1,12 +1,9 @@
 import React, { createContext } from 'react';
-// import { v4 as uuidv4 } from 'uuid';
-// import { atom, useAtom } from 'jotai';
-// import { Entity } from '../../lib/enums';
 import type {
   DataType,
   EditingItem,
   EditingItemType,
-} from '../../lib/types';
+} from '@/lib/types';
 
 export type EditingContextType<T extends DataType> = {
   // isEditing: boolean;

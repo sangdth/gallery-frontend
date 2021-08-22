@@ -3,8 +3,8 @@ import {
   Image,
   SimpleGrid,
 } from '@chakra-ui/react';
-import { BASE_ENDPOINT } from '../../lib/constants';
-import type { RecursivePartial, ImageType } from '../../lib/types';
+import { BASE_ENDPOINT } from '@/lib/constants';
+import type { RecursivePartial, ImageType } from '@/lib/types';
 
 type ImageControllerProps = {
   images: RecursivePartial<ImageType>[];

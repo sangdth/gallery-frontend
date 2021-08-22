@@ -1,8 +1,13 @@
 import React, { useCallback } from 'react';
 import { atom, useAtom } from 'jotai';
 import { Flex, Stack, useToast } from '@chakra-ui/react';
-import { gql, useQuery, useMutation } from '@apollo/client';
-import { ActionItem, CollectionEditorModal } from '../index';
+import { useQuery, useMutation } from '@apollo/client';
+import { ActionItem, CollectionEditorModal } from '@/components';
+import {
+  COLLECTIONS_AGGREGATE,
+  UPSERT_COLLECTION_ONE,
+  DELETE_COLLECTION_BY_PK,
+} from '@/lib/graphqls';
 import type {
   CollectionInsertedData,
   CollectionsAggregateData,
@@ -10,63 +15,9 @@ import type {
   CollectionInput,
   SiteType,
   UserType,
-} from '../../lib/types';
+} from '@/lib/types';
 
 // TODO: Bring these gql to lib/graphqls
-export const COLLECTIONS_AGGREGATE = gql`
-  query COLLECTIONS_AGGREGATE($userId: uuid!, $siteId: uuid!) {
-    collections_aggregate(
-      limit: 10,
-      offset: 0,
-      where: {
-        user_id: {_eq: $userId},
-        site_id: {_eq: $siteId}
-      }
-    ) {
-      nodes {
-        created_at
-        updated_at
-        id
-        site_id
-        name
-        description
-        status
-        images {
-          id
-          meta
-          path
-          status
-        }
-      }
-    }
-  }
-`;
-
-export const UPSERT_COLLECTION_ONE = gql`
-  mutation UPSERT_COLLECTION_ONE($object: collections_insert_input!) {
-    insert_collections_one(
-      object: $object,
-      on_conflict: {constraint: collections_pkey, update_columns: [name, description, status]}
-    ) {
-      created_at
-      updated_at
-      id
-      name
-      description
-      status
-    }
-  }
-`;
-
-export const DELETE_COLLECTION_BY_PK = gql`
-  mutation DELETE_collection_BY_PK($id: uuid!) {
-    delete_collections_by_pk(id: $id) {
-      id
-      name
-    }
-  }
-`;
-
 type Props = {
   site: SiteType;
   user: UserType;

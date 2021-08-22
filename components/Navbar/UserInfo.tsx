@@ -16,8 +16,8 @@ import {
   ChevronDownIcon,
   SettingsIcon,
 } from '@chakra-ui/icons';
-import { meAtom } from '../../lib/jotai';
-import { auth } from '../../lib/nhost';
+import { meAtom } from '@/lib/jotai';
+import { auth } from '@/lib/nhost';
 
 export const UserInfo = () => {
   const router = useRouter();

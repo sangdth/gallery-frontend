@@ -24,10 +24,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon, RepeatIcon } from '@chakra-ui/icons';
-import { ConfirmButton } from '../ConfirmButton';
-import { Input } from '../Input';
-import { meAtom, siteAtom } from '../../lib/jotai';
-import type { SiteType, SiteInput } from '../../lib/types';
+import { ConfirmButton, Input } from '@/components';
+import { meAtom, siteAtom } from '@/lib/jotai';
+import type { SiteType, SiteInput } from '@/lib/types';
 
 type Props = {
   isEditing: boolean;
@@ -38,7 +37,6 @@ type Props = {
   refetch: () => void;
 };
 
-// TODO: Fix bugs related to confirmation while never change anything
 const SiteEditorModal = (props: Props) => {
   const {
     isEditing,
@@ -58,17 +56,16 @@ const SiteEditorModal = (props: Props) => {
     name: '',
     description: '',
     slug: '',
-    ...(selectedSite ?? {}),
-  }), [selectedSite]);
+  }), []);
 
   const [input, setInput] = useState<SiteInput>(initialInput);
   const [manual, setManual] = useState(false);
 
   const shouldDisable = !me?.id || loading;
   const isEmptyInput = !input.name && !input.description;
-  const hasChanged = selectedSite && (
+  const hasChanged = useMemo(() => !!selectedSite && (
     input.name !== selectedSite.name || input.description !== selectedSite.description
-  );
+  ), [input, selectedSite]);
 
   const cleanUp = useCallback(() => {
     setInput({ ...initialInput, id: uuidv4() });

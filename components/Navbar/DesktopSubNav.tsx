@@ -8,7 +8,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
-import type { NavItem } from '../../lib/types';
+import type { NavItem } from '@/lib/types';
 
 export const DesktopSubNav = ({ label, href, subLabel }: NavItem) => (
   <Link

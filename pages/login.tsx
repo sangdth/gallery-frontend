@@ -9,8 +9,8 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { Logo, Input } from '../components';
-import { auth } from '../lib/nhost';
+import { Logo, Input } from '@/components';
+import { auth } from '@/lib/nhost';
 
 export default function Login() {
   const router = useRouter();

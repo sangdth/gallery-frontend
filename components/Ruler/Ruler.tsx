@@ -15,16 +15,6 @@ export const Ruler = (props: RulerProps) => {
       backgroundColor="#EFEFEF"
       marginTop="10px"
       marginBottom="10px"
-      // _before={{
-      //   content: '""',
-      //   position: 'absolute',
-      //   top: '50%',
-      //   left: 0,
-      //   borderTop: '1px',
-      //   background: '#000000',
-      //   width: '100%',
-      //   transform: 'translateY(-50%)',
-      // }}
     >
       <ArrowBackIcon />
       {value}px

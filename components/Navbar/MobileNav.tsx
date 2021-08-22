@@ -1,6 +1,6 @@
 import { Stack, useColorModeValue } from '@chakra-ui/react';
 import MobileNavItem from './MobileNavItem';
-import type { NavItem } from '../../lib/types';
+import type { NavItem } from '@/lib/types';
 
 type Props = {
   items: NavItem[];

@@ -7,8 +7,8 @@ import {
   DraggableProvidedDraggableProps,
 } from 'react-beautiful-dnd';
 import { Box } from '@chakra-ui/react';
-import { ActionItem } from '../ActionItem';
-import type { DragItemType, ActionItemDataType } from '../../lib/types';
+import { ActionItem } from '@/components';
+import type { DragItemType, ActionItemDataType } from '@/lib/types';
 
 const grid = 10;
 

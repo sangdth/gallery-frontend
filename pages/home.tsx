@@ -3,24 +3,24 @@ import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/client';
 import { Flex, Stack, useToast } from '@chakra-ui/react';
-import { WithPrivateRoute } from '../components/WithPrivateRoute';
-import { ActionItem, Layout, SiteEditorModal } from '../components';
-import { auth } from '../lib/nhost';
-import { siteAtom } from '../lib/jotai';
+import { WithPrivateRoute } from '@/components/WithPrivateRoute';
+import { ActionItem, Layout, SiteEditorModal } from '@/components';
+import { auth } from '@/lib/nhost';
+import { siteAtom } from '@/lib/jotai';
 import {
   SITES_AGGREGATE,
   UPSERT_SITE_ONE,
   DELETE_SITE_BY_PK,
-} from '../lib/graphqls';
-import { DEFAULT_LAYOUT } from '../lib/constants';
-import { OptionKey } from '../lib/enums';
+} from '@/lib/graphqls';
+import { DEFAULT_LAYOUT } from '@/lib/constants';
+import { OptionKey } from '@/lib/enums';
 import type {
   SiteType,
   SitesAggregateData,
   SiteInsertedData,
   SiteDeletedData,
   OptionType,
-} from '../lib/types';
+} from '@/lib/types';
 
 const defaultOptions: Partial<OptionType>[] = [
   { key: OptionKey.Menu, value: [] },

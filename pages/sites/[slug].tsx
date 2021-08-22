@@ -2,8 +2,8 @@ import React from 'react';
 import { useRouter } from 'next/router';
 // import { useAuth } from '@nhost/react-auth';
 import { gql, useQuery } from '@apollo/client';
-import { Layout } from '../../components/Layout';
-import type { SitesAggregateData } from '../../lib/types';
+import { Layout } from '@/components';
+import type { SitesAggregateData } from '@/lib/types';
 
 const GET_SITE_BY_SLUG = gql`
   query GetSiteBySlug($slug: String!) {

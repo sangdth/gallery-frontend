@@ -22,12 +22,10 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import type { Layouts } from 'react-grid-layout';
-import { ConfirmButton } from '../ConfirmButton';
-import { Input } from '../Input';
-import { GridEditor } from '../GridEditor';
-import { meAtom, layoutAtom } from '../../lib/jotai';
-import { DEFAULT_LAYOUT } from '../../lib/constants';
-import type { LayoutInput } from '../../lib/types';
+import { ConfirmButton, Input, GridEditor } from '@/components';
+import { meAtom, layoutAtom } from '@/lib/jotai';
+import { DEFAULT_LAYOUT } from '@/lib/constants';
+import type { LayoutInput } from '@/lib/types';
 
 type Props = {
   loading?: boolean;

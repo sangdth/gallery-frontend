@@ -7,8 +7,8 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
+import type { NavItem } from '@/lib/types';
 import { DesktopSubNav } from './DesktopSubNav';
-import type { NavItem } from '../../lib/types';
 
 export type Props = {
   items: NavItem[];

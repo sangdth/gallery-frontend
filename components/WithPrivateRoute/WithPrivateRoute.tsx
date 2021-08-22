@@ -3,10 +3,10 @@ import { useAtom } from 'jotai';
 import { useAuth } from '@nhost/react-auth';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { auth } from '../../lib/nhost';
-import { meAtom } from '../../lib/jotai';
-import { GET_SELF } from '../../lib/graphqls';
-import type { UserData } from '../../lib/types';
+import { auth } from '@/lib/nhost';
+import { meAtom } from '@/lib/jotai';
+import { GET_SELF } from '@/lib/graphqls';
+import type { UserData } from '@/lib/types';
 
 export function WithPrivateRoute<P>(Component: React.ComponentType<P>) {
   return function WrapperComponent(props: P) {

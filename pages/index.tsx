@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useAuth } from '@nhost/react-auth';
 import { Flex } from '@chakra-ui/react';
-import { Layout } from '../components/Layout';
+import { Layout } from '@/components';
 
 function Index() {
   const router = useRouter();

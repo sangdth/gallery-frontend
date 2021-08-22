@@ -3,8 +3,8 @@ import { Provider as JotaiProvider } from 'jotai';
 import { NhostAuthProvider } from '@nhost/react-auth';
 import { NhostApolloProvider } from '@nhost/react-apollo';
 import { ChakraProvider } from '@chakra-ui/react';
-import { auth } from '../../lib/nhost';
-import { GRAPHQL_ENDPOINT } from '../../lib/constants';
+import { auth } from '@/lib/nhost';
+import { GRAPHQL_ENDPOINT } from '@/lib/constants';
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (

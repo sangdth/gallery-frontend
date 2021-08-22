@@ -24,9 +24,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { ConfirmButton } from '../ConfirmButton';
-import { meAtom, pageAtom } from '../../lib/jotai';
-import type { PageInput } from '../../lib/types';
+import { ConfirmButton } from '@/components';
+import { meAtom, pageAtom } from '@/lib/jotai';
+import type { PageInput } from '@/lib/types';
 
 type Props = {
   loading?: boolean;

@@ -1,6 +1,6 @@
 import React, { FC, ReactElement } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
-import { AppWrapper } from '../components'; // use this for end to end tests
+import { AppWrapper } from '@/components'; // TODO: use this for end to end tests
 
 const AllTheProviders: FC = ({ children }) => {
   return (

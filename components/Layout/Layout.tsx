@@ -1,9 +1,9 @@
 import React from 'react';
 import Head from 'next/head';
 import { Flex } from '@chakra-ui/react';
-import { Navbar } from '../Navbar';
-import { NAV_ITEMS } from '../../lib/constants';
-import type { SiteType } from '../../lib/types';
+import { NAV_ITEMS } from '@/lib/constants';
+import type { SiteType } from '@/lib/types';
+import { Navbar } from '@/components';
 
 export type LayoutProps = {
   children: React.ReactNode;

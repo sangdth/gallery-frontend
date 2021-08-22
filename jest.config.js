@@ -17,6 +17,7 @@ module.exports = {
     '^.+\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
 
     // Handle module aliases
+    '^@/components': '<rootDir>/components/index', // special for '@/components'
     '^@/components/(.*)$': '<rootDir>/components/$1',
     '^@/lib/(.*)$': '<rootDir>/lib/$1',
     '^@/pages/(.*)$': '<rootDir>/pages/$1',

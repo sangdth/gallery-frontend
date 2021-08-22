@@ -61,6 +61,20 @@ export const DELETE_SITE_BY_PK = gql`
   }
 `;
 
+export const SITE_BY_PK = gql`
+  query SITE_BY_PK($id: uuid!) {
+    sites_by_pk(id: $id) {
+      description
+      created_at
+      id
+      name
+      slug
+      status
+      updated_at
+    }
+  }
+`;
+
 export const PAGE_BY_PK = gql`
   query PAGE_BY_PK($id: uuid!) {
     page_by_pk(id: $id) {
@@ -199,6 +213,60 @@ export const UPSERT_LAYOUT_ONE = gql`
 export const DELETE_LAYOUT_BY_PK = gql`
   mutation DELETE_LAYOUT_BY_PK($id: uuid!) {
     delete_layouts_by_pk(id: $id) {
+      id
+      name
+    }
+  }
+`;
+
+export const COLLECTIONS_AGGREGATE = gql`
+  query COLLECTIONS_AGGREGATE($userId: uuid!, $siteId: uuid!) {
+    collections_aggregate(
+      limit: 10,
+      offset: 0,
+      where: {
+        user_id: {_eq: $userId},
+        site_id: {_eq: $siteId}
+      }
+    ) {
+      nodes {
+        created_at
+        updated_at
+        id
+        site_id
+        name
+        description
+        status
+        images {
+          id
+          meta
+          path
+          status
+        }
+      }
+    }
+  }
+`;
+
+export const UPSERT_COLLECTION_ONE = gql`
+  mutation UPSERT_COLLECTION_ONE($object: collections_insert_input!) {
+    insert_collections_one(
+      object: $object,
+      on_conflict: {constraint: collections_pkey, update_columns: [name, description, status]}
+    ) {
+      created_at
+      updated_at
+      id
+      name
+      description
+      status
+    }
+  }
+`;
+
+export const DELETE_COLLECTION_BY_PK = gql`
+  mutation DELETE_collection_BY_PK($id: uuid!) {
+    delete_collections_by_pk(id: $id) {
       id
       name
     }

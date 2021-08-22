@@ -10,11 +10,11 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { useAuth } from '@nhost/react-auth';
-import { Logo } from '../Logo';
+import { Logo } from '@/components';
+import type { NavItem } from '@/lib/types';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
 import { UserInfo } from './UserInfo';
-import type { NavItem } from '../../lib/types';
 
 export type Props = {
   items: NavItem[];

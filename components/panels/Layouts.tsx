@@ -5,13 +5,13 @@ import { useQuery, useMutation } from '@apollo/client';
 import {
   ActionItem,
   LayoutEditorModal,
-} from '../index';
-import { layoutAtom } from '../../lib/jotai';
+} from '@/components';
+import { layoutAtom } from '@/lib/jotai';
 import {
   LAYOUTS_AGGREGATE,
   UPSERT_LAYOUT_ONE,
   DELETE_LAYOUT_BY_PK,
-} from '../../lib/graphqls';
+} from '@/lib/graphqls';
 import type {
   LayoutDeletedData,
   LayoutInsertedData,
@@ -19,7 +19,7 @@ import type {
   LayoutsAggregateData,
   SiteType,
   UserType,
-} from '../../lib/types';
+} from '@/lib/types';
 
 type Props = {
   site: SiteType;

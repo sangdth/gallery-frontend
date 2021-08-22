@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { gql, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import {
   Tab,
   TabList,
@@ -11,22 +11,9 @@ import {
 } from '@chakra-ui/react';
 import { Layout, WithPrivateRoute } from '@/components';
 import { Pages, Collections, Layouts } from '@/components/panels';
-import { siteAtom, meAtom } from '../../lib/jotai';
-import type { SiteData } from '../../lib/types';
-
-export const SITE_BY_PK = gql`
-  query SITE_BY_PK($id: uuid!) {
-    sites_by_pk(id: $id) {
-      description
-      created_at
-      id
-      name
-      slug
-      status
-      updated_at
-    }
-  }
-`;
+import { siteAtom, meAtom } from '@/lib/jotai';
+import { SITE_BY_PK } from '@/lib/graphqls';
+import type { SiteData } from '@/lib/types';
 
 const tabs = ['pages', 'collections', 'layouts'];
 
