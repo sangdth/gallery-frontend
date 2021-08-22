@@ -9,8 +9,8 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { Layout, WithPrivateRoute } from '../../components';
-import { Pages, Collections, Layouts } from '../../components/panels';
+import { Layout, WithPrivateRoute } from '@/components';
+import { Pages, Collections, Layouts } from '@/components/panels';
 import { siteAtom, meAtom } from '../../lib/jotai';
 import type { SiteData } from '../../lib/types';
 

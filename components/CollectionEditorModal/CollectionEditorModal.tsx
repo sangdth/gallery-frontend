@@ -29,12 +29,12 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { ConfirmButton } from '../ConfirmButton';
-import { meAtom, siteAtom } from '../../lib/jotai';
-import { storage } from '../../lib/nhost';
+import { meAtom, siteAtom } from '@/lib/jotai';
+import { storage } from '@/lib/nhost';
 import { collectionAtom } from '../panels/Collections';
 import { ImageUpload } from '../ImageUpload';
 import { ImageController } from '../ImageController';
-import type { CollectionInput, ImageType } from '../../lib/types';
+import type { CollectionInput, ImageType } from '@/lib/types';
 
 type Props = {
   onSubmit: (input: CollectionInput) => Promise<void>;

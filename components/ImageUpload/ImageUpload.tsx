@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useAtom } from 'jotai';
-import { siteAtom } from '../../lib/jotai';
-import { storage } from '../../lib/nhost';
+import { siteAtom } from '@/lib/jotai';
+import { storage } from '@/lib/nhost';
 import { ImageUploadView } from './ImageUploadView';
-import type { StorageResponse, ImageType } from '../../lib/types';
+import type { StorageResponse, ImageType } from '@/lib/types';
 
 type Props = {
   collectionId: string;

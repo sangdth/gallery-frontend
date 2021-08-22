@@ -18,6 +18,10 @@ module.exports = {
 
     // Handle module aliases
     '^@/components/(.*)$': '<rootDir>/components/$1',
+    '^@/lib/(.*)$': '<rootDir>/lib/$1',
+    '^@/pages/(.*)$': '<rootDir>/pages/$1',
+    '^@/styles/(.*)$': '<rootDir>/styles/$1',
+    '^@/test/(.*)$': '<rootDir>/test/$1',
   },
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
