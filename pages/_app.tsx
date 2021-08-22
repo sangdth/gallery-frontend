@@ -1,25 +1,18 @@
+// Global CSS can not import from other than this custom App
 import '../styles/globals.css';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { Provider as JotaiProvider } from 'jotai';
-import { NhostAuthProvider } from '@nhost/react-auth';
-import { NhostApolloProvider } from '@nhost/react-apollo';
-import { ChakraProvider } from '@chakra-ui/react';
+import '@uppy/core/dist/style.css';
+import '@uppy/drag-drop/dist/style.css';
+
 import type { AppProps } from 'next/app';
-import { auth } from '../lib/nhost';
-import { GRAPHQL_ENDPOINT } from '../lib/constants';
+import { AppWrapper } from '../components';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <JotaiProvider>
-      <NhostAuthProvider auth={auth}>
-        <NhostApolloProvider auth={auth} gqlEndpoint={GRAPHQL_ENDPOINT}>
-          <ChakraProvider>
-            <Component {...pageProps} />
-          </ChakraProvider>
-        </NhostApolloProvider>
-      </NhostAuthProvider>
-    </JotaiProvider>
+    <AppWrapper>
+      <Component {...pageProps} />
+    </AppWrapper>
   );
 }
 export default MyApp;
