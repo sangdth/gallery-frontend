@@ -6870,10 +6870,10 @@ supertokens-auth-react@0.15.4:
     react-shadow "^19.0.2"
     supertokens-website "^8.1.0"
 
-supertokens-node@6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/supertokens-node/-/supertokens-node-6.0.4.tgz#2fd54c15b622fcd79ab85d331a05850ab5dea126"
-  integrity sha512-kEKa29n58hu3sORHbqwJa8zOgupxH+OCPDaOHJx2MxaIdLeG5v6vKQY+kZvEfCI6hQWWKZuJAtQy0YfoM9BDaw==
+supertokens-node@6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/supertokens-node/-/supertokens-node-6.1.0.tgz#5a4ef282a9d13dd4a3912b584c181ecb0ba5a096"
+  integrity sha512-cvsl1rsRfIXNQMRtOCl72Ygxzzt72iA5AHcg2XwMCCsrN46qra0yS0rCXyH5DOcg8OHt/suXeMgI96XWccuK0g==
   dependencies:
     axios "0.21.1"
     body-parser "1.19.0"
