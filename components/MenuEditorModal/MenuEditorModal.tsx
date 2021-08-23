@@ -2,7 +2,7 @@ import React, {
 // useCallback,
 // useEffect,
 // useMemo,
-// useState,
+  useState,
 } from 'react';
 import {
   Button,
@@ -14,40 +14,76 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Stack,
   useDisclosure,
 } from '@chakra-ui/react';
-import { SettingsIcon } from '@chakra-ui/icons';
+import { MinusIcon, SettingsIcon } from '@chakra-ui/icons';
 import { ActionItem, ConfirmButton, PageSelector } from '@/components';
+import { recursiveRemove, recursiveInsert } from '@/lib/helpers';
 import type { MenuOption, PageType } from '@/lib/types';
 
 type Props = {
   loading?: boolean;
-  pages: PageType[] | undefined;
-  menu: MenuOption | undefined;
-  onSubmit?: (menu: MenuOption) => Promise<void>;
+  pages: PageType[];
+  menu: MenuOption;
+  onSubmit?: (menu: MenuOption) => void;
   refetch?: () => void;
 };
 
 export const MenuEditorModal = (props: Props) => {
-  const { loading, pages, menu, onSubmit, refetch } = props;
-  // console.log('### menu: ', menu);
+  const {
+    loading,
+    pages,
+    menu: originalMenu,
+    onSubmit,
+    refetch,
+  } = props;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [menuValue, setMenuValue] = useState(originalMenu?.value ?? []);
 
-  const handleSubmit = async () => {
-    if (menu && typeof onSubmit === 'function' && typeof refetch === 'function') {
-      await onSubmit(menu);
+  const handleSubmit = () => {
+    if (onSubmit) {
+      onSubmit({ ...originalMenu, value: menuValue });
+    }
+    if (refetch) {
       refetch();
     }
     onClose();
   };
 
   const handleOpen = () => {
+    setMenuValue(originalMenu.value);
     onOpen();
   };
 
   const handleCancel = () => {
     onClose();
+  };
+
+  const handleDeleteMenuItem = (id: string) => {
+    const remainedMenu = recursiveRemove(menuValue, id);
+    setMenuValue(remainedMenu);
+  };
+
+  const handleAddNewItem = (pageId: string, itemId?: string) => {
+    const foundPage = pages.find((p) => p.id === pageId);
+    if (foundPage) {
+      const newNode = {
+        id: foundPage.id,
+        label: foundPage.name,
+        slug: foundPage.slug,
+      };
+     
+      if (itemId) {
+        const newMenu = recursiveInsert(menuValue, itemId, newNode);
+        setMenuValue(newMenu);
+      } else {
+        const newMenu = [...menuValue];
+        newMenu.push(newNode);
+        setMenuValue(newMenu);
+      }
+    }
   };
 
   return (
@@ -86,17 +122,28 @@ export const MenuEditorModal = (props: Props) => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            {menu?.value.map((o) => (
-              <ActionItem
-                key={typeof o.id === 'string' ? o.id : 'no-id'}
-                data={o}
-              />
-            ))}
+            <Stack spacing="10px" marginBottom="10px">
+              {menuValue.map((o) => (
+                <ActionItem
+                  compactMode
+                  key={`${o.id}`}
+                  data={o}
+                  customActions={(itemId) => (
+                    <PageSelector
+                      pages={pages.filter(p => p.id !== o.id)}
+                      onSelect={(pageId) => handleAddNewItem(pageId, itemId)}
+                    />
+                  )}
+                  onDeleteIcon={<MinusIcon />}
+                  onDelete={(id) => handleDeleteMenuItem(id)}
+                />
+              ))}
+            </Stack>
 
             {pages && pages.length > 0 && (
               <PageSelector
                 pages={pages}
-                onSelect={(id) => console.log('selected', id)}
+                onSelect={(pageId) => handleAddNewItem(pageId)}
               />
             )}
           </ModalBody>

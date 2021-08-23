@@ -108,7 +108,7 @@ export type LayoutType = BaseType & {
 export type DataType = SiteType | PageType | CollectionType | ImageType | LayoutType | OptionValue;
 
 export type ActionItemType = {
-  id?: string;
+  id: string;
   name?: string;
   description?: string;
   children?: ActionItemType[];

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select } from '@chakra-ui/react';
 import type { PageType } from '@/lib/types';
 
@@ -22,14 +22,15 @@ export const PageSelector = (props: PageSelectorProps) => {
     setSelectedId(id);
   };
   
-  // useEffect(() => {
-  //   return () => {
-  //     setSelectedId('');
-  //   };
-  // }, []);
+  useEffect(() => {
+    return () => {
+      setSelectedId('');
+    };
+  }, []);
 
   return (
     <Select
+      width="250px"
       placeholder={placeholder}
       value={selectedId}
       onChange={handleOnSelect}

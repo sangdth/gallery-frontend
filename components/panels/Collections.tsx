@@ -148,7 +148,7 @@ export const Collections = (props: Props) => {
             key={collection.id}
             data={collection}
             onEdit={() => setCollection(collection)}
-            onDelete={() => handleDelete(collection.id)}
+            onDelete={(id) => handleDelete(id)}
           />
         ))}
 

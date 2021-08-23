@@ -66,7 +66,7 @@ export const ConfirmButton = (props: ConfirmButtonProps) => {
     }
   };
 
-  const hoverBg = useColorModeValue('red.400', 'gray.600');
+  const hoverBg = useColorModeValue('red.500', 'gray.600');
 
   useEffect(() => {
     if (isOpen) {
@@ -82,6 +82,7 @@ export const ConfirmButton = (props: ConfirmButtonProps) => {
           aria-label={label}
           icon={icon}
           borderRadius="4px"
+          backgroundColor="gray.300"
           _hover={{ bg: hoverBg, color: 'white' }}
           onClick={handleAnchorClick}
         />
@@ -90,6 +91,7 @@ export const ConfirmButton = (props: ConfirmButtonProps) => {
           {...buttonProps}
           leftIcon={icon}
           borderRadius="4px"
+          backgroundColor="gray.300"
           _hover={{ bg: hoverBg, color: 'white' }}
           onClick={handleAnchorClick}
         >
@@ -107,7 +109,7 @@ export const ConfirmButton = (props: ConfirmButtonProps) => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              {message}
+              {label}
             </AlertDialogHeader>
 
             <AlertDialogBody>

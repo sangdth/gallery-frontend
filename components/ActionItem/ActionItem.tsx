@@ -3,6 +3,7 @@ import {
   Flex,
   HStack,
   IconButton,
+  Stack,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -40,10 +41,14 @@ export type ActionItemProps<T> = {
   confirmButtonProps?: ConfirmButtonProps;
   data: T;
   draggable?: boolean;
+  compactMode?: boolean;
+  customActions?: (id: string) => React.ReactNode;
   onClick?: () => void;
   onClickExternal?: () => void;
   onEdit?: () => void;
-  onDelete?: () => void;
+  onEditIcon?: React.ReactElement;
+  onDelete?: (id: string) => void;
+  onDeleteIcon?: React.ReactElement;
 };
 
 export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
@@ -51,8 +56,12 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
     confirmButtonProps,
     data: originalData,
     draggable = false,
+    compactMode = false,
+    customActions,
     onDelete,
+    onDeleteIcon,
     onEdit,
+    onEditIcon,
     onClick,
     onClickExternal,
   } = props;
@@ -66,13 +75,13 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
       border="1px"
       borderColor="gray.200"
       borderRadius="4px"
-      padding="20px"
-      spacing="20px"
+      padding={`${compactMode ? 10 : 20}px`}
+      direction="column"
       justifyContent="space-between"
       _hover={{ bg: useColorModeValue('blue.50', 'gray.900') }}
       // onClick={onClick}
     >
-      <HStack spacing="20px">
+      <HStack spacing="20px" width="100%" justifyContent="space-between">
         {draggable && (
           <IconButton
             as="div"
@@ -85,7 +94,7 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
         )}
 
         <Flex direction="column">
-          <Text fontSize="2em" fontWeight="bold">
+          <Text fontSize={`${compactMode ? 1 : 2}em`} fontWeight="bold">
             {data.name}
             {onClickExternal && (
               <IconButton
@@ -98,49 +107,66 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
               />
             )}
           </Text>
-          <Text fontSize="0.8em">{data.description}</Text>
+          <Text fontSize={`${compactMode ? 0.6 : 0.8}em`}>{data.description}</Text>
+        </Flex>
+        <Flex minWidth="250px" justifyContent="space-between">
+          <HStack spacing="20px">
+            {onClick && (
+              <IconButton
+                aria-label="Open"
+                colorScheme="blue"
+                variant="outline"
+                borderRadius="4px"
+                icon={<ArrowForwardIcon />}
+                _hover={{ bg: greenBackground, color: 'white' }}
+                onClick={onClick}
+              />
+            )}
+          </HStack>
+
+          <HStack spacing="20px">
+            {onEdit && (
+              <IconButton
+                aria-label="Edit"
+                colorScheme="blue"
+                variant="outline"
+                borderRadius="4px"
+                icon={onEditIcon ?? <EditIcon />}
+                _hover={{ bg: blueBackground, color: 'white' }}
+                onClick={onEdit}
+              />
+            )}
+            
+            {customActions && customActions(data.id)}
+
+            {onDelete && (
+              <ConfirmButton
+                {...confirmButtonProps}
+                iconOnly
+                icon={onDeleteIcon ?? <DeleteIcon />}
+                label="Delete"
+                message={`Delete this item (${data.name})?`}
+                onConfirm={() => onDelete(data.id)}
+              />
+            )}
+          </HStack>
         </Flex>
       </HStack>
-      <Flex width="250px" justifyContent="space-between">
-        <HStack spacing="20px">
-          {onClick && (
-            <IconButton
-              aria-label="Open"
-              colorScheme="blue"
-              variant="outline"
-              borderRadius="4px"
-              icon={<ArrowForwardIcon />}
-              _hover={{ bg: greenBackground, color: 'white' }}
-              onClick={onClick}
-            />
-          )}
-        </HStack>
 
-        <HStack spacing="20px">
-          {onEdit && (
-            <IconButton
-              aria-label="Edit"
-              colorScheme="blue"
-              variant="outline"
-              borderRadius="4px"
-              icon={<EditIcon />}
-              _hover={{ bg: blueBackground, color: 'white' }}
-              onClick={onEdit}
+      {data.children && data.children.length > 0 && (
+        <Stack spacing="10px" marginTop="10px">
+          {data.children.map((o) => (
+            <ActionItem
+              compactMode
+              key={typeof o.id === 'string' ? o.id : 'no-id'}
+              data={o}
+              onDelete={onDelete}
+              onDeleteIcon={onDeleteIcon ?? <DeleteIcon />}
+              customActions={customActions}
             />
-          )}
-
-          {onDelete && (
-            <ConfirmButton
-              {...confirmButtonProps}
-              iconOnly
-              icon={<DeleteIcon />}
-              label="Delete"
-              message="Delete this item?"
-              onConfirm={onDelete}
-            />
-          )}
-        </HStack>
-      </Flex>
+          ))}
+        </Stack>
+      )}
     </Flex>
   );
 };

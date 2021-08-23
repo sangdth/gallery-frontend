@@ -134,7 +134,7 @@ export const Layouts = (props: Props) => {
             key={p.id}
             data={p}
             onEdit={() => setSelectedLayout(p)}
-            onDelete={() => handleDelete(p.id)}
+            onDelete={(id) => handleDelete(id)}
           />
         ))}
 

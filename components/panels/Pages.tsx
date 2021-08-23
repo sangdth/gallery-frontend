@@ -196,7 +196,8 @@ export const Pages = (props: Props) => {
           loading={insertLoading || deleteLoading}
           pages={pages}
           menu={currentMenuData as MenuOption}
-          // onSubmit={() => console.log('menu editor submited')}
+          onSubmit={(menu) => console.log('menu editor submited', menu)}
+          refetch={optionRefetch}
         />
         <PageEditorModal
           loading={insertLoading || deleteLoading}
@@ -211,7 +212,7 @@ export const Pages = (props: Props) => {
             key={p.id}
             data={p}
             onEdit={() => setSelectedPage(p)}
-            onDelete={() => handleDelete(p.id)}
+            onDelete={(id) => handleDelete(id)}
           />
         ))}
 
