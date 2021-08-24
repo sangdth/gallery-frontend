@@ -106,6 +106,7 @@ export const MenuEditorModal = (props: Props) => {
           fontWeight={600}
           color="white"
           bg="blue.400"
+          isLoading={loading}
           leftIcon={<SettingsIcon />}
           disabled={false}
           display={{

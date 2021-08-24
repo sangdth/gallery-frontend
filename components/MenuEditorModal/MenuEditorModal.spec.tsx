@@ -22,6 +22,7 @@ describe('MenuEditorModal', () => {
     
     const triggerButton = screen.getByRole('button');
     expect(triggerButton).toBeInTheDocument();
+
     fireEvent.click(triggerButton);
     const saveButton = await screen.findByText(/Save Menu/);
     expect(saveButton).toBeInTheDocument();

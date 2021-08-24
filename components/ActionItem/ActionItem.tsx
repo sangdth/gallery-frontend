@@ -154,7 +154,7 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
       </HStack>
 
       {data.children && data.children.length > 0 && (
-        <Stack spacing="10px" marginTop="10px">
+        <Stack spacing="10px">
           {data.children.map((o) => (
             <ActionItem
               compactMode

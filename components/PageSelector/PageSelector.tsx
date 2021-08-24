@@ -65,11 +65,14 @@ export const PageSelector = (props: PageSelectorProps) => {
 
   return (
     <Popover
-      // returnFocusOnClose={false}
+      isLazy
       isOpen={formVisible}
-      onClose={handleClose}
-      placement="right"
       closeOnBlur={false}
+      returnFocusOnClose={false}
+      placement="right"
+      onClose={handleClose}
+      // Can not stop the warning in development
+      // modifiers={[{ name: 'eventListeners', options: { scroll: false, resize: false } }]}
     >
       <PopoverTrigger>
         <Select

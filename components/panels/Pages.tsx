@@ -92,10 +92,11 @@ export const Pages = (props: Props) => {
 
   const [
     updateOption,
-    // {
-    //   data: updatedOption,
-    //   error: updatedError,
-    // },
+    {
+      loading: updateOptionLoading,
+      // data: updatedOption,
+      // error: updatedError,
+    },
   ] = useMutation<OptionUpdated>(UPDATE_OPTIONS);
 
   const currentMenuData = optionData?.options.find(({ key }) => key === OptionKey.Menu);
@@ -193,10 +194,10 @@ export const Pages = (props: Props) => {
     <Flex direction="column">
       <Flex justifyContent="space-between">
         <MenuEditorModal
-          loading={insertLoading || deleteLoading}
+          loading={updateOptionLoading}
           pages={pages}
           menu={currentMenuData as MenuOption}
-          onSubmit={(menu) => console.log('menu editor submited', menu)}
+          onSubmit={(menu) => handleUpdateOption(OptionKey.Menu, menu.value)}
           refetch={optionRefetch}
         />
         <PageEditorModal

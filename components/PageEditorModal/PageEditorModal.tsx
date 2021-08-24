@@ -115,6 +115,7 @@ const PageEditorModal = (props: Props) => {
           color="white"
           bg="green.400"
           leftIcon={<AddIcon />}
+          isLoading={loading}
           disabled={shouldDisable}
           display={{
             base: 'none',
