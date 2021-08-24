@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Flex,
   HStack,
@@ -66,7 +66,7 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
     onClickExternal,
   } = props;
 
-  const data = mapToActionItem(originalData);
+  const data = useMemo(() => mapToActionItem(originalData), [originalData]);
   const greenBackground = useColorModeValue('green.400', 'gray.600');
   const blueBackground = useColorModeValue('blue.400', 'gray.600');
 
@@ -158,7 +158,7 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
           {data.children.map((o) => (
             <ActionItem
               compactMode
-              key={typeof o.id === 'string' ? o.id : 'no-id'}
+              key={`${o.description}-${o.id}`}
               data={o}
               onDelete={onDelete}
               onDeleteIcon={onDeleteIcon ?? <DeleteIcon />}

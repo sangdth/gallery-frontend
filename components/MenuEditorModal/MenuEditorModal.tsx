@@ -20,7 +20,7 @@ import {
 import { MinusIcon, SettingsIcon } from '@chakra-ui/icons';
 import { ActionItem, ConfirmButton, PageSelector } from '@/components';
 import { recursiveRemove, recursiveInsert } from '@/lib/helpers';
-import type { MenuOption, PageType } from '@/lib/types';
+import type { Folder, MenuOption, PageType } from '@/lib/types';
 
 type Props = {
   loading?: boolean;
@@ -66,7 +66,7 @@ export const MenuEditorModal = (props: Props) => {
     setMenuValue(remainedMenu);
   };
 
-  const handleAddNewItem = (pageId: string, itemId?: string) => {
+  const handleAddNewItem = (itemId: string, pageId: string) => {
     const foundPage = pages.find((p) => p.id === pageId);
     if (foundPage) {
       const newNode = {
@@ -75,14 +75,26 @@ export const MenuEditorModal = (props: Props) => {
         slug: foundPage.slug,
       };
      
-      if (itemId) {
-        const newMenu = recursiveInsert(menuValue, itemId, newNode);
-        setMenuValue(newMenu);
-      } else {
+      if (itemId === 'root') {
         const newMenu = [...menuValue];
         newMenu.push(newNode);
         setMenuValue(newMenu);
+      } else {
+        const newMenu = recursiveInsert(menuValue, itemId, newNode);
+        setMenuValue(newMenu);
       }
+    }
+  };
+
+  // TODO: Consider change Folder to BasicItem/BasicMenuItem etc
+  const handleCreateNode = (id: string, folder: Folder) => {
+    if (id === 'root') {
+      const newMenu = [...menuValue];
+      newMenu.push(folder);
+      setMenuValue(newMenu);
+    } else {
+      const newMenu = recursiveInsert(menuValue, id, folder);
+      setMenuValue(newMenu);
     }
   };
 
@@ -126,12 +138,13 @@ export const MenuEditorModal = (props: Props) => {
               {menuValue.map((o) => (
                 <ActionItem
                   compactMode
-                  key={`${o.id}`}
+                  key={`${o.id}-${o.slug}`}
                   data={o}
                   customActions={(itemId) => (
                     <PageSelector
                       pages={pages.filter(p => p.id !== o.id)}
-                      onSelect={(pageId) => handleAddNewItem(pageId, itemId)}
+                      onCreate={(folder) => handleCreateNode(itemId, folder)}
+                      onSelect={(pageId) => handleAddNewItem(itemId, pageId)}
                     />
                   )}
                   onDeleteIcon={<MinusIcon />}
@@ -143,7 +156,8 @@ export const MenuEditorModal = (props: Props) => {
             {pages && pages.length > 0 && (
               <PageSelector
                 pages={pages}
-                onSelect={(pageId) => handleAddNewItem(pageId)}
+                onCreate={(folder) => handleCreateNode('root', folder)}
+                onSelect={(pageId) => handleAddNewItem('root', pageId)}
               />
             )}
           </ModalBody>

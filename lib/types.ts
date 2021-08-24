@@ -6,6 +6,13 @@ import {
   OptionKey,
 } from './enums';
 
+export type Folder = {
+  id: string;
+  label: string;
+  slug: string;
+  description: string;
+};
+
 export type StorageResponse = {
   AcceptRanges: string;
   ContentLength: number;

@@ -12,11 +12,13 @@ describe('PageSelector', () => {
   // });
 
   it('can render placeholder', () => {
+    const onCreateFn = jest.fn();
     const onSelectFn = jest.fn();
     render(
       <PageSelector
         placeholder={testPlaceholder}
         pages={testPages}
+        onCreate={onCreateFn}
         onSelect={onSelectFn}
       />,
     );
