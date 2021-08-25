@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "lint": "next lint",
     "start": "next start",
-    "ts-check": "node --max_old_space_size=4096 node_modules/.bin/tsc --project tsconfig.json --noEmit",
     "test": "jest",
     "test:ci": "yarn test --ci --maxWorkers=50% --silent",
     "test:watch": "yarn test --watch --coverage",
-    "lint": "next lint"
+    "ts-check": "node --max_old_space_size=4096 node_modules/.bin/tsc --project tsconfig.json --noEmit",
+    "test-then-build": "yarn lint && yarn ts-check && yarn test:ci && yarn build"
   },
   "dependencies": {
     "@apollo/client": "3.4.8",

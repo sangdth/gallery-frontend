@@ -71,6 +71,11 @@ function Home() {
 
   const sites = queryData?.sites_aggregate?.nodes?.filter((s) => !!s);
 
+  const makeLink = (o: SiteType) => ({
+    href: `${process.env.NEXT_PUBLIC_APP_URL}/sites/${o.slug}?preview`,
+    label: o.name,
+  });
+
   const handleEdit = (o: SiteType) => {
     setCurrentSite(o);
     setEditing(true);
@@ -114,10 +119,6 @@ function Home() {
   const handleClick = (o: SiteType) => {
     setCurrentSite(o);
     router.push(`/dashboard?site=${o.id}&tab=pages`);
-  };
-
-  const handlePreview = (o: SiteType) => {
-    router.push(`/sites/${o.slug}?preview`);
   };
 
   const handleDelete = async (id: string) => {
@@ -189,8 +190,8 @@ function Home() {
             <ActionItem
               key={s.id}
               data={s}
+              externalLink={makeLink(s)}
               onClick={() => handleClick(s)}
-              onClickExternal={() => handlePreview(s)}
               onDelete={() => handleDelete(s.id)}
               onEdit={() => handleEdit(s)}
             />

@@ -3,6 +3,7 @@ import {
   Flex,
   HStack,
   IconButton,
+  Link,
   Stack,
   Text,
   useColorModeValue,
@@ -18,6 +19,7 @@ import type { ActionItemType, DataType } from '@/lib/types';
 import { ConfirmButton } from '../ConfirmButton';
 import type { ConfirmButtonProps } from '../ConfirmButton';
 
+// TODO: get rid of `any` or the conversion at all
 export const mapToActionItem = (o: any): ActionItemType => {
   let name: string = o.name ?? '';
   let description: string = o.id;
@@ -37,25 +39,31 @@ export const mapToActionItem = (o: any): ActionItemType => {
   };
 };
 
+type ExternalLink = {
+  href: string;
+  label: string;
+};
 export type ActionItemProps<T> = {
   confirmButtonProps?: ConfirmButtonProps;
   data: T;
   draggable?: boolean;
+  externalLink?: ExternalLink | null;
   compactMode?: boolean;
   customActions?: (id: string) => React.ReactNode;
   onClick?: () => void;
-  onClickExternal?: () => void;
   onEdit?: () => void;
   onEditIcon?: React.ReactElement;
   onDelete?: (id: string) => void;
   onDeleteIcon?: React.ReactElement;
 };
 
+// TODO: Make the children change background colors based on level
 export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
   const {
     confirmButtonProps,
     data: originalData,
     draggable = false,
+    externalLink,
     compactMode = false,
     customActions,
     onDelete,
@@ -63,7 +71,6 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
     onEdit,
     onEditIcon,
     onClick,
-    onClickExternal,
   } = props;
 
   const data = useMemo(() => mapToActionItem(originalData), [originalData]);
@@ -95,16 +102,12 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
 
         <Flex direction="column">
           <Text fontSize={`${compactMode ? 1 : 2}em`} fontWeight="bold">
-            {data.name}
-            {onClickExternal && (
-              <IconButton
-                aria-label="Preview"
-                marginLeft="10px"
-                icon={<ExternalLinkIcon />}
-                variant="link"
-                target="_blank"
-                onClick={onClickExternal}
-              />
+            {externalLink ? (
+              <Link href={externalLink.href} isExternal>
+                {externalLink.label} <ExternalLinkIcon marginLeft="2px" marginBottom="4px" />
+              </Link>
+            ) : (
+              data.name
             )}
           </Text>
           <Text fontSize={`${compactMode ? 0.6 : 0.8}em`}>{data.description}</Text>
@@ -154,7 +157,7 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
       </HStack>
 
       {data.children && data.children.length > 0 && (
-        <Stack spacing="10px">
+        <Stack spacing="10px" marginTop="10px">
           {data.children.map((o) => (
             <ActionItem
               compactMode
