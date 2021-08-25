@@ -21,3 +21,10 @@ export enum OptionKey {
   Menu = 'MENU',
   Style = 'STYLE',
 }
+
+export enum SectionElement {
+  Logo = 'LOGO',
+  Menu = 'MENU',
+  Main = 'MAIN',
+  Footer = 'FOOTER',
+}

@@ -1,10 +1,20 @@
-import type { Layouts } from 'react-grid-layout';
+import type { Layouts as GridLayouts } from 'react-grid-layout';
+
 import {
-  Entity,
   DisplayType,
-  Status,
+  Entity,
   OptionKey,
+  SectionElement,
+  Status,
 } from './enums';
+
+export type DomSectionElement = {
+  id: SectionElement;
+  name: string;
+  isDragged: (id: SectionElement) => boolean,
+  onClick: (id: SectionElement) => void,
+  component: JSX.Element | ((id: SectionElement)  => JSX.Element),
+};
 
 export type Folder = {
   id: string;
@@ -78,6 +88,10 @@ export type SiteType = BaseType & {
   name: string;
   slug: string;
   description: string | null;
+  collections?: CollectionType[];
+  layouts?: LayoutType[];
+  options?: OptionType[];
+  page?: PageType[];
 };
 
 export type ImageType = BaseType & {
@@ -109,7 +123,7 @@ export type LayoutValue = {
 export type LayoutType = BaseType & {
   site_id: string;
   name: string;
-  value: Layouts | null;
+  value: GridLayouts | null;
 };
 
 export type DataType = SiteType | PageType | CollectionType | ImageType | LayoutType | OptionValue;

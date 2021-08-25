@@ -72,7 +72,7 @@ function Home() {
   const sites = queryData?.sites_aggregate?.nodes?.filter((s) => !!s);
 
   const makeLink = (o: SiteType) => ({
-    href: `${process.env.NEXT_PUBLIC_APP_URL}/sites/${o.slug}?preview`,
+    href: `/sites/${o.slug}?preview`,
     label: o.name,
   });
 

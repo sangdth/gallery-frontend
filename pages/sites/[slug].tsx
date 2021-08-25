@@ -1,57 +1,33 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-// import { useAuth } from '@nhost/react-auth';
-import { gql, useQuery } from '@apollo/client';
-import { Layout } from '@/components';
-import type { SitesAggregateData } from '@/lib/types';
+import RGL, { WidthProvider } from 'react-grid-layout';
+import { useQuery } from '@apollo/client';
+import { GET_EVERYTHING_BY_SITE_SLUG } from '@/lib/graphqls';
+import { useGenerateDom } from '@/lib/hooks';
+import type { SiteType } from '@/lib/types';
 
-const GET_SITE_BY_SLUG = gql`
-  query GetSiteBySlug($slug: String!) {
-    sites_aggregate(limit: 1, offset: 0, where: {slug: {_eq: $slug}, status: {_eq: "PUBLIC"}}) {
-      nodes {
-        description
-        id
-        name
-        slug
-        status
-        options {
-          id
-          key
-          value
-        }
-        pages {
-          id
-          name
-          slug
-        }
-        collections {
-          id
-          description
-          name
-          type
-          images {
-            id
-            name
-            path
-            description
-          }
-        }
-      }
-    }
-  }
-`;
+const ReactGridLayout = WidthProvider(RGL);
 
 const SingleSite = () => {
   const router = useRouter();
   // const { signedIn } = useAuth();
   const { slug } = router.query;
 
-  const { loading, error, data } = useQuery<SitesAggregateData>(GET_SITE_BY_SLUG, {
+  const { loading, error, data } = useQuery(GET_EVERYTHING_BY_SITE_SLUG, {
     variables: { slug: slug ?? '' },
   });
 
-  const site = data?.sites_aggregate?.nodes[0];
-  console.log('### site: ', site);
+  const site: NonNullable<SiteType> = data?.sites_aggregate?.nodes[0] ?? {};
+  const { collections, layouts, options } = site;
+  console.log('### options: ', options);
+  console.log('### layouts: ', layouts);
+  console.log('### collections: ', collections);
+
+  const elements = useGenerateDom({
+    component: ({ key }) => <>{key.toUpperCase()}</>, // eslint-disable-line react/display-name
+  });
+
+  console.log('### elements: ', elements);
 
   if (loading && !data) {
     return <div>Loading...</div>;
@@ -63,7 +39,7 @@ const SingleSite = () => {
   }
 
   return (
-    <Layout site={site}>
+    <ReactGridLayout>
       <div>
         site:
         {' '}
@@ -71,7 +47,7 @@ const SingleSite = () => {
         :
         {site.slug}
       </div>
-    </Layout>
+    </ReactGridLayout>
   );
 };
 

@@ -1,3 +1,4 @@
+import { SectionElement } from './enums';
 import type { NavItem } from './types';
 
 export const GRAPHQL_ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || '';
@@ -45,6 +46,8 @@ export const NAV_ITEMS: Array<NavItem> = [
     href: '#',
   },
 ];
+
+export const DEFAULT_DOM_ELEMENTS = Object.values(SectionElement);
 
 const tempLayout = [
   {

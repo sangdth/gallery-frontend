@@ -272,3 +272,45 @@ export const DELETE_COLLECTION_BY_PK = gql`
     }
   }
 `;
+
+export const GET_EVERYTHING_BY_SITE_SLUG = gql`
+  query GET_EVERYTHING_BY_SITE_SLUG($slug: String!) {
+    sites_aggregate(limit: 1, offset: 0, where: {slug: {_eq: $slug}, status: {_eq: "PUBLIC"}}) {
+      nodes {
+        description
+        id
+        name
+        slug
+        status
+        options {
+          id
+          key
+          value
+        }
+        pages {
+          id
+          name
+          slug
+          content
+        }
+        collections {
+          id
+          description
+          name
+          type
+          images {
+            id
+            name
+            path
+            description
+          }
+        }
+        layouts {
+          id
+          name
+          value
+        }
+      }
+    }
+  }
+`;
