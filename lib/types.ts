@@ -123,7 +123,7 @@ export type LayoutValue = {
 export type LayoutType = BaseType & {
   site_id: string;
   name: string;
-  value: GridLayouts | null;
+  value: GridLayouts;
 };
 
 export type DataType = SiteType | PageType | CollectionType | ImageType | LayoutType | OptionValue;
