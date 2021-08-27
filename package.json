@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "dev": "concurrently \"nhost dev\" \"next dev\"",
     "lint": "next lint",
     "start": "next start",
     "test": "jest",
+    "test:all": "yarn lint && yarn ts-check && yarn test:ci",
     "test:ci": "yarn test --ci --maxWorkers=50% --silent",
     "test:watch": "yarn test --watch --coverage",
     "ts-check": "node --max_old_space_size=4096 node_modules/.bin/tsc --project tsconfig.json --noEmit",
-    "test-then-build": "yarn lint && yarn ts-check && yarn test:ci && yarn build"
+    "test-then-build": "test:all && yarn build"
   },
   "dependencies": {
     "@apollo/client": "3.4.9",
@@ -59,6 +60,7 @@
     "@types/uuid": "8.3.1",
     "@typescript-eslint/eslint-plugin": "4.29.3",
     "babel-jest": "27.1.0",
+    "concurrently": "^6.2.1",
     "eslint": "7.32.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-airbnb-typescript": "14.0.0",

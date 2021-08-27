@@ -1,0 +1,14 @@
+functions:
+  isAuthenticated: 'return !!request.auth'
+  isOwner: "return !!request.auth && userId === request.auth['user-id']"
+  validToken: 'return request.query.token === resource.Metadata.token'
+paths:
+  /public*:
+    write: isAuthenticated()
+    read: 'true'
+  /user/:userId*:
+    write: 'isOwner(userId)'
+    read: 'validToken()'
+  /site/:siteId/collection/:collectionId*:
+    write: isAuthenticated()
+    read: 'true'
