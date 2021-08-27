@@ -12,7 +12,7 @@
     "test:ci": "yarn test --ci --maxWorkers=50% --silent",
     "test:watch": "yarn test --watch --coverage",
     "ts-check": "node --max_old_space_size=4096 node_modules/.bin/tsc --project tsconfig.json --noEmit",
-    "test-then-build": "test:all && yarn build"
+    "test-then-build": "yarn test:all && yarn build"
   },
   "dependencies": {
     "@apollo/client": "3.4.9",
