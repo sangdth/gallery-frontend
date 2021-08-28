@@ -47,7 +47,12 @@ export const NAV_ITEMS: Array<NavItem> = [
   },
 ];
 
-export const DEFAULT_DOM_ELEMENTS = Object.values(SectionElement).map((id) => id.toLowerCase());
+export const DEFAULT_DOM_ELEMENTS = [
+  SectionElement.Logo,
+  SectionElement.Menu,
+  SectionElement.Main,
+  SectionElement.Footer,
+];
 
 const tempLayout = [
   {

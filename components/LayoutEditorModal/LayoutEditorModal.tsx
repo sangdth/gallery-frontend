@@ -5,6 +5,7 @@ import React, {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+// import { isEqual } from 'lodash';
 import { useAtom } from 'jotai';
 import {
   Button,
@@ -48,14 +49,15 @@ const LayoutEditorModal = (props: Props) => {
   const initialInput = useMemo(() => ({
     id: uuidv4(),
     name: '',
-    value: null,
+    value: DEFAULT_LAYOUT.layouts,
     ...(selectedLayout ?? {}),
   }), [selectedLayout]);
 
   const [input, setInput] = useState<LayoutInput>(initialInput);
 
   const shouldDisable = !me?.id || loading;
-  const isEmptyInput = !input.name && !input.value;
+  // const valueChanged = !isEqual(input.value, selectedLayout?.value);
+  const isEmptyInput = !input.name;
   const hasChanged = selectedLayout && (
     input.name !== selectedLayout.name || input.value !== selectedLayout.value
   );
@@ -159,7 +161,7 @@ const LayoutEditorModal = (props: Props) => {
             </FormControl>
             
             <GridEditor
-              layouts={input.value ?? DEFAULT_LAYOUT.layouts}
+              layouts={input.value}
               onLayoutChange={handleLayoutChange}
             />
           </ModalBody>

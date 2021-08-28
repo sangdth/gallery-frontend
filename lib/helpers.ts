@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { OptionValue } from '@/lib/types';
 
 export const recursiveRemove = (tree: OptionValue[], id: string): OptionValue[] => {
@@ -19,4 +20,11 @@ export const recursiveInsert = (
     }
     return { ...e, children: recursiveInsert(childTree, id, value) };
   });
+};
+
+export const makeId = (item?: OptionValue | null): string => {
+  if (!item) {
+    return uuidv4();
+  }
+  return `${item.id}-${item.slug}`;
 };

@@ -22,7 +22,7 @@ import { ActionItem, ConfirmButton, PageSelector } from '@/components';
 import { recursiveRemove, recursiveInsert } from '@/lib/helpers';
 import type { Folder, MenuOption, PageType } from '@/lib/types';
 
-type Props = {
+export type MenuEditorModalProps = {
   loading?: boolean;
   pages: PageType[];
   menu: MenuOption;
@@ -30,7 +30,7 @@ type Props = {
   refetch?: () => void;
 };
 
-export const MenuEditorModal = (props: Props) => {
+export const MenuEditorModal = (props: MenuEditorModalProps) => {
   const {
     loading,
     pages,

@@ -18,6 +18,7 @@ export * from './LayoutEditorModal';
 export * from './Logo';
 export * from './MenuEditorModal';
 export * from './MenuGenerator';
+export * from './MenuTemplate';
 export * from './Navbar';
 export * from './PageItem';
 export * from './PageSelector';

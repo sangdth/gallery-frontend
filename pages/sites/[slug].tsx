@@ -2,15 +2,16 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { useQuery } from '@apollo/client';
-import { GridItem } from '@/components';
+import { GridItem, MenuTemplate } from '@/components';
 import { GET_EVERYTHING_BY_SITE_SLUG } from '@/lib/graphqls';
 import { DEFAULT_LAYOUT } from '@/lib/constants';
 import { useGenerateDom } from '@/lib/hooks';
-import type { SiteType } from '@/lib/types';
+import { OptionKey, SectionElement } from '@/lib/enums';
+import type { OptionValue, SiteType } from '@/lib/types';
 
 const ResponsiveLayout = WidthProvider(Responsive);
 
-const SingleSite = () => {
+export const SingleSite = () => {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -21,10 +22,11 @@ const SingleSite = () => {
   const site: NonNullable<SiteType> = data?.sites_aggregate?.nodes[0] ?? {};
   const { collections, layouts, options } = site;
   const currentLayouts = layouts ? layouts[0] : undefined;
-  console.log('### currentLayouts: ', currentLayouts);
+  const currentMenuData = options?.find(({ key }) => key === OptionKey.Menu);
+  console.log('### currentMenuData: ', currentMenuData);
 
-  console.log('### options: ', options);
-  console.log('### layouts: ', layouts);
+  // console.log('### options: ', options);
+  // console.log('### layouts: ', layouts);
   console.log('### collections: ', collections);
 
   const elements = useGenerateDom({
@@ -32,6 +34,10 @@ const SingleSite = () => {
   });
 
   console.log('### elements: ', elements);
+
+  const handleSelect = (item: OptionValue) => {
+    console.log('### item: ', item);
+  };
 
   if (loading && !data && currentLayouts) {
     return <div>Loading...</div>;
@@ -53,7 +59,12 @@ const SingleSite = () => {
     >
       {elements.map(({ id, component }) => (
         <GridItem key={id}>
-          {component}
+          {id === SectionElement.Menu && currentMenuData?.value ? (
+            <MenuTemplate
+              menu={currentMenuData?.value as OptionValue[]}
+              onSelect={handleSelect}
+            />
+          ) : component}
         </GridItem>
       ))}
     </ResponsiveLayout>

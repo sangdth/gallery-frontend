@@ -14,7 +14,7 @@ export const useGenerateDom = (props: GenerateDomProps) => {
   const elements = React.useMemo(() => {
     return DEFAULT_DOM_ELEMENTS.map((key) => ({
       id: key,
-      name: key.toUpperCase(),
+      name: key,
       onClick: onClick,
       isDragged: typeof isDragged === 'function' ? isDragged(key) : isDragged,
       component: typeof component === 'function' ? component({ key }) : component,

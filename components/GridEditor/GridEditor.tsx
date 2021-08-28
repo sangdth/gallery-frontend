@@ -9,6 +9,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import type { Layout, Layouts } from 'react-grid-layout';
 import { GridItem, Ruler } from '@/components';
 import { DEFAULT_LAYOUT } from '@/lib/constants';
+import { SectionElement } from '@/lib/enums';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -46,28 +47,28 @@ export const GridEditor = (props: GridEditorProps) => {
   const elements = useMemo(() => {
     return [
       {
-        id: 'logo',
+        id: SectionElement.Logo,
         name: 'Logo',
         isDragged: checkDragged('logo'),
         onClick: handleItemOnClick,
         component: <>Logo</>,
       },
       {
-        id: 'menu',
+        id: SectionElement.Menu,
         name: 'Menu',
         isDragged: checkDragged('menu'),
         onClick: handleItemOnClick,
         component: <>Menu</>,
       },
       {
-        id: 'main',
+        id: SectionElement.Main,
         name: 'Main content',
         isDragged: checkDragged('main'),
         onClick: handleItemOnClick,
         component: <>Main</>,
       },
       {
-        id: 'footer',
+        id: SectionElement.Footer,
         name: 'Footer',
         isDragged: checkDragged('footer'),
         onClick: handleItemOnClick,

@@ -78,6 +78,14 @@ export type StyleOption = BaseOption & {
 
 export type OptionType = MenuOption | StyleOption;
 
+export type MenuItemType = {
+  id: string;
+  label: string;
+  slug: string;
+  description: string;
+  children: MenuItemType[];
+};
+
 export type DragItemType = {
   id: string;
   label: string;
@@ -169,7 +177,9 @@ export type MakeInputType<T, K extends keyof T> = RecursivePartial<Pick<T, K>> &
 export type CollectionInput = MakeInputType<CollectionType, CollectionPicked>;
 export type PageInput = MakeInputType<PageType, PagePicked>;
 export type SiteInput = MakeInputType<SiteType, SitePicked>;
-export type LayoutInput = MakeInputType<LayoutType, LayoutPicked>;
+export type LayoutInput = MakeInputType<LayoutType, LayoutPicked> & {
+  value: GridLayouts;
+};
 
 export type DataInput = SiteInput | PageInput | CollectionInput;
 
