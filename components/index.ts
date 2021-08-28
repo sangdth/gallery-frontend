@@ -16,6 +16,7 @@ export * from './ImageUpload';
 export * from './Layout';
 export * from './LayoutEditorModal';
 export * from './Logo';
+export * from './MainTemplate';
 export * from './MenuEditorModal';
 export * from './MenuGenerator';
 export * from './MenuTemplate';

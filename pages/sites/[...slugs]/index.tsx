@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { useQuery } from '@apollo/client';
-import { GridItem, MenuTemplate } from '@/components';
+import { GridItem, MainTemplate, MenuTemplate } from '@/components';
 import { GET_EVERYTHING_BY_SITE_SLUG } from '@/lib/graphqls';
 import { DEFAULT_LAYOUT } from '@/lib/constants';
 import { useGenerateDom } from '@/lib/hooks';
@@ -35,7 +35,8 @@ export const SingleSiteView = () => {
   });
 
   const site: NonNullable<SiteType> = data?.sites_aggregate?.nodes[0] ?? {};
-  const { collections, layouts, options } = site;
+  const { collections, layouts, options, pages } = site;
+
   const currentLayouts = layouts ? layouts[0] : undefined;
   const currentMenuData = options?.find(({ key }) => key === OptionKey.Menu);
 
@@ -43,9 +44,25 @@ export const SingleSiteView = () => {
   // console.log('### layouts: ', layouts);
   console.log('### collections: ', collections);
 
-  const handleSelect = (item: OptionValue) => {
-    console.log('### item: ', item);
+  const handleSelect = (items: OptionValue[]) => {
+    const pagePath = items.reduce((acc, current) => {
+      const { slug } = current;
+      const { is_home: isHome } = pages?.find((o) => o.slug === slug) ?? {};
+      return acc.concat('/', `${isHome ? '' : slug}`.toLowerCase());
+    }, siteSlug);
+
+    router.push(`/sites/${pagePath}`, undefined, {
+      shallow: true,
+    });
   };
+
+
+  const currentPage = useMemo(() => {
+    if (pageSlug) {
+      return pages?.find((o) => o.slug === pageSlug);
+    }
+    return pages?.find((o) => !!o.is_home);
+  }, [pageSlug, pages]);
 
   const componentSwitcher = (key: SectionElement) => {
     switch (key) {
@@ -56,6 +73,8 @@ export const SingleSiteView = () => {
           onSelect={handleSelect}
         />
       );
+    case SectionElement.Main:
+      return <MainTemplate page={currentPage} />;
     default:
       return <>{key.toUpperCase()}</>;
     }
@@ -64,9 +83,6 @@ export const SingleSiteView = () => {
   const elements = useGenerateDom({
     component: ({ key }) => componentSwitcher(key),
   });
-
-  console.log('### elements: ', elements);
-
 
   if (loading && !data && currentLayouts) {
     return <div>Loading...</div>;

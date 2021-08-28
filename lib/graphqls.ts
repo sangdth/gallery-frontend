@@ -293,6 +293,7 @@ export const GET_EVERYTHING_BY_SITE_SLUG = gql`
           name
           slug
           content
+          is_home
         }
         collections {
           id

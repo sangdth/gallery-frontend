@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Menu,
@@ -14,22 +14,27 @@ import { MenuTemplateItem } from './MenuTemplateItem';
 
 export type MenuTemplateProps = {
   menu: MenuOption['value'];
-  onSelect: (item: OptionValue) => void;
+  onSelect: (items: OptionValue[]) => void;
 };
 
 export const MenuTemplate = (props: MenuTemplateProps) => {
   const { menu, onSelect } = props;
+  const [items, setItems] = useState<OptionValue[]>([]);
 
   const handleOnClick = (item: OptionValue) => {
+    const newItems = [...items];
+    // TODO: Be careful when working with recursive
+    newItems.push(item);
     if (!arrayHasValue(item.children)) {
-      onSelect(item);
+      onSelect(newItems);
     }
+    setItems(newItems);
   };
-
+  
   return (
     <HStack spacing="20px">
       {menu.map((m) => (
-        <Menu key={makeId(m)}>
+        <Menu key={makeId(m)} onClose={() => setItems([])}>
           <MenuButton
             as={Button}
             rightIcon={arrayHasValue(m.children) ? <ChevronDownIcon /> : undefined}

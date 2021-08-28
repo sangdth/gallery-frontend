@@ -1,3 +1,2 @@
-export { default as MenuTemplate } from './MenuTemplate';
-export { default as MenuTemplateItem } from './MenuTemplateItem';
-export { default } from './MenuTemplate';
+export { default as MainTemplate } from './MainTemplate';
+export { default } from './MainTemplate';

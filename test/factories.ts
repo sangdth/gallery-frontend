@@ -16,7 +16,7 @@ export const PageFactory = new Factory<PageType>()
   .sequence('name', (i) => `Page ${i}`)
   .sequence('slug', (i) => `page-${i}`)
   .attrs(baseAttributes)
-  .attrs({ content: 'test content' });
+  .attrs({ content: 'test page' });
 
 export const MenuValueFactory = new Factory<OptionValue>()
   .sequence('label', (i) => `${lorem.words()} ${i}`)

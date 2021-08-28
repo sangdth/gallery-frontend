@@ -99,7 +99,7 @@ export type SiteType = BaseType & {
   collections?: CollectionType[];
   layouts?: LayoutType[];
   options?: OptionType[];
-  page?: PageType[];
+  pages?: PageType[];
 };
 
 export type ImageType = BaseType & {

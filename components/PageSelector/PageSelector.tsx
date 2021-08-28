@@ -59,7 +59,7 @@ export const PageSelector = (props: PageSelectorProps) => {
     onCreate({
       id: uuidv4(),
       label: formInput,
-      slug: slugify(formInput),
+      slug: slugify(formInput, { lower:  true }),
       description: slugify(formInput),
     });
 
