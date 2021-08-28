@@ -56,72 +56,72 @@ export const DEFAULT_DOM_ELEMENTS = [
 
 const tempLayout = [
   {
-    i:   'logo', x:  0, y:  0, w:  2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
+    i:   'LOGO', x:  0, y:  0, w:  2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
   },
   {
-    i:   'menu', x:  3, y:  0, w: 10, h:  1, minW: 6, maxW: 12, minH: 1, maxH: 2,
+    i:   'MENU', x:  3, y:  0, w: 10, h:  1, minW: 6, maxW: 12, minH: 1, maxH: 2,
   },
   {
-    i:   'main', x:  0, y:  1, w:  12, h: 10, minW: 6, maxW: 12, minH: 10, maxH: 12,
+    i:   'MAIN', x:  0, y:  1, w:  12, h: 10, minW: 6, maxW: 12, minH: 10, maxH: 12,
   },
   {
-    i: 'footer', x:  0, y:  11, w:  12, h:  1, minW: 6, maxW: 12, minH: 1, maxH: 2,
+    i: 'FOOTER', x:  0, y:  11, w:  12, h:  1, minW: 6, maxW: 12, minH: 1, maxH: 2,
   },
 ];
 const mediumLayout = [
   {
-    i:   'logo', x:  4, y:  0, w:  2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
+    i:   'LOGO', x:  4, y:  0, w:  2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
   },
   {
-    i:   'menu', x:  0, y:  1, w: 10, h:  1, minW: 6, maxW: 10, minH: 1, maxH: 2,
+    i:   'MENU', x:  0, y:  1, w: 10, h:  1, minW: 6, maxW: 10, minH: 1, maxH: 2,
   },
   {
-    i:   'main', x:  0, y:  2, w:  10, h: 10, minW: 6, maxW: 10, minH: 10, maxH: 12,
+    i:   'MAIN', x:  0, y:  2, w:  10, h: 10, minW: 6, maxW: 10, minH: 10, maxH: 12,
   },
   {
-    i: 'footer', x:  0, y:  11, w:  10, h:  1, minW: 6, maxW: 10, minH: 1, maxH: 2,
+    i: 'FOOTER', x:  0, y:  11, w:  10, h:  1, minW: 6, maxW: 10, minH: 1, maxH: 2,
   },
 ];
 const smallLayout = [
   {
-    i:   'logo', x:  2, y:  0, w: 2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
+    i:   'LOGO', x:  2, y:  0, w: 2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
   },
   {
-    i:   'menu', x:  0, y:  1, w: 6, h:  1, minW: 6, maxW: 6, minH: 1, maxH: 2,
+    i:   'MENU', x:  0, y:  1, w: 6, h:  1, minW: 6, maxW: 6, minH: 1, maxH: 2,
   },
   {
-    i:   'main', x:  0, y:  2, w:  6, h: 12, minW: 6, maxW: 6, minH: 12, maxH: 20,
+    i:   'MAIN', x:  0, y:  2, w:  6, h: 12, minW: 6, maxW: 6, minH: 12, maxH: 20,
   },
   {
-    i: 'footer', x:  0, y:  11, w:  6, h:  1, minW: 6, maxW: 6, minH: 1, maxH: 2,
+    i: 'FOOTER', x:  0, y:  11, w:  6, h:  1, minW: 6, maxW: 6, minH: 1, maxH: 2,
   },
 ];
 const littleLayout = [
   {
-    i:   'logo', x: 1, y:  0, w:  2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
+    i:   'LOGO', x: 1, y:  0, w:  2, h:  1, minW: 1, maxW:  4, minH: 1, maxH:  3,
   },
   {
-    i:   'menu', x: 0, y:  1, w: 4, h:  1, minW: 4, maxW: 4, minH: 1, maxH: 2,
+    i:   'MENU', x: 0, y:  1, w: 4, h:  1, minW: 4, maxW: 4, minH: 1, maxH: 2,
   },
   {
-    i:   'main', x: 0, y:  2, w: 4, h: 12, minW: 4, maxW: 4, minH: 12, maxH: 20,
+    i:   'MAIN', x: 0, y:  2, w: 4, h: 12, minW: 4, maxW: 4, minH: 12, maxH: 20,
   },
   {
-    i: 'footer', x:  0, y:  11, w: 4, h:  1, minW: 4, maxW: 4, minH: 1, maxH: 2,
+    i: 'FOOTER', x:  0, y:  11, w: 4, h:  1, minW: 4, maxW: 4, minH: 1, maxH: 2,
   },
 ];
 const tinyLayout = [
   {
-    i:   'logo', x: 0, y:  0, w:  2, h:  2, minW: 1, maxW:  2, minH: 1, maxH:  3,
+    i:   'LOGO', x: 0, y:  0, w:  2, h:  2, minW: 1, maxW:  2, minH: 1, maxH:  3,
   },
   {
-    i:   'menu', x: 0, y:  1, w: 2, h:  1, minW: 2, maxW: 2, minH: 1, maxH: 2,
+    i:   'MENU', x: 0, y:  1, w: 2, h:  1, minW: 2, maxW: 2, minH: 1, maxH: 2,
   },
   {
-    i:   'main', x: 0, y:  2, w: 2, h: 12, minW: 2, maxW: 2, minH: 12, maxH: 20,
+    i:   'MAIN', x: 0, y:  2, w: 2, h: 12, minW: 2, maxW: 2, minH: 12, maxH: 20,
   },
   {
-    i: 'footer', x:  0, y:  11, w: 2, h:  1, minW: 2, maxW: 2, minH: 1, maxH: 2,
+    i: 'FOOTER', x:  0, y:  11, w: 2, h:  1, minW: 2, maxW: 2, minH: 1, maxH: 2,
   },
 ];
 export const DEFAULT_LAYOUT = {
