@@ -37,7 +37,7 @@ export default function SignUp() {
 
       return await router.push('/');
     } catch (err) {
-      console.warn(err.message);
+      console.warn(err);
       setError('Signup failed, please try again');
     } finally {
       setLoading(false);
