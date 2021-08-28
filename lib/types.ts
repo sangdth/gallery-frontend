@@ -114,6 +114,7 @@ export type PageType = BaseType & {
   name: string;
   slug: string;
   content: string | null;
+  is_home: boolean | null;
   site_id: string;
 };
 

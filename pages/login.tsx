@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useAuth } from '@nhost/react-auth';
 import Link from 'next/link';
 import {
   Alert,
@@ -14,6 +15,7 @@ import { auth } from '@/lib/nhost';
 
 export default function Login() {
   const router = useRouter();
+  const { signedIn } = useAuth();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +27,6 @@ export default function Login() {
     try {
       setLoading(true);
       await auth.login({ email, password });
-      return await router.push('/');
     } catch (err) {
       console.warn(err);
       setError('Login failed, please try again');
@@ -33,6 +34,15 @@ export default function Login() {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    async function goToHome() {
+      return router.push('/');
+    }
+    if (signedIn && !loading && !error) {
+      goToHome();
+    }
+  }, [router, signedIn, loading, error]);
 
   return (
     <Flex

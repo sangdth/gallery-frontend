@@ -139,6 +139,7 @@ export const PAGES_AGGREGATE = gql`
         id
         name
         content
+        is_home
         slug
         status
       }

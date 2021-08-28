@@ -9,6 +9,7 @@ import {
 } from '@/components';
 import { OptionKey } from '@/lib/enums';
 import { pageAtom } from '@/lib/jotai';
+import { arrayHasValue } from '@/lib/helpers';
 import {
   PAGES_AGGREGATE,
   UPSERT_PAGE_ONE,
@@ -57,6 +58,7 @@ export const Pages = (props: Props) => {
   );
 
   const pages = pagesData?.pages_aggregate?.nodes;
+  console.log('### pages: ', pages);
 
   const [
     insertPage,
@@ -121,7 +123,13 @@ export const Pages = (props: Props) => {
 
   const handleSubmit = async (input: PageInput) => {
     const response = await insertPage({
-      variables: { object: { ...input, site_id: site.id } },
+      variables: {
+        object: {
+          ...input,
+          is_home: !arrayHasValue(pages),
+          site_id: site.id,
+        },
+      },
       context: {
         headers: {
           'x-hasura-role': 'me',

@@ -604,6 +604,7 @@
       columns:
       - content
       - id
+      - is_home
       - name
       - site_id
       - slug
@@ -617,6 +618,7 @@
       columns:
       - content
       - id
+      - is_home
       - name
       - site_id
       - slug
@@ -628,7 +630,9 @@
       columns:
       - content
       - id
+      - is_home
       - name
+      - site_id
       - slug
       - status
       filter: {}
@@ -636,13 +640,14 @@
     permission:
       columns:
       - content
+      - created_at
+      - id
+      - is_home
       - name
+      - site_id
       - slug
       - status
-      - created_at
       - updated_at
-      - id
-      - site_id
       - user_id
       filter: {}
       allow_aggregations: true
@@ -651,7 +656,9 @@
       columns:
       - content
       - id
+      - is_home
       - name
+      - site_id
       - slug
       - status
       filter: {}
@@ -659,13 +666,14 @@
     permission:
       columns:
       - content
+      - created_at
+      - id
+      - is_home
       - name
+      - site_id
       - slug
       - status
-      - created_at
       - updated_at
-      - id
-      - site_id
       - user_id
       filter:
         user_id:
