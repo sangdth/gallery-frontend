@@ -98,6 +98,7 @@ export const GridEditor = (props: GridEditorProps) => {
         {elements.map(({ id, isDragged, onClick, component }) => (
           <GridItem
             key={id}
+            editable
             isDragged={isDragged}
             onClick={onClick}
           >

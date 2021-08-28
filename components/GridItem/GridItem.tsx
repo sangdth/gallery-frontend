@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { Flex } from '@chakra-ui/react';
 
 type GridItemProps = {
+  editable?: boolean;
   children?: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
@@ -12,6 +13,7 @@ type GridItemProps = {
 export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
   (props, forwardedRef) => {
     const {
+      editable = false,
       children,
       style,
       className,
@@ -19,6 +21,13 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
       onClick,
       ...restProps
     } = props;
+
+    const checkBoxShadow = useMemo(() => {
+      if (editable) {
+        return isDragged ? 'xl' : 'xs';
+      }
+      return undefined;
+    }, [editable, isDragged]);
 
     const handleOnClick = () => {
       if (typeof onClick === 'function') {
@@ -32,9 +41,9 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
         alignItems="center"
         justifyContent="center"
         backgroundColor="#FFFFFF"
-        borderWidth="1px"
-        borderColor="#DDDDDD"
-        boxShadow={isDragged ? 'xl' : 'xs'}
+        borderWidth={`${editable ? 1 : 0}px`}
+        borderColor={editable ? '#DDDDDD' : undefined}
+        boxShadow={checkBoxShadow}
         className={className}
         ref={forwardedRef}
         style={style}

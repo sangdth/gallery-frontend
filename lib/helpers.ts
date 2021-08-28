@@ -28,3 +28,10 @@ export const makeId = (item?: OptionValue | null): string => {
   }
   return `${item.id}-${item.slug}`;
 };
+
+export const arrayHasValue = (data: unknown): boolean => {
+  if (!data) {
+    return false;
+  }
+  return Array.isArray(data) && data.length > 0;
+};

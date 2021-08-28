@@ -5,9 +5,10 @@ import {
   MenuButton,
   MenuList,
   Portal,
+  HStack,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { makeId } from '@/lib/helpers';
+import { makeId, arrayHasValue } from '@/lib/helpers';
 import type { MenuOption, OptionValue } from '@/lib/types';
 import { MenuTemplateItem } from './MenuTemplateItem';
 
@@ -20,34 +21,39 @@ export const MenuTemplate = (props: MenuTemplateProps) => {
   const { menu, onSelect } = props;
 
   const handleOnClick = (item: OptionValue) => {
-    onSelect(item);
+    if (!arrayHasValue(item.children)) {
+      onSelect(item);
+    }
   };
 
   return (
-    <>
+    <HStack spacing="20px">
       {menu.map((m) => (
         <Menu key={makeId(m)}>
           <MenuButton
             as={Button}
-            rightIcon={<ChevronDownIcon />}
+            rightIcon={arrayHasValue(m.children) ? <ChevronDownIcon /> : undefined}
             variant="link"
+            onClick={() => handleOnClick(m)}
           >
             {m.label}
           </MenuButton>
-          <Portal>
-            <MenuList>
-              {Array.isArray(m.children) && m.children.map((c) => (
-                <MenuTemplateItem
-                  key={makeId(c)}
-                  value={c}
-                  onClick={() => handleOnClick(c)}
-                />
-              ))}
-            </MenuList>
-          </Portal>
+          {arrayHasValue(m.children) && (
+            <Portal>
+              <MenuList>
+                {Array.isArray(m.children) && m.children.map((c) => (
+                  <MenuTemplateItem
+                    key={makeId(c)}
+                    value={c}
+                    onClick={() => handleOnClick(c)}
+                  />
+                ))}
+              </MenuList>
+            </Portal>
+          )}
         </Menu>
       ))} 
-    </>
+    </HStack>
   );
 };
 

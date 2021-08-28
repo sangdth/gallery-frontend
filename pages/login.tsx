@@ -27,7 +27,8 @@ export default function Login() {
       await auth.login({ email, password });
       return await router.push('/');
     } catch (err) {
-      setError(err.message);
+      console.warn(err);
+      setError('Login failed, please try again');
     } finally {
       setLoading(false);
     }
