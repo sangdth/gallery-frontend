@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { useQuery } from '@apollo/client';
@@ -11,33 +11,62 @@ import type { OptionValue, SiteType } from '@/lib/types';
 
 const ResponsiveLayout = WidthProvider(Responsive);
 
-export const SingleSite = () => {
+export const SingleSiteView = () => {
   const router = useRouter();
-  const { slug } = router.query;
+  const { slugs } = router.query;
+
+  const { siteSlug, pageSlug } = useMemo(() => {
+    if (slugs && Array.isArray(slugs)) {
+      const siteParam = slugs[0];
+      const pageParam = slugs[slugs.length - 1];
+      return {
+        siteSlug: siteParam,
+        pageSlug: pageParam !== siteParam ? pageParam : '',
+      };
+    }
+    return {
+      siteSlug: '',
+      pageSlug: '',
+    };
+  }, [slugs]);
 
   const { loading, error, data } = useQuery(GET_EVERYTHING_BY_SITE_SLUG, {
-    variables: { slug: slug ?? '' },
+    variables: { slug: siteSlug },
   });
 
   const site: NonNullable<SiteType> = data?.sites_aggregate?.nodes[0] ?? {};
   const { collections, layouts, options } = site;
   const currentLayouts = layouts ? layouts[0] : undefined;
   const currentMenuData = options?.find(({ key }) => key === OptionKey.Menu);
-  console.log('### currentMenuData: ', currentMenuData);
 
   // console.log('### options: ', options);
   // console.log('### layouts: ', layouts);
   console.log('### collections: ', collections);
 
+  const handleSelect = (item: OptionValue) => {
+    console.log('### item: ', item);
+  };
+
+  const componentSwitcher = (key: SectionElement) => {
+    switch (key) {
+    case SectionElement.Menu:
+      return (
+        <MenuTemplate
+          menu={currentMenuData?.value as OptionValue[] ?? []}
+          onSelect={handleSelect}
+        />
+      );
+    default:
+      return <>{key.toUpperCase()}</>;
+    }
+  };
+
   const elements = useGenerateDom({
-    component: ({ key }) => <>{key.toUpperCase()}</>, // eslint-disable-line react/display-name
+    component: ({ key }) => componentSwitcher(key),
   });
 
   console.log('### elements: ', elements);
 
-  const handleSelect = (item: OptionValue) => {
-    console.log('### item: ', item);
-  };
 
   if (loading && !data && currentLayouts) {
     return <div>Loading...</div>;
@@ -59,16 +88,11 @@ export const SingleSite = () => {
     >
       {elements.map(({ id, component }) => (
         <GridItem key={id}>
-          {id === SectionElement.Menu && currentMenuData?.value ? (
-            <MenuTemplate
-              menu={currentMenuData?.value as OptionValue[]}
-              onSelect={handleSelect}
-            />
-          ) : component}
+          {component}
         </GridItem>
       ))}
     </ResponsiveLayout>
   );
 };
 
-export default SingleSite;
+export default SingleSiteView;

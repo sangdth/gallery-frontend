@@ -58,7 +58,6 @@ export const Pages = (props: Props) => {
   );
 
   const pages = pagesData?.pages_aggregate?.nodes;
-  console.log('### pages: ', pages);
 
   const [
     insertPage,

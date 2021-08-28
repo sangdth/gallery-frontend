@@ -35,6 +35,9 @@ export const PageSelector = (props: PageSelectorProps) => {
 
   const [selectedId, setSelectedId] = useState('');
   const [formVisible, setFormVisible] = useState(false);
+  // TODO: Make query to detect page slug usability, do not allow
+  // user creates folder with slug already used
+  // Make slug input as well
   const [formInput, setFormInput] = useState('');
 
   const handleClose = () => {
@@ -63,6 +66,7 @@ export const PageSelector = (props: PageSelectorProps) => {
     handleClose();
   };
 
+  // TODO: Can not stop the warning from Popover in development
   return (
     <Popover
       isLazy
@@ -71,8 +75,6 @@ export const PageSelector = (props: PageSelectorProps) => {
       returnFocusOnClose={false}
       placement="right"
       onClose={handleClose}
-      // Can not stop the warning in development
-      // modifiers={[{ name: 'eventListeners', options: { scroll: false, resize: false } }]}
     >
       <PopoverTrigger>
         <Select

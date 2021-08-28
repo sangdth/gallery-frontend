@@ -15,6 +15,7 @@ import { siteAtom, meAtom } from '@/lib/jotai';
 import { SITE_BY_PK } from '@/lib/graphqls';
 import type { SiteData } from '@/lib/types';
 
+// TODO: Turn it to enums
 const tabs = ['pages', 'collections', 'layouts'];
 
 const getIndex = (name: string) => {
