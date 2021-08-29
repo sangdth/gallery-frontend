@@ -74,7 +74,7 @@ export const SingleSiteView = () => {
         />
       );
     case SectionElement.Main:
-      return <MainTemplate page={currentPage} />;
+      return <MainTemplate page={currentPage} collections={collections} />;
     default:
       return <>{key.toUpperCase()}</>;
     }
