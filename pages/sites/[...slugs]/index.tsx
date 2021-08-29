@@ -35,14 +35,13 @@ export const SingleSiteView = () => {
   });
 
   const site: NonNullable<SiteType> = data?.sites_aggregate?.nodes[0] ?? {};
-  const { collections, layouts, options, pages } = site;
+  const { layouts, options, pages } = site;
 
   const currentLayouts = layouts ? layouts[0] : undefined;
   const currentMenuData = options?.find(({ key }) => key === OptionKey.Menu);
 
   // console.log('### options: ', options);
   // console.log('### layouts: ', layouts);
-  console.log('### collections: ', collections);
 
   const handleSelect = (items: OptionValue[]) => {
     const pagePath = items.reduce((acc, current) => {
@@ -74,7 +73,7 @@ export const SingleSiteView = () => {
         />
       );
     case SectionElement.Main:
-      return <MainTemplate page={currentPage} collections={collections} />;
+      return <MainTemplate page={currentPage} />;
     default:
       return <>{key.toUpperCase()}</>;
     }

@@ -294,17 +294,17 @@ export const GET_EVERYTHING_BY_SITE_SLUG = gql`
           slug
           content
           is_home
-        }
-        collections {
-          id
-          description
-          name
-          type
-          images {
+          collection {
             id
-            name
-            path
             description
+            name
+            type
+            images {
+              id
+              name
+              path
+              description
+            }
           }
         }
         layouts {

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { OptionValue } from '@/lib/types';
+import { OptionValue, Tag } from '@/lib/types';
 
 export const recursiveRemove = (tree: OptionValue[], id: string): OptionValue[] => {
   return tree.map(o => o).filter(a => a.id !== id).map(e => {
@@ -34,4 +34,18 @@ export const arrayHasValue = (data: unknown): boolean => {
     return false;
   }
   return Array.isArray(data) && data.length > 0;
+};
+
+export const curlyBracketsRegex = /[^{\{]+(?=}\})/g;
+export const curlyBracketsRegex2 = /{([^}]+)}+/g;
+export const parseTags = (content?: string | null): Tag[] => {
+  if (!content) {
+    return [];
+  }
+  const matches = content.match(curlyBracketsRegex);
+  return (matches ?? []).reduce<Tag[]>((acc, current) => {
+    const [type, id] = current.split(':').map((s) => s.trim().toLowerCase());
+    acc.push({ type, id });
+    return acc;
+  }, []);
 };

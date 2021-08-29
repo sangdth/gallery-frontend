@@ -1,19 +1,15 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import type { CollectionType, PageType } from '@/lib/types';
+import type { PageType } from '@/lib/types';
 
 export type MainTemplateProps = {
   page?: PageType;
-  collections?: CollectionType[];
 };
 
-const regExp = /\[\[(.*?)\]\]/;
-
 export const MainTemplate = (props: MainTemplateProps) => {
-  const { page, collections } = props;
-  console.log('### collections: ', collections);
-  const matches = regExp.exec(page?.content ?? '');
-  console.log('### matches: ', matches);
+  const { page } = props;
+  console.log('### page: ', page);
+
   if (!page) {
     return <>Error getting page content</>;
   }

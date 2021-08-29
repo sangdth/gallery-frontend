@@ -8,6 +8,11 @@ import {
   Status,
 } from './enums';
 
+export type Tag = {
+  type: string;
+  id: string;
+};
+
 export type DomSectionElement = {
   id: SectionElement;
   name: string;
@@ -116,6 +121,7 @@ export type PageType = BaseType & {
   content: string | null;
   is_home: boolean | null;
   site_id: string;
+  collection: CollectionType | null;
 };
 
 export type CollectionType = BaseType & {

@@ -123,6 +123,13 @@
         table:
           schema: public
           name: images
+  - name: pages
+    using:
+      foreign_key_constraint_on:
+        column: collecction_id
+        table:
+          schema: public
+          name: pages
   insert_permissions:
   - role: me
     permission:
@@ -589,6 +596,9 @@
     schema: public
     name: pages
   object_relationships:
+  - name: collection
+    using:
+      foreign_key_constraint_on: collecction_id
   - name: site
     using:
       foreign_key_constraint_on: site_id
@@ -602,6 +612,7 @@
       set:
         user_id: x-hasura-user-id
       columns:
+      - collecction_id
       - content
       - id
       - is_home
@@ -616,6 +627,7 @@
       set:
         user_id: x-hasura-user-id
       columns:
+      - collecction_id
       - content
       - id
       - is_home
@@ -639,6 +651,7 @@
   - role: me
     permission:
       columns:
+      - collecction_id
       - content
       - created_at
       - id
@@ -654,6 +667,7 @@
   - role: public
     permission:
       columns:
+      - collecction_id
       - content
       - id
       - is_home
@@ -665,6 +679,7 @@
   - role: user
     permission:
       columns:
+      - collecction_id
       - content
       - created_at
       - id
