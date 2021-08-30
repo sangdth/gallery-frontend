@@ -126,7 +126,7 @@
   - name: pages
     using:
       foreign_key_constraint_on:
-        column: collecction_id
+        column: collection_id
         table:
           schema: public
           name: pages
@@ -598,7 +598,7 @@
   object_relationships:
   - name: collection
     using:
-      foreign_key_constraint_on: collecction_id
+      foreign_key_constraint_on: collection_id
   - name: site
     using:
       foreign_key_constraint_on: site_id
@@ -612,7 +612,7 @@
       set:
         user_id: x-hasura-user-id
       columns:
-      - collecction_id
+      - collection_id
       - content
       - id
       - is_home
@@ -627,7 +627,7 @@
       set:
         user_id: x-hasura-user-id
       columns:
-      - collecction_id
+      - collection_id
       - content
       - id
       - is_home
@@ -651,7 +651,7 @@
   - role: me
     permission:
       columns:
-      - collecction_id
+      - collection_id
       - content
       - created_at
       - id
@@ -667,7 +667,7 @@
   - role: public
     permission:
       columns:
-      - collecction_id
+      - collection_id
       - content
       - id
       - is_home
@@ -679,7 +679,7 @@
   - role: user
     permission:
       columns:
-      - collecction_id
+      - collection_id
       - content
       - created_at
       - id
@@ -697,8 +697,10 @@
   - role: me
     permission:
       columns:
+      - collection_id
       - content
       - id
+      - is_home
       - name
       - site_id
       - slug
@@ -715,7 +717,9 @@
   - role: user
     permission:
       columns:
+      - collection_id
       - content
+      - is_home
       - name
       - slug
       - status

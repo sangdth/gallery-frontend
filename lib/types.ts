@@ -121,6 +121,7 @@ export type PageType = BaseType & {
   content: string | null;
   is_home: boolean | null;
   site_id: string;
+  collection_id: string | null;
   collection: CollectionType | null;
 };
 
@@ -162,14 +163,17 @@ export type CollectionPicked =
 export type PagePicked =
   | 'id'
   | 'name'
-  | 'content'
   | 'slug'
+  | 'content'
+  | 'collection_id'
+  | 'collection'
   | 'status';
 
 export type SitePicked =
   | 'id'
   | 'name'
   | 'description'
+  | 'collections'
   | 'slug'
   | 'status';
 

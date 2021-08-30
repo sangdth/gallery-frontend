@@ -1,2 +1,3 @@
 - [] Updating a page adding new item in Config Menu
 - [] Make the rich text editor for page
+- [] Make the default settings process (layout/menu)

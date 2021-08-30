@@ -208,6 +208,7 @@ export const Pages = (props: Props) => {
           refetch={optionRefetch}
         />
         <PageEditorModal
+          collections={site.collections}
           loading={insertLoading || deleteLoading}
           onSubmit={handleSubmit}
           refetch={pagesRefetch}

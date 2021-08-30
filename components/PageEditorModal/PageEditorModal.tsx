@@ -21,21 +21,29 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { ConfirmButton } from '@/components';
 import { meAtom, pageAtom } from '@/lib/jotai';
-import type { PageInput } from '@/lib/types';
+import type { PageInput, CollectionType } from '@/lib/types';
 
 type Props = {
   loading?: boolean;
+  collections?: CollectionType[];
   onSubmit: (input: PageInput) => Promise<void>;
   refetch: () => void;
 };
 
 const PageEditorModal = (props: Props) => {
-  const { loading, onSubmit, refetch } = props;
+  const {
+    loading,
+    collections,
+    onSubmit,
+    refetch,
+  } = props;
+
   const [me] = useAtom(meAtom);
   const [selectedPage, setSelectedPage] = useAtom(pageAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,6 +53,7 @@ const PageEditorModal = (props: Props) => {
     name: '',
     content: '',
     slug: '',
+    collection_id: null,
     ...(selectedPage ?? {}),
   }), [selectedPage]);
 
@@ -79,6 +88,11 @@ const PageEditorModal = (props: Props) => {
     });
   };
 
+  const handleOnSelect = (e: React.FormEvent<HTMLSelectElement>) => {
+    const id = e.currentTarget.value;
+    handleOnChange('collection_id', id ?? null);
+  };
+
   useEffect(() => {
     const slug = slugify(input.name ?? '', { lower: true });
     if (input.name && input.slug !== slug) {
@@ -94,6 +108,7 @@ const PageEditorModal = (props: Props) => {
         content: selectedPage.content,
         slug: selectedPage.slug,
         status: selectedPage.status,
+        collection_id: selectedPage.collection_id,
       });
 
       onOpen();
@@ -152,6 +167,21 @@ const PageEditorModal = (props: Props) => {
               <Code>
                 {`/pages/${input.slug}`}
               </Code>
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Attach Collection</FormLabel>
+              <Select
+                placeholder="Select collection"
+                value={input.collection_id ?? undefined}
+                onChange={handleOnSelect}
+              >
+                {collections && collections.map((collection) => (
+                  <option key={collection.id} value={collection.id}>
+                    {collection.name}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl mt={4}>

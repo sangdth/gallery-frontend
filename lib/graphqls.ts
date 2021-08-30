@@ -18,7 +18,10 @@ export const SITES_AGGREGATE = gql`
     sites_aggregate(
       limit: 10,
       offset: 0,
-      where: {user: {id: {_eq: $userId}}}
+      where: {
+        user: {id: {_eq: $userId}},
+        collections: {status: {_eq: "PUBLIC"}}
+      }
     ) {
       nodes {
         description
@@ -28,6 +31,10 @@ export const SITES_AGGREGATE = gql`
         status
         user {
           id
+        }
+        collections {
+          id
+          name
         }
       }
     }
@@ -71,6 +78,13 @@ export const SITE_BY_PK = gql`
       slug
       status
       updated_at
+      user {
+        id
+      }
+      collections {
+        id
+        name
+      }
     }
   }
 `;
@@ -142,6 +156,7 @@ export const PAGES_AGGREGATE = gql`
         is_home
         slug
         status
+        collection_id
       }
     }
   }
@@ -151,7 +166,10 @@ export const UPSERT_PAGE_ONE = gql`
   mutation UPSERT_PAGE_ONE($object: pages_insert_input!) {
     insert_pages_one(
       object: $object,
-      on_conflict: {constraint: pages_pkey, update_columns: [name, content, slug, status]}
+      on_conflict: {
+        constraint: pages_pkey,
+        update_columns: [name, content, slug, status, collection_id]
+      }
     ) {
       created_at
       updated_at
@@ -223,7 +241,7 @@ export const DELETE_LAYOUT_BY_PK = gql`
 export const COLLECTIONS_AGGREGATE = gql`
   query COLLECTIONS_AGGREGATE($userId: uuid!, $siteId: uuid!) {
     collections_aggregate(
-      limit: 10,
+      limit: 999,
       offset: 0,
       where: {
         user_id: {_eq: $userId},
