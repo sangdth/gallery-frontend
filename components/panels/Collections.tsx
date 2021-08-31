@@ -50,6 +50,9 @@ export const Collections = (props: Props) => {
 
   const collections = collectionsData?.collections_aggregate?.nodes;
 
+  // TODO: Make the query/mutation out of single component, because after this upsert
+  // the other places like Pages can not get correct Collections in their queries.
+  // With the central place it can refetch anything.
   const [
     upsertCollection,
     {

@@ -19,8 +19,7 @@ export const SITES_AGGREGATE = gql`
       limit: 10,
       offset: 0,
       where: {
-        user: {id: {_eq: $userId}},
-        collections: {status: {_eq: "PUBLIC"}}
+        user_id: {_eq: $userId},
       }
     ) {
       nodes {
@@ -32,7 +31,7 @@ export const SITES_AGGREGATE = gql`
         user {
           id
         }
-        collections {
+        collections(where: {status: {_eq: "PUBLIC"}}) {
           id
           name
         }
@@ -306,7 +305,7 @@ export const GET_EVERYTHING_BY_SITE_SLUG = gql`
           key
           value
         }
-        pages {
+        pages(where:{ status: {_eq: "PUBLIC"}}) {
           id
           name
           slug
