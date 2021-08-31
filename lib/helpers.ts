@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { OptionValue, Tag } from '@/lib/types';
+import { BASE_ENDPOINT } from '@/lib/constants';
+import type { OptionValue, Tag, ImageType } from '@/lib/types';
 
 export const recursiveRemove = (tree: OptionValue[], id: string): OptionValue[] => {
   return tree.map(o => o).filter(a => a.id !== id).map(e => {
@@ -48,4 +49,11 @@ export const parseTags = (content?: string | null): Tag[] => {
     acc.push({ type, id });
     return acc;
   }, []);
+};
+
+export const makeImageSrc = (path?: string) => {
+  if (path) {
+    return `${BASE_ENDPOINT}/storage/o/${path}`;
+  }
+  return '/fallback-image.png';
 };

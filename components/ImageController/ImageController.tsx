@@ -3,7 +3,7 @@ import {
   Image,
   SimpleGrid,
 } from '@chakra-ui/react';
-import { BASE_ENDPOINT } from '@/lib/constants';
+import { makeImageSrc } from '@/lib/helpers';
 import type { RecursivePartial, ImageType } from '@/lib/types';
 
 type ImageControllerProps = {
@@ -16,16 +16,16 @@ type ImageControllerProps = {
 export const ImageController = (props: ImageControllerProps) => {
   const { images, selected, onSelect } = props;
 
-  const isSelected = (target: string) => selected.some((id) => id === target);
+  const isSelected = (target?: string) => selected.some((id) => id === target);
 
-  const handleSelect = (target: string) => {
+  const handleSelect = (target?: string) => {
     const tmp = [...selected];
     const foundIndex = tmp.findIndex((id) => id === target);
 
     if (foundIndex > -1) {
       tmp.splice(foundIndex, 1);
     } else {
-      tmp.push(target);
+      tmp.push(target ?? '');
     }
 
     onSelect(tmp);
@@ -49,9 +49,9 @@ export const ImageController = (props: ImageControllerProps) => {
           border="4px"
           borderRadius="8px"
           _hover={{ cursor: 'pointer' }}
-          borderColor={isSelected(image.id ?? '') ? 'blue.500' : 'white'}
-          src={`${BASE_ENDPOINT}/storage/o/${image.path}`}
-          onClick={() => handleSelect(image.id ?? '')}
+          borderColor={isSelected(image.id) ? 'blue.500' : 'white'}
+          src={makeImageSrc(image.path)}
+          onClick={() => handleSelect(image.id)}
         />
       ))}
     </SimpleGrid>

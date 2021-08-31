@@ -1,5 +1,6 @@
 export * from './AppWrapper';
 export * from './ActionItem';
+export * from './Carousel';
 export * from './ChangePassword';
 export * from './CollectionItem';
 export * from './ConfirmButton';

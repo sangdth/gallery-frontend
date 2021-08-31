@@ -1,5 +1,6 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
+import { Carousel } from '@/components';
 import type { PageType } from '@/lib/types';
 
 export type MainTemplateProps = {
@@ -16,6 +17,9 @@ export const MainTemplate = (props: MainTemplateProps) => {
 
   return (
     <Flex>
+      {page.collection && (
+        <Carousel images={page.collection.images} />
+      )}
       {page?.content}
     </Flex>
   );
