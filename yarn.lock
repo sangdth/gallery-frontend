@@ -5243,10 +5243,10 @@ next@11.1.0:
     vm-browserify "1.1.2"
     watchpack "2.1.1"
 
-nextjs-cors@1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/nextjs-cors/-/nextjs-cors-1.0.6.tgz#7537f81dbb23c3ca40968481c297d1934d91b28d"
-  integrity sha512-w00Xj01Xox8WWdUfUmOjzuNgEVf8ju4sM2R5O/eiEeKkSiUm7elx0aiI+aSXYzzBW5XdTLcnBf9L/VnHqQelcw==
+nextjs-cors@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/nextjs-cors/-/nextjs-cors-2.0.0.tgz#ac9d1800200079f1f1dc301f18b4a30bd943d069"
+  integrity sha512-CiGgn52pmRB6jCcvu9CNtTxdiWwYeQDNT/k3RMpcUW0B8whEBdZWTYRL1ltl+Wpc4chUFGawPaMBJb8XFnVUiQ==
   dependencies:
     cors "^2.8.5"
 
