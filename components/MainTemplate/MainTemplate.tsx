@@ -16,11 +16,11 @@ export const MainTemplate = (props: MainTemplateProps) => {
   }
 
   return (
-    <Flex>
+    <Flex bg="red" maxW="1280px" h="100%">
       {page.collection && (
         <Carousel images={page.collection.images} />
       )}
-      {page?.content}
+      {!page.collection && page?.content}
     </Flex>
   );
 };

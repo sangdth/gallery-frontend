@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "concurrently \"nhost dev\" \"next dev\"",
+    "dev": "concurrently \"nhost dev\" \"next dev\" \"open http://localhost:3000\"",
     "lint": "next lint",
     "start": "next start",
     "test": "jest",

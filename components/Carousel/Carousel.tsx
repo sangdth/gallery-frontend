@@ -24,10 +24,8 @@ export const Carousel = (props: CarouselProps) => {
     images,
   } = props;
 
-  console.log('### images: ', images);
-
   return (
-    <Box w="300px">
+    <Box width="100%" bg="green">
       <SlickSlider {...settings}>
         {images.map((image) => (
           <Image
