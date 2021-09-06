@@ -12,3 +12,4 @@ export const siteAtom = atom<SiteType | null>(null);
 export const pageAtom = atom<PageType | null>(null);
 export const collectionAtom = atom<CollectionType | null>(null);
 export const layoutAtom = atom<LayoutType | null>(null);
+export const childrenHeightAtom = atom<number>(0);

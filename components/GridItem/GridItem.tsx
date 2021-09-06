@@ -38,8 +38,8 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
     return (
       <Flex
         as="div"
-        alignItems="center"
-        justifyContent="center"
+        alignItems="start"
+        // justifyContent="center"
         backgroundColor="#FFFFFF"
         borderWidth={`${editable ? 1 : 0}px`}
         borderColor={editable ? '#DDDDDD' : undefined}

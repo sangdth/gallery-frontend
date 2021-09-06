@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
+import type { Layouts } from 'react-grid-layout';
 import { BASE_ENDPOINT } from '@/lib/constants';
-import type { OptionValue, Tag, ImageType } from '@/lib/types';
+import type { OptionValue, Tag } from '@/lib/types';
 
 export const recursiveRemove = (tree: OptionValue[], id: string): OptionValue[] => {
   return tree.map(o => o).filter(a => a.id !== id).map(e => {
@@ -56,4 +57,11 @@ export const makeImageSrc = (path?: string) => {
     return `${BASE_ENDPOINT}/storage/o/${path}`;
   }
   return '/fallback-image.png';
+};
+
+export const makeProductionLayouts = (height: number, layouts: Layouts): Layouts => {
+  if (!height) {
+    return layouts;
+  }
+  return layouts;
 };

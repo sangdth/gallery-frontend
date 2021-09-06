@@ -47,6 +47,8 @@ export const NAV_ITEMS: Array<NavItem> = [
   },
 ];
 
+export const ROW_HEIGHT = 40;
+
 export const DEFAULT_DOM_ELEMENTS = [
   SectionElement.Logo,
   SectionElement.Menu,

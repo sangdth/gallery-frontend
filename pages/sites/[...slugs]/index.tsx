@@ -1,17 +1,22 @@
 import React, { useMemo } from 'react';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { useQuery } from '@apollo/client';
+import { Box } from '@chakra-ui/react';
 import { GridItem, MainTemplate, MenuTemplate } from '@/components';
 import { GET_EVERYTHING_BY_SITE_SLUG } from '@/lib/graphqls';
-import { DEFAULT_LAYOUT } from '@/lib/constants';
+import { DEFAULT_LAYOUT, ROW_HEIGHT } from '@/lib/constants';
 import { useGenerateDom } from '@/lib/hooks';
+import { childrenHeightAtom } from '@/lib/jotai';
 import { OptionKey, SectionElement } from '@/lib/enums';
 import type { OptionValue, SiteType } from '@/lib/types';
 
 const ResponsiveLayout = WidthProvider(Responsive);
 
 export const SingleSiteView = () => {
+  const [childrenHeight] = useAtom(childrenHeightAtom);
+  console.log('### childrenHeight: ', childrenHeight);
   const router = useRouter();
   const { slugs } = router.query;
 
@@ -37,11 +42,24 @@ export const SingleSiteView = () => {
   const site: NonNullable<SiteType> = data?.sites_aggregate?.nodes[0] ?? {};
   const { layouts, options, pages } = site;
 
-  const currentLayouts = layouts ? layouts[0] : undefined;
+  let currentLayouts = layouts ? layouts[0] : undefined;
   const currentMenuData = options?.find(({ key }) => key === OptionKey.Menu);
 
-  // console.log('### options: ', options);
-  // console.log('### layouts: ', layouts);
+  // TODO: Make the layouts based on the childrenHeight
+  // if (currentLayouts) {
+  //   const grids = currentLayouts.value;
+  //   Object.keys(grids).forEach((k: string) => {
+  //     const main = grids[k].find((o) => o.i === 'MAIN');
+  //     if (main) {
+  //       currentLayouts = {
+  //         ...currentLayouts,
+  //         value: {
+  //           ...currentLayouts.value,
+  //         },
+  //       };
+  //     }
+  //   });
+  // }
 
   const handleSelect = (items: OptionValue[]) => {
     const pagePath = items.reduce((acc, current) => {
@@ -54,7 +72,6 @@ export const SingleSiteView = () => {
       shallow: true,
     });
   };
-
 
   const currentPage = useMemo(() => {
     if (pageSlug) {
@@ -93,20 +110,22 @@ export const SingleSiteView = () => {
   }
 
   return (
-    <ResponsiveLayout
-      layouts={currentLayouts?.value}
-      breakpoints={DEFAULT_LAYOUT.breakpoints}
-      cols={DEFAULT_LAYOUT.cols}
-      rowHeight={40}
-      isDraggable={false}
-      isResizable={false}
-    >
-      {elements.map(({ id, component }) => (
-        <GridItem key={id}>
-          {component}
-        </GridItem>
-      ))}
-    </ResponsiveLayout>
+    <Box maxWidth="1400px" marginX="auto">
+      <ResponsiveLayout
+        layouts={currentLayouts?.value}
+        breakpoints={DEFAULT_LAYOUT.breakpoints}
+        cols={DEFAULT_LAYOUT.cols}
+        rowHeight={ROW_HEIGHT}
+        isDraggable={false}
+        isResizable={false}
+      >
+        {elements.map(({ id, component }) => (
+          <GridItem key={id} editable>
+            {component}
+          </GridItem>
+        ))}
+      </ResponsiveLayout>
+    </Box>
   );
 };
 
