@@ -158,7 +158,6 @@ export const PAGES_AGGREGATE = gql`
         id
         name
         content
-        is_home
         slug
         status
         collection_id
@@ -173,7 +172,7 @@ export const UPSERT_PAGE_ONE = gql`
       object: $object,
       on_conflict: {
         constraint: pages_pkey,
-        update_columns: [name, content, slug, status, collection_id, is_home]
+        update_columns: [name, content, slug, status, collection_id]
       }
     ) {
       created_at
@@ -316,7 +315,6 @@ export const GET_EVERYTHING_BY_SITE_SLUG = gql`
           name
           slug
           content
-          is_home
           collection {
             id
             description

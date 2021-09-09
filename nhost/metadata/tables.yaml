@@ -615,7 +615,6 @@
       - collection_id
       - content
       - id
-      - is_home
       - name
       - site_id
       - slug
@@ -630,7 +629,6 @@
       - collection_id
       - content
       - id
-      - is_home
       - name
       - site_id
       - slug
@@ -642,7 +640,6 @@
       columns:
       - content
       - id
-      - is_home
       - name
       - site_id
       - slug
@@ -655,7 +652,6 @@
       - content
       - created_at
       - id
-      - is_home
       - name
       - site_id
       - slug
@@ -670,7 +666,6 @@
       - collection_id
       - content
       - id
-      - is_home
       - name
       - site_id
       - slug
@@ -683,7 +678,6 @@
       - content
       - created_at
       - id
-      - is_home
       - name
       - site_id
       - slug
@@ -700,7 +694,6 @@
       - collection_id
       - content
       - id
-      - is_home
       - name
       - site_id
       - slug
@@ -718,7 +711,6 @@
       columns:
       - collection_id
       - content
-      - is_home
       - name
       - slug
       - status

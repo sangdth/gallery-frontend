@@ -78,7 +78,6 @@ export const makeProductionLayouts = (
     const mainIndex = tmpLayouts[k].findIndex((o) => o.i === 'MAIN');
     if (mainIndex > -1) {
       const tmpMain = tmpLayouts[k][mainIndex];
-      console.log('### tmpMain: ', tmpMain.h);
       tmpMain.h = h > tmpMain.h ? h : tmpMain.h;
       tmpLayouts[k].splice(mainIndex, 1, tmpMain);
     }

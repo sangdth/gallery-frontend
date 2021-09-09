@@ -130,7 +130,6 @@ export type PageType = BaseType & {
   name: string;
   slug: string;
   content: string | null;
-  is_home: boolean | null;
   site_id: string;
   collection_id: string | null;
   collection: CollectionType | null;
@@ -178,7 +177,6 @@ export type PagePicked =
   | 'content'
   | 'collection_id'
   | 'collection'
-  | 'is_home'
   | 'status';
 
 export type SitePicked =

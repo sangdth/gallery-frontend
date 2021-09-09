@@ -24,6 +24,7 @@ export const MenuTemplate = (props: MenuTemplateProps) => {
   const handleOnClick = (item: OptionValue) => {
     const newItems = [...items];
     // TODO: Be careful when working with recursive
+    // It needs to send array of items because we want to calculate path
     newItems.push(item);
     if (!arrayHasValue(item.children)) {
       onSelect(newItems);

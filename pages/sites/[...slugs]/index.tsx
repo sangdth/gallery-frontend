@@ -7,7 +7,7 @@ import { Box } from '@chakra-ui/react';
 import { GridItem, MainTemplate, MenuTemplate } from '@/components';
 import { GET_EVERYTHING_BY_SITE_SLUG } from '@/lib/graphqls';
 import { DEFAULT_LAYOUT, ROW_HEIGHT } from '@/lib/constants';
-import { useGenerateDom } from '@/lib/hooks';
+import { useGenerateDom, useOptions } from '@/lib/hooks';
 import { makeProductionLayouts } from '@/lib/helpers';
 import { childrenHeightAtom } from '@/lib/jotai';
 import { OptionKey, SectionElement } from '@/lib/enums';
@@ -35,12 +35,18 @@ export const SingleSiteView = () => {
     };
   }, [slugs]);
 
+
   const { loading, error, data } = useQuery(GET_EVERYTHING_BY_SITE_SLUG, {
     variables: { slug: siteSlug },
   });
 
   const site: NonNullable<SiteType> = data?.sites_aggregate?.nodes[0] ?? {};
-  const { layouts, options, pages } = site;
+  const { id: siteId, layouts, options, pages } = site;
+
+  const { data: optionData } = useOptions(siteId);
+
+  // const menuOptionData = optionData[OptionKey.Menu];
+  const homeOptionData = optionData[OptionKey.Home];
 
   let currentLayouts = layouts ? layouts[0] : undefined;
   const currentMenuData = options?.find(({ key }) => key === OptionKey.Menu);
@@ -49,9 +55,12 @@ export const SingleSiteView = () => {
 
   const handleSelect = (items: OptionValue[]) => {
     const pagePath = items.reduce((acc, current) => {
-      const { slug } = current;
-      const { is_home: isHome } = pages?.find((o) => o.slug === slug) ?? {};
-      return acc.concat('/', `${isHome ? '' : slug}`.toLowerCase());
+      const { slug, id } = current;
+      const isHome = id === homeOptionData.value.id;
+      if (!isHome) {
+        return acc.concat('/', `${slug}`.toLowerCase());
+      }
+      return siteSlug;
     }, siteSlug);
 
     router.push(`/sites/${pagePath}`, undefined, {
@@ -63,8 +72,8 @@ export const SingleSiteView = () => {
     if (pageSlug) {
       return pages?.find((o) => o.slug === pageSlug);
     }
-    return pages?.find((o) => !!o.is_home);
-  }, [pageSlug, pages]);
+    return pages?.find((o) => o.id === homeOptionData?.value.id);
+  }, [pageSlug, pages, homeOptionData]);
 
   const componentSwitcher = (key: SectionElement) => {
     switch (key) {
