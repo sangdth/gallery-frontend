@@ -2,7 +2,12 @@ import { Factory } from 'rosie';
 import { v4 as uuidv4 } from 'uuid';
 import { lorem } from 'faker';
 import { Status, OptionKey } from '@/lib/enums';
-import type { PageType, MenuOption, OptionValue } from '@/lib/types';
+import type {
+  ImageType,
+  PageType,
+  MenuOption,
+  OptionValue,
+} from '@/lib/types';
 
 const baseAttributes = {
   id: () => uuidv4(),
@@ -35,3 +40,9 @@ export const MenuFactory = new Factory<MenuOption>()
       children: (() => MenuValueFactory.buildList(3))(),
     }),
   });
+
+export const ImageFactory = new Factory<ImageType>()
+  .sequence('name', (i) => `Image ${i}`)
+  .sequence('path', (i) => `image-${i}.png`)
+  .attrs(baseAttributes);
+

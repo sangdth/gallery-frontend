@@ -16,7 +16,7 @@ const defaultSettings = {
 type CarouselProps = {
   settings?: Settings;
   images: ImageType[];
-  width: number | string;
+  width?: number | string;
 };
 
 export const Carousel = (props: CarouselProps) => {

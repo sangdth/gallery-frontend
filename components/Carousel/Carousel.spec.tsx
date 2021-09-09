@@ -1,11 +1,17 @@
-import { render } from '@/test/utils';
+import { render, screen } from '@/test/utils';
+import { ImageFactory } from '@/test/factories';
+// import { makeImageSrc } from '@/lib/helpers';
 import { Carousel } from './Carousel';
 
-describe('Carousel', () => {
-  it('can render component', async () => {
+const fakeImage = ImageFactory.build();
 
-    render(<Carousel images={[]} />);
-    // const found = screen.getByText(/test page/);
-    // expect(found).toBeInTheDocument();
+describe('Carousel', () => {
+  it('can render images', async () => {
+    render(<Carousel images={[fakeImage]} width={600} />);
+
+    const image = screen.getByRole('img');
+    expect(image).toBeInstanceOf(HTMLImageElement);
+    //  TODO: Why it does not have src?
+    // expect(image).toHaveAttribute('src', makeImageSrc(fakeImage.path));
   });
 });
