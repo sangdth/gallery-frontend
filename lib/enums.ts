@@ -20,6 +20,7 @@ export enum DisplayType {
 export enum OptionKey {
   Menu = 'MENU',
   Style = 'STYLE',
+  Home = 'HOME',
 }
 
 export enum SectionElement {

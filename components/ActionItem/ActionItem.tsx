@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { useHoverDirty } from 'react-use';
 import {
   Flex,
   HStack,
@@ -43,21 +44,27 @@ type ExternalLink = {
   href: string;
   label: string;
 };
+
+export type CustomActionRenderProps = {
+  id: string;
+  isHovered?: boolean;
+};
+
 export type ActionItemProps<T> = {
   confirmButtonProps?: ConfirmButtonProps;
   data: T;
   draggable?: boolean;
   externalLink?: ExternalLink | null;
   compactMode?: boolean;
-  customActions?: (id: string) => React.ReactNode;
+  customActions?: React.ReactNode | ((p: CustomActionRenderProps) => React.ReactNode);
   onClick?: () => void;
   onEdit?: () => void;
   onEditIcon?: React.ReactElement;
   onDelete?: (id: string) => void;
   onDeleteIcon?: React.ReactElement;
+  onHover?: (id: string) => void;
 };
 
-// TODO: Make the children change background colors based on level
 export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
   const {
     confirmButtonProps,
@@ -71,22 +78,31 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
     onEdit,
     onEditIcon,
     onClick,
+    onHover,
   } = props;
 
+  const ref = useRef(null);
+  const isHovering = useHoverDirty(ref);
   const data = useMemo(() => mapToActionItem(originalData), [originalData]);
   const greenBackground = useColorModeValue('green.400', 'gray.600');
   const blueBackground = useColorModeValue('blue.400', 'gray.600');
 
+  useEffect(() => {
+    if (isHovering && onHover) {
+    // Still not good when hover the icons inside
+      onHover(data.id);
+    }
+  }, [data, onHover, isHovering]);
+
   return (
     <Flex
+      ref={ref}
       border="1px"
       borderColor="gray.200"
       borderRadius="4px"
       padding={`${compactMode ? 10 : 20}px`}
       direction="column"
       justifyContent="space-between"
-      _hover={{ bg: useColorModeValue('blue.50', 'gray.900') }}
-      // onClick={onClick}
     >
       <HStack spacing="20px" width="100%" justifyContent="space-between">
         {draggable && (
@@ -125,6 +141,9 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
                 onClick={onClick}
               />
             )}
+            {typeof customActions === 'function' && customActions({
+              id: data.id, isHovered: isHovering,
+            })}
           </HStack>
 
           <HStack spacing="20px">
@@ -140,8 +159,6 @@ export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
               />
             )}
             
-            {customActions && customActions(data.id)}
-
             {onDelete && (
               <ConfirmButton
                 {...confirmButtonProps}

@@ -705,7 +705,6 @@
       - site_id
       - slug
       - status
-      - user_id
       filter:
         user_id:
           _eq: X-Hasura-User-Id

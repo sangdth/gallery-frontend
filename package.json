@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "concurrently \"nhost dev\" \"next dev\" \"open http://localhost:3000\"",
+    "server:prod": "next start",
+    "server:dev": "next dev",
+    "dev": "concurrently \"nhost dev\" \"yarn server:dev\" \"open http://localhost:3000\"",
+    "start": "yarn server:prod",
     "lint": "next lint",
-    "start": "next start",
     "test": "jest",
     "test:all": "yarn lint && yarn ts-check && yarn test:ci",
     "test:ci": "yarn test --ci --maxWorkers=50% --silent",

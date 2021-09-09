@@ -4,14 +4,23 @@ import {
   Collapse,
   Flex,
   IconButton,
+  Link,
   Stack,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import {
+  ExternalLinkIcon,
+  HamburgerIcon,
+  CloseIcon,
+} from '@chakra-ui/icons';
+import { useAtom } from 'jotai';
 import { useAuth } from '@nhost/react-auth';
 import { Logo } from '@/components';
+import { makeLink } from '@/lib/helpers';
+import { siteAtom } from '@/lib/jotai';
 import type { NavItem } from '@/lib/types';
+
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
 import { UserInfo } from './UserInfo';
@@ -23,6 +32,8 @@ export type Props = {
 export const Navbar = ({ items }: Props) => {
   const { isOpen, onToggle } = useDisclosure();
   const { signedIn } = useAuth();
+  const [currentSite] = useAtom(siteAtom);
+  const siteLink = makeLink(currentSite);
 
   return (
     <Box>
@@ -55,6 +66,12 @@ export const Navbar = ({ items }: Props) => {
           <Logo />
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+            {currentSite && (
+              <Link href={siteLink.href} isExternal>
+                {siteLink.label}
+                <ExternalLinkIcon marginLeft="2px" marginBottom="4px" />
+              </Link>
+            )}
             {false && <DesktopNav items={items} />}
           </Flex>
         </Flex>

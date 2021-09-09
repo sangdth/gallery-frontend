@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { useUpdateAtom } from 'jotai/utils';
-import { Flex, Stack, useToast } from '@chakra-ui/react';
+import {
+  Flex,
+  Icon,
+  IconButton,
+  Stack,
+  useToast,
+} from '@chakra-ui/react';
+import { MdHome } from 'react-icons/md';
 import { useQuery, useMutation } from '@apollo/client';
 import {
   ActionItem,
@@ -9,18 +17,17 @@ import {
 } from '@/components';
 import { OptionKey } from '@/lib/enums';
 import { pageAtom } from '@/lib/jotai';
-import { arrayHasValue } from '@/lib/helpers';
 import {
   PAGES_AGGREGATE,
   UPSERT_PAGE_ONE,
   DELETE_PAGE_BY_PK,
   ALL_OPTIONS,
-  UPDATE_OPTIONS,
+  UPSERT_OPTIONS,
 } from '@/lib/graphqls';
 import type {
+  HomeOption,
   MenuOption,
   OptionType,
-  OptionUpdated,
   OptionValue,
   PageDeletedData,
   PageInsertedData,
@@ -60,7 +67,7 @@ export const Pages = (props: Props) => {
   const pages = pagesData?.pages_aggregate?.nodes;
 
   const [
-    insertPage,
+    upsertPage,
     {
       data: insertData,
       loading: insertLoading,
@@ -98,17 +105,23 @@ export const Pages = (props: Props) => {
       // data: updatedOption,
       // error: updatedError,
     },
-  ] = useMutation<OptionUpdated>(UPDATE_OPTIONS);
+  ] = useMutation(UPSERT_OPTIONS);
 
-  const currentMenuData = optionData?.options.find(({ key }) => key === OptionKey.Menu);
-  const currentMenu = currentMenuData?.value ?? [];
+  const menuOptionData = optionData?.options
+    .find(({ key }) => key === OptionKey.Menu) as MenuOption;
+  const homeOptionData = optionData?.options
+    .find(({ key }) => key === OptionKey.Home) as HomeOption;
 
-  const handleUpdateOption = async (key: OptionKey, value: OptionValue | OptionValue[]) => {
+  const currentMenu = menuOptionData?.value ?? [];
+
+  const handleUpdateOption = async ({ id, key, value }: {
+    id: string;
+    key: OptionKey;
+    value: OptionValue | OptionValue[];
+  }) => {
     await updateOption({
       variables: {
-        siteId: site.id,
-        key: key,
-        value: value,
+        objects: [{ site_id: site.id, id, key, value }],
       },
       context: {
         headers: {
@@ -118,14 +131,21 @@ export const Pages = (props: Props) => {
     });
 
     optionRefetch();
+
+    toast({
+      title: 'Updated successful',
+      position: 'top',
+      status: 'success',
+      isClosable: true,
+      duration: 1000,
+    });
   };
 
   const handleSubmit = async (input: PageInput) => {
-    const response = await insertPage({
+    const response = await upsertPage({
       variables: {
         object: {
           ...input,
-          is_home: !arrayHasValue(pages),
           site_id: site.id,
         },
       },
@@ -149,7 +169,11 @@ export const Pages = (props: Props) => {
           children: [],
         });
       }
-      await handleUpdateOption(OptionKey.Menu, tmpMenu);
+      await handleUpdateOption({
+        id: menuOptionData?.id ?? uuidv4(),
+        key: OptionKey.Menu,
+        value: tmpMenu,
+      });
     }
 
     pagesRefetch();
@@ -167,19 +191,31 @@ export const Pages = (props: Props) => {
 
     // TODO: use the menu to get id path, then delete page and update menu
     // This way can not delete page nested
-    if (Array.isArray(currentMenu)) {
+    if (menuOptionData && Array.isArray(currentMenu)) {
       const remainedMenu = currentMenu.filter((o) => o.id !== id);
-      await handleUpdateOption(OptionKey.Menu, remainedMenu);
+      await handleUpdateOption({
+        id: menuOptionData.id,
+        key: OptionKey.Menu,
+        value: remainedMenu,
+      });
     }
 
     pagesRefetch();
+  };
+
+  const setHomePage = async (pageId: string) => {
+    await handleUpdateOption({
+      id: homeOptionData?.id ?? uuidv4(),
+      key: OptionKey.Home,
+      value: { id: pageId },
+    });
   };
 
   useEffect(() => {
     if (insertData) {
       // pagesRefetch();
       toast({
-        title: `Created ${insertData.insert_pages_one.name} successful`,
+        title: `Task on ${insertData.insert_pages_one.name} successful`,
         position: 'top',
         status: 'success',
         isClosable: true,
@@ -203,8 +239,12 @@ export const Pages = (props: Props) => {
         <MenuEditorModal
           loading={updateOptionLoading}
           pages={pages}
-          menu={currentMenuData as MenuOption}
-          onSubmit={(menu) => handleUpdateOption(OptionKey.Menu, menu.value)}
+          menu={menuOptionData as MenuOption}
+          onSubmit={(menu) => handleUpdateOption({
+            id: menuOptionData?.id ?? uuidv4(),
+            key: OptionKey.Menu,
+            value: menu.value,
+          })}
           refetch={optionRefetch}
         />
         <PageEditorModal
@@ -220,6 +260,16 @@ export const Pages = (props: Props) => {
           <ActionItem
             key={p.id}
             data={p}
+            customActions={() => (
+              <IconButton
+                aria-label="Open"
+                colorScheme="green"
+                variant={homeOptionData?.value.id === p.id ? 'solid' : 'outline'}
+                borderRadius="4px"
+                icon={<Icon as={MdHome}/>}
+                onClick={() => setHomePage(p.id)}
+              />
+            )}
             onEdit={() => setSelectedPage(p)}
             onDelete={(id) => handleDelete(id)}
           />

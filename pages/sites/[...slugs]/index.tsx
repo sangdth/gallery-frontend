@@ -8,6 +8,7 @@ import { GridItem, MainTemplate, MenuTemplate } from '@/components';
 import { GET_EVERYTHING_BY_SITE_SLUG } from '@/lib/graphqls';
 import { DEFAULT_LAYOUT, ROW_HEIGHT } from '@/lib/constants';
 import { useGenerateDom } from '@/lib/hooks';
+import { makeProductionLayouts } from '@/lib/helpers';
 import { childrenHeightAtom } from '@/lib/jotai';
 import { OptionKey, SectionElement } from '@/lib/enums';
 import type { OptionValue, SiteType } from '@/lib/types';
@@ -16,7 +17,6 @@ const ResponsiveLayout = WidthProvider(Responsive);
 
 export const SingleSiteView = () => {
   const [childrenHeight] = useAtom(childrenHeightAtom);
-  console.log('### childrenHeight: ', childrenHeight);
   const router = useRouter();
   const { slugs } = router.query;
 
@@ -45,21 +45,7 @@ export const SingleSiteView = () => {
   let currentLayouts = layouts ? layouts[0] : undefined;
   const currentMenuData = options?.find(({ key }) => key === OptionKey.Menu);
 
-  // TODO: Make the layouts based on the childrenHeight
-  // if (currentLayouts) {
-  //   const grids = currentLayouts.value;
-  //   Object.keys(grids).forEach((k: string) => {
-  //     const main = grids[k].find((o) => o.i === 'MAIN');
-  //     if (main) {
-  //       currentLayouts = {
-  //         ...currentLayouts,
-  //         value: {
-  //           ...currentLayouts.value,
-  //         },
-  //       };
-  //     }
-  //   });
-  // }
+  const productionLayouts = makeProductionLayouts(childrenHeight, currentLayouts?.value);
 
   const handleSelect = (items: OptionValue[]) => {
     const pagePath = items.reduce((acc, current) => {
@@ -112,7 +98,7 @@ export const SingleSiteView = () => {
   return (
     <Box maxWidth="1400px" marginX="auto">
       <ResponsiveLayout
-        layouts={currentLayouts?.value}
+        layouts={productionLayouts}
         breakpoints={DEFAULT_LAYOUT.breakpoints}
         cols={DEFAULT_LAYOUT.cols}
         rowHeight={ROW_HEIGHT}

@@ -141,7 +141,7 @@ export const MenuEditorModal = (props: MenuEditorModalProps) => {
                   compactMode
                   key={`${o.id}-${o.slug}`}
                   data={o}
-                  customActions={(itemId) => (
+                  customActions={({ id: itemId }) => (
                     <PageSelector
                       pages={pages.filter(p => p.id !== o.id)}
                       onCreate={(folder) => handleCreateNode(itemId, folder)}

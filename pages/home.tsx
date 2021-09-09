@@ -7,6 +7,7 @@ import { WithPrivateRoute } from '@/components/WithPrivateRoute';
 import { ActionItem, Layout, SiteEditorModal } from '@/components';
 import { auth } from '@/lib/nhost';
 import { siteAtom } from '@/lib/jotai';
+import { makeLink } from '@/lib/helpers';
 import {
   SITES_AGGREGATE,
   UPSERT_SITE_ONE,
@@ -70,11 +71,6 @@ function Home() {
   ] = useMutation<SiteDeletedData>(DELETE_SITE_BY_PK);
 
   const sites = queryData?.sites_aggregate?.nodes?.filter((s) => !!s);
-
-  const makeLink = (o: SiteType) => ({
-    href: `/sites/${o.slug}?preview`,
-    label: o.name,
-  });
 
   const handleEdit = (o: SiteType) => {
     setCurrentSite(o);

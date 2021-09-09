@@ -124,9 +124,15 @@ export const ALL_OPTIONS = gql`
   }
 `;
 
-export const UPDATE_OPTIONS = gql`
-  mutation UPDATE_OPTIONS($siteId: uuid!, $key: String!, $value: jsonb!) {
-   update_options(where: {site_id: {_eq: $siteId}, key: {_eq: $key}}, _set: {value: $value}) {
+export const UPSERT_OPTIONS = gql`
+  mutation UPSERT_OPTIONS($objects: [options_insert_input!]!) {
+    insert_options(
+      objects: $objects,
+      on_conflict: {
+        constraint: options_pkey,
+        update_columns: [key,value,status]
+      }
+    ) {
       returning {
         id
         key
@@ -167,7 +173,7 @@ export const UPSERT_PAGE_ONE = gql`
       object: $object,
       on_conflict: {
         constraint: pages_pkey,
-        update_columns: [name, content, slug, status, collection_id]
+        update_columns: [name, content, slug, status, collection_id, is_home]
       }
     ) {
       created_at

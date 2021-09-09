@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from 'react';
-import { useMeasure } from 'react-use';
+import React, { useEffect } from 'react';
+import { useMeasure, usePrevious } from 'react-use';
 import { useUpdateAtom } from 'jotai/utils';
 import { Flex } from '@chakra-ui/react';
 import { Carousel } from '@/components';
@@ -13,18 +13,21 @@ export type MainTemplateProps = {
 export const MainTemplate = (props: MainTemplateProps) => {
   const { page } = props;
   const [ref, { height }] = useMeasure<HTMLDivElement>();
+  const prevHeight = usePrevious(height);
   const updateChildrenHeight = useUpdateAtom(childrenHeightAtom);
 
-  useLayoutEffect(() => {
-    updateChildrenHeight(height);
-  }, [height, updateChildrenHeight]);
+  useEffect(() => {
+    if (prevHeight !== height) {
+      updateChildrenHeight(height);
+    }
+  }, [prevHeight, height, updateChildrenHeight]);
 
   if (!page) {
     return <>Error getting page content</>;
   }
 
   return (
-    <Flex ref={ref} bg="gray" >
+    <Flex ref={ref}>
       {page.collection && (
         <Carousel
           images={page.collection.images}

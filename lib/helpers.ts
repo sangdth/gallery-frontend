@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
+import { cloneDeep } from 'lodash';
+import { BASE_ENDPOINT, DEFAULT_LAYOUT, ROW_HEIGHT } from '@/lib/constants';
 import type { Layouts } from 'react-grid-layout';
-import { BASE_ENDPOINT } from '@/lib/constants';
-import type { OptionValue, Tag } from '@/lib/types';
+import type { OptionValue, SiteType, Tag } from '@/lib/types';
 
 export const recursiveRemove = (tree: OptionValue[], id: string): OptionValue[] => {
   return tree.map(o => o).filter(a => a.id !== id).map(e => {
@@ -59,9 +60,28 @@ export const makeImageSrc = (path?: string) => {
   return '/fallback-image.png';
 };
 
-export const makeProductionLayouts = (height: number, layouts: Layouts): Layouts => {
+export const makeLink = (o: SiteType | null) => ({
+  href: `/sites/${o?.slug ?? ''}?preview`,
+  label: o?.name ?? 'No site',
+});
+
+export const makeProductionLayouts = (
+  height: number,
+  layouts: Layouts = DEFAULT_LAYOUT.layouts,
+): Layouts => {
   if (!height) {
     return layouts;
   }
-  return layouts;
+  const h = Math.ceil((height - height % ROW_HEIGHT) / ROW_HEIGHT) + 1;
+  const tmpLayouts = cloneDeep(layouts);
+  Object.keys(tmpLayouts).forEach((k: string) => {
+    const mainIndex = tmpLayouts[k].findIndex((o) => o.i === 'MAIN');
+    if (mainIndex > -1) {
+      const tmpMain = tmpLayouts[k][mainIndex];
+      console.log('### tmpMain: ', tmpMain.h);
+      tmpMain.h = h > tmpMain.h ? h : tmpMain.h;
+      tmpLayouts[k].splice(mainIndex, 1, tmpMain);
+    }
+  });
+  return tmpLayouts;
 };

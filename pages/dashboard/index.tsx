@@ -29,10 +29,10 @@ const getIndex = (name: string) => {
 const Dashboard = () => {
   const router = useRouter();
   const [me] = useAtom(meAtom);
-  const [siteTom] = useAtom(siteAtom);
+  const [selectedSite, setSelectedSite] = useAtom(siteAtom);
   const { site: siteId, tab } = router.query;
   const [index, setIndex] = useState(0);
-  const [site, setLocalSite] = useState(siteTom);
+  const [site, setLocalSite] = useState(selectedSite);
 
   const [
     getSite,
@@ -62,9 +62,18 @@ const Dashboard = () => {
       }
       if (siteData && !siteError) {
         setLocalSite(siteData.sites_by_pk);
+        setSelectedSite(siteData.sites_by_pk);
       }
     }
-  }, [site, getSite, siteData, siteId, siteError, setLocalSite]);
+  }, [
+    site,
+    getSite,
+    siteData,
+    siteId,
+    siteError,
+    setLocalSite,
+    setSelectedSite,
+  ]);
 
   useEffect(() => {
     if (typeof tab === 'string') {

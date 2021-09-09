@@ -27,7 +27,7 @@ export const Carousel = (props: CarouselProps) => {
   } = props;
 
   return (
-    <Box width={width} marginX="auto">
+    <Box width={width} height="1200px" marginX="auto">
       <SlickSlider {...settings}>
         {images.map((image) => (
           <AspectRatio key={image.id} maxWidth={width} ratio={16 / 9}>

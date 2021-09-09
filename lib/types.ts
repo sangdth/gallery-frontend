@@ -81,7 +81,13 @@ export type StyleOption = BaseOption & {
   value: OptionValue;
 };
 
-export type OptionType = MenuOption | StyleOption;
+export type HomeOption = BaseOption & {
+  key: OptionKey.Home;
+  value: { id: string };
+};
+
+// TODO: This is bullshit
+export type OptionType = MenuOption | StyleOption | HomeOption;
 
 export type MenuItemType = {
   id: string;
@@ -167,6 +173,7 @@ export type PagePicked =
   | 'content'
   | 'collection_id'
   | 'collection'
+  | 'is_home'
   | 'status';
 
 export type SitePicked =
