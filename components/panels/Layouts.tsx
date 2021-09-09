@@ -1,12 +1,22 @@
 import React, { useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { useUpdateAtom } from 'jotai/utils';
-import { Flex, Stack, useToast } from '@chakra-ui/react';
+import {
+  Flex,
+  Icon,
+  IconButton,
+  Stack,
+  useToast,
+} from '@chakra-ui/react';
+import { MdStar } from 'react-icons/md';
 import { useQuery, useMutation } from '@apollo/client';
 import {
   ActionItem,
   LayoutEditorModal,
 } from '@/components';
 import { layoutAtom } from '@/lib/jotai';
+import { OptionKey } from '@/lib/enums';
+import { useOptions } from '@/lib/hooks';
 import {
   LAYOUTS_AGGREGATE,
   UPSERT_LAYOUT_ONE,
@@ -30,6 +40,12 @@ export const Layouts = (props: Props) => {
   const { site, user } = props;
   const toast = useToast();
   const setSelectedLayout = useUpdateAtom(layoutAtom);
+  const {
+    // isLoading: updateOptionLoading,
+    data: optionData,
+    updateOptions,
+  } = useOptions(site.id);
+  const layoutOptionData = optionData[OptionKey.Layout];
 
   const {
     data: layoutsData,
@@ -69,7 +85,6 @@ export const Layouts = (props: Props) => {
   ] = useMutation<LayoutDeletedData>(DELETE_LAYOUT_BY_PK);
 
   const handleSubmit = async (input: LayoutInput) => {
-    console.log('### input: ', input);
     await upsertLayout({
       variables: {
         object: {
@@ -99,11 +114,18 @@ export const Layouts = (props: Props) => {
     layoutsRefetch();
   };
 
+  const saveSelectedLayout = async (layoutId: string) => {
+    await updateOptions({
+      id: layoutOptionData?.id ?? uuidv4(),
+      key: OptionKey.Layout,
+      value: { id: layoutId },
+    });
+  };
+
   useEffect(() => {
     if (insertData) {
-      // layoutsRefetch();
       toast({
-        title: `Created ${insertData.insert_layouts_one.name} successful`,
+        title: `Operated ${insertData.insert_layouts_one.name} successful`,
         position: 'top',
         status: 'success',
         isClosable: true,
@@ -124,8 +146,8 @@ export const Layouts = (props: Props) => {
     <Flex direction="column">
       <LayoutEditorModal
         loading={insertLoading || deleteLoading}
-        onSubmit={handleSubmit}
         refetch={layoutsRefetch}
+        onSubmit={handleSubmit}
       />
 
       <Stack spacing="10px" marginTop="20px">
@@ -133,6 +155,16 @@ export const Layouts = (props: Props) => {
           <ActionItem
             key={p.id}
             data={p}
+            customActions={() => (
+              <IconButton
+                aria-label="Open"
+                colorScheme="green"
+                variant={layoutOptionData?.value.id === p.id ? 'solid' : 'outline'}
+                borderRadius="4px"
+                icon={<Icon as={MdStar}/>}
+                onClick={() => saveSelectedLayout(p.id)}
+              />
+            )}
             onEdit={() => setSelectedLayout(p)}
             onDelete={(id) => handleDelete(id)}
           />

@@ -17,18 +17,14 @@ import {
 } from '@/components';
 import { OptionKey } from '@/lib/enums';
 import { pageAtom } from '@/lib/jotai';
+import { useOptions } from '@/lib/hooks';
 import {
   PAGES_AGGREGATE,
   UPSERT_PAGE_ONE,
   DELETE_PAGE_BY_PK,
-  ALL_OPTIONS,
-  UPSERT_OPTIONS,
 } from '@/lib/graphqls';
 import type {
-  HomeOption,
   MenuOption,
-  OptionType,
-  OptionValue,
   PageDeletedData,
   PageInsertedData,
   PageInput,
@@ -46,6 +42,12 @@ export const Pages = (props: Props) => {
   const { site, user } = props;
   const toast = useToast();
   const setSelectedPage = useUpdateAtom(pageAtom);
+  
+  const {
+    isLoading: updateOptionLoading,
+    data: optionData,
+    updateOptions,
+  } = useOptions(site.id);
 
   const {
     data: pagesData,
@@ -84,62 +86,10 @@ export const Pages = (props: Props) => {
     },
   ] = useMutation<PageDeletedData>(DELETE_PAGE_BY_PK);
 
-  const {
-    data: optionData,
-    // loading: optionLoading,
-    // error: optionError,
-    refetch: optionRefetch,
-  } = useQuery<{ options: OptionType[] }>(ALL_OPTIONS, {
-    variables: { id: site.id },
-    context: {
-      headers: {
-        'x-hasura-role': 'me',
-      },
-    },
-  });
-
-  const [
-    updateOption,
-    {
-      loading: updateOptionLoading,
-      // data: updatedOption,
-      // error: updatedError,
-    },
-  ] = useMutation(UPSERT_OPTIONS);
-
-  const menuOptionData = optionData?.options
-    .find(({ key }) => key === OptionKey.Menu) as MenuOption;
-  const homeOptionData = optionData?.options
-    .find(({ key }) => key === OptionKey.Home) as HomeOption;
+  const menuOptionData = optionData[OptionKey.Menu];
+  const homeOptionData = optionData[OptionKey.Home];
 
   const currentMenu = menuOptionData?.value ?? [];
-
-  const handleUpdateOption = async ({ id, key, value }: {
-    id: string;
-    key: OptionKey;
-    value: OptionValue | OptionValue[];
-  }) => {
-    await updateOption({
-      variables: {
-        objects: [{ site_id: site.id, id, key, value }],
-      },
-      context: {
-        headers: {
-          'x-hasura-role': 'me',
-        },
-      },
-    });
-
-    optionRefetch();
-
-    toast({
-      title: 'Updated successful',
-      position: 'top',
-      status: 'success',
-      isClosable: true,
-      duration: 1000,
-    });
-  };
 
   const handleSubmit = async (input: PageInput) => {
     const response = await upsertPage({
@@ -169,7 +119,7 @@ export const Pages = (props: Props) => {
           children: [],
         });
       }
-      await handleUpdateOption({
+      await updateOptions({
         id: menuOptionData?.id ?? uuidv4(),
         key: OptionKey.Menu,
         value: tmpMenu,
@@ -193,7 +143,7 @@ export const Pages = (props: Props) => {
     // This way can not delete page nested
     if (menuOptionData && Array.isArray(currentMenu)) {
       const remainedMenu = currentMenu.filter((o) => o.id !== id);
-      await handleUpdateOption({
+      await updateOptions({
         id: menuOptionData.id,
         key: OptionKey.Menu,
         value: remainedMenu,
@@ -204,7 +154,7 @@ export const Pages = (props: Props) => {
   };
 
   const setHomePage = async (pageId: string) => {
-    await handleUpdateOption({
+    await updateOptions({
       id: homeOptionData?.id ?? uuidv4(),
       key: OptionKey.Home,
       value: { id: pageId },
@@ -240,12 +190,12 @@ export const Pages = (props: Props) => {
           loading={updateOptionLoading}
           pages={pages}
           menu={menuOptionData as MenuOption}
-          onSubmit={(menu) => handleUpdateOption({
+          onSubmit={(menu) => updateOptions({
             id: menuOptionData?.id ?? uuidv4(),
             key: OptionKey.Menu,
             value: menu.value,
           })}
-          refetch={optionRefetch}
+          // refetch={optionRefetch}
         />
         <PageEditorModal
           collections={site.collections}

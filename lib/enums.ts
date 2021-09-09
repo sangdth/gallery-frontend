@@ -21,6 +21,7 @@ export enum OptionKey {
   Menu = 'MENU',
   Style = 'STYLE',
   Home = 'HOME',
+  Layout = 'LAYOUT',
 }
 
 export enum SectionElement {

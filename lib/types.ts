@@ -86,8 +86,13 @@ export type HomeOption = BaseOption & {
   value: { id: string };
 };
 
+export type LayoutOption = BaseOption & {
+  key: OptionKey.Layout;
+  value: { id: string };
+};
+
 // TODO: This is bullshit
-export type OptionType = MenuOption | StyleOption | HomeOption;
+export type OptionType = MenuOption | StyleOption | HomeOption | LayoutOption;
 
 export type MenuItemType = {
   id: string;
