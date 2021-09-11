@@ -1,3 +1,10 @@
-- [] Updating a page adding new item in Config Menu
-- [] Make the rich text editor for page
-- [] Make the default settings process (layout/menu)
+- [ ] Make the rich text editor for page
+- [ ] Updating a page will cause adding new item in Config Menu
+- [ ] Make the default settings process (layout/menu)
+- [ ] Make the custom domain mapping
+- [v] Make the quick update for changing home page, default layout etc.
+- [v] Make the first page/layout become default.
+- [v] Make the button to set page/layout default
+- [v] Fixed the typescript/test issue.
+- [ ] Make the loading Wrapper
+- [ ] Use ErrorBoundary

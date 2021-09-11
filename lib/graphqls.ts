@@ -296,6 +296,14 @@ export const DELETE_COLLECTION_BY_PK = gql`
   }
 `;
 
+export const DELETE_IMAGES = gql`
+  mutation DELETE_IMAGES($ids: [uuid!]!) {
+    delete_images(where: {id: {_in: $ids}}) {
+      affected_rows
+    }
+  }
+`;
+
 export const GET_EVERYTHING_BY_SITE_SLUG = gql`
   query GET_EVERYTHING_BY_SITE_SLUG($slug: String!) {
     sites_aggregate(limit: 1, offset: 0, where: {slug: {_eq: $slug}, status: {_eq: "PUBLIC"}}) {

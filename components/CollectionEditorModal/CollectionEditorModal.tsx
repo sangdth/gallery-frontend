@@ -28,7 +28,9 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
+import { useMutation } from '@apollo/client';
 import { meAtom, siteAtom } from '@/lib/jotai';
+import { DELETE_IMAGES } from '@/lib/graphqls';
 import { storage } from '@/lib/nhost';
 import { ConfirmButton, ImageUpload, ImageController } from '@/components';
 import { collectionAtom } from '@/components/panels/Collections';
@@ -64,6 +66,8 @@ const CollectionEditorModal = (props: Props) => {
 
   const [input, setInput] = useState<CollectionInput>(initialInput);
 
+  const [deleteImages] = useMutation(DELETE_IMAGES);
+
   const cleanUp = useCallback(() => {
     setInput({ ...initialInput, id: uuidv4() });
     setCollection(null);
@@ -72,7 +76,11 @@ const CollectionEditorModal = (props: Props) => {
 
   const handleCancel = async () => {
     if (uploaded.length > 0) {
-      await Promise.all(uploaded.map((image) => storage.delete(`/${image.path}`)));
+      try {
+        await Promise.all(uploaded.map((image) => storage.delete(`/${image.path}`)));
+      } catch (err) {
+        console.log('### err: ', err);
+      }
     }
 
     cleanUp();
@@ -86,34 +94,32 @@ const CollectionEditorModal = (props: Props) => {
     });
   };
 
-  const handleUploadImages = (images: Partial<ImageType>[]) => {
-    const recentUploaded = images.map((image) => ({ ...image, id: uuidv4() }));
+  const handleUploadImages = (uploadedImages: Partial<ImageType>[]) => {
+    const recentUploaded = uploadedImages.map((image) => ({ ...image, id: uuidv4() }));
 
-    setUploaded((prevUploaded) => {
-      const filteredUploaded = recentUploaded
-        .filter((recent) => {
-          const existingImages = [...(input.images ?? []), ...prevUploaded];
-          const found = existingImages.find((prev) => recent.path === prev.path);
-          if (found) {
-            toast({
-              title: 'Image already uploaded',
-              position: 'top',
-              status: 'warning',
-              isClosable: true,
-              duration: 3000,
-            });
-          }
-          return !found;
-        });
-
-      const updatedImages = [...prevUploaded, ...filteredUploaded];
-
-      setInput({
-        ...input,
-        images: [...(input.images ?? []), ...updatedImages],
+    const filteredUploaded = recentUploaded
+      .filter((recent) => {
+        const existingImages = [...(input.images ?? []), ...uploaded];
+        const found = existingImages.find((prev) => recent.path === prev.path);
+        if (found) {
+          toast({
+            title: 'Duplicated Action',
+            description: `Image "${found.name}" already uploaded.`,
+            position: 'top',
+            status: 'warning',
+            isClosable: true,
+            duration: 3000,
+          });
+        }
+        return !found;
       });
 
-      return updatedImages;
+    const updatedImages = [...uploaded, ...filteredUploaded];
+
+    setUploaded(updatedImages);
+    setInput({
+      ...input,
+      images: [...(input.images ?? []), ...updatedImages],
     });
 
     refetch();
@@ -125,16 +131,44 @@ const CollectionEditorModal = (props: Props) => {
 
   const handleDeleteImages = async () => {
     setLoading(true);
-    const selectedImages = selected
-      .map((id) => (input.images ?? []).find((o) => o.id === id));
 
-    await Promise.all(
-      selectedImages.map(async (image) => {
-        if (image) {
-          return storage.delete(`/${image.path}`);
-        }
-      }),
-    );
+    const selectedImages = selected
+      .map((id) => (input.images ?? []).find((o) => o.id === id))
+      .filter((o) => o !== undefined);
+
+    const uploadedRemained = uploaded.filter((o) => selected.includes(o.id ?? ''));
+    setUploaded(uploadedRemained);
+    console.log('### uploadedRemained: ', uploadedRemained);
+
+    try {
+      await deleteImages({
+        variables: { ids: selected },
+        context: {
+          headers: {
+            'x-hasura-role': 'me',
+          },
+        },
+      });
+
+      await Promise.all(
+        selectedImages.map(async (image) => {
+          if (image) {
+            return storage.delete(`/${image.path}`);
+          }
+        }),
+      );
+    } catch (err) {
+      if (err) {
+        toast({
+          title: 'Deletion Error',
+          description: '[CollectionEditorModal] Error on storage.delete()',
+          position: 'top',
+          status: 'warning',
+          isClosable: true,
+          duration: 3000,
+        });
+      }
+    }
 
     const remainedImages = (input.images ?? []).filter((o) => !selected.includes(o.id ?? ''));
 
@@ -178,6 +212,9 @@ const CollectionEditorModal = (props: Props) => {
     if (!isOpen && (uploaded.length > 0 || isDirtyInput)) {
       cleanUp();
     }
+    return () => {
+      setSelected([]);
+    };
   }, [isOpen, uploaded, input, cleanUp]);
 
   return (
@@ -262,7 +299,7 @@ const CollectionEditorModal = (props: Props) => {
               {selected.length > 0 ? (
                 <ConfirmButton
                   label="Delete"
-                  message="Delete selected images?"
+                  message="You can't undo this action. Delete selected images?"
                   icon={<DeleteIcon />}
                   buttonProps={{ color: 'red', isLoading: loading }}
                   onConfirm={handleDeleteImages}

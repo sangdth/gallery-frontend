@@ -1,11 +1,13 @@
 import React from 'react';
-import { AspectRatio, Box, Image } from '@chakra-ui/react';
+import deepmerge from 'deepmerge';
 import SlickSlider from 'react-slick';
-import { makeImageSrc } from '@/lib/helpers';
+import { AspectRatio, Box, Image } from '@chakra-ui/react';
+import { makeSrcFromPath } from '@/lib/helpers';
 import type { Settings } from 'react-slick';
 import type { ImageType } from '@/lib/types';
 
 const defaultSettings = {
+  arrows: false,
   dots: false,
   infinite: false,
   speed: 500,
@@ -21,19 +23,21 @@ type CarouselProps = {
 
 export const Carousel = (props: CarouselProps) => {
   const {
-    settings = defaultSettings,
+    settings = {},
     images,
     width = 600,
   } = props;
+  
+  const finalSettings = deepmerge(defaultSettings, settings);
 
   return (
-    <Box width={width} height="1200px" marginX="auto">
-      <SlickSlider {...settings}>
+    <Box width={width} marginX="auto">
+      <SlickSlider {...finalSettings}>
         {images.map((image) => (
           <AspectRatio key={image.id} maxWidth={width} ratio={16 / 9}>
             <Image
               alt={image.name ?? ''}
-              src={makeImageSrc(image.path)}
+              src={makeSrcFromPath(image.path)}
             />
           </AspectRatio>
         ))}

@@ -267,7 +267,6 @@
       - name
       - path
       - status
-      - user_id
       backend_only: false
   - role: user
     permission:
@@ -346,10 +345,11 @@
     permission:
       columns:
       - collection_id
+      - description
       - meta
+      - name
       - path
       - status
-      - user_id
       filter:
         user_id:
           _eq: X-Hasura-User-Id

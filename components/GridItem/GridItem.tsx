@@ -39,15 +39,14 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
       <Flex
         as="div"
         alignItems="start"
-        // justifyContent="center"
         backgroundColor="#FFFFFF"
-        borderWidth={`${editable ? 1 : 0}px`}
         borderColor={editable ? '#DDDDDD' : undefined}
+        borderWidth={`${editable ? 1 : 0}px`}
         boxShadow={checkBoxShadow}
         className={className}
+        onClick={handleOnClick}
         ref={forwardedRef}
         style={style}
-        onClick={handleOnClick}
         {...restProps}
       >
         {children}

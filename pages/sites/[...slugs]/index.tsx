@@ -115,7 +115,7 @@ export const SingleSiteView = () => {
         isResizable={false}
       >
         {elements.map(({ id, component }) => (
-          <GridItem key={id} editable>
+          <GridItem key={id}>
             {component}
           </GridItem>
         ))}

@@ -3,7 +3,7 @@ import {
   Image,
   SimpleGrid,
 } from '@chakra-ui/react';
-import { makeImageSrc } from '@/lib/helpers';
+import { makeSrcFromPath } from '@/lib/helpers';
 import type { RecursivePartial, ImageType } from '@/lib/types';
 
 type ImageControllerProps = {
@@ -12,7 +12,6 @@ type ImageControllerProps = {
   onSelect: (selections: string[]) => void;
 };
 
-// TODO: Make select all and discard action to select/deselect all
 export const ImageController = (props: ImageControllerProps) => {
   const { images, selected, onSelect } = props;
 
@@ -50,7 +49,7 @@ export const ImageController = (props: ImageControllerProps) => {
           borderRadius="8px"
           _hover={{ cursor: 'pointer' }}
           borderColor={isSelected(image.id) ? 'blue.500' : 'white'}
-          src={makeImageSrc(image.path)}
+          src={makeSrcFromPath(image.path)}
           onClick={() => handleSelect(image.id)}
         />
       ))}

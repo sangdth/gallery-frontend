@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { atom, useAtom } from 'jotai';
 import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { useQuery, useMutation } from '@apollo/client';
@@ -71,22 +71,22 @@ export const Collections = (props: Props) => {
     },
   ] = useMutation<CollectionDeletedData>(DELETE_COLLECTION_BY_PK);
 
-  const handleSubmit = useCallback(async (data: CollectionInput) => {
+  const handleSubmit = async (data: CollectionInput) => {
     await upsertCollection({
       variables: {
         object: {
           ...data,
           site_id: site.id,
           images: {
-            data: (data?.images ?? []).map((o) => ({
-              id: o.id,
-              meta: o.meta,
-              path: o.path,
-              description: o.description,
+            data: (data?.images ?? []).map(({ id, meta, path, description }) => ({
+              id,
+              meta,
+              path,
+              description,
             })),
             on_conflict: {
               constraint: 'images_pkey',
-              update_columns: ['meta', 'path', 'status', 'collection_id'],
+              update_columns: ['meta', 'path', 'status', 'description', 'collection_id'],
             },
           },
         },
@@ -107,7 +107,7 @@ export const Collections = (props: Props) => {
       isClosable: true,
       duration: 1000,
     });
-  }, [site, toast, upsertCollection, collectionsRefetch]);
+  };
 
   const handleDelete = async (id: string) => {
     await deleteCollection({

@@ -19,7 +19,7 @@ export const ImageUploadView = (props: Props) => {
 
   const handleOnDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     if (typeof onDrop === 'function') {
-      onDrop(e);
+      await onDrop(e);
     }
   };
 
@@ -29,7 +29,8 @@ export const ImageUploadView = (props: Props) => {
         width="100%"
         height="150px"
         uppy={uppy}
-        note="Remember to press Submit to save collection!"
+        note="Deletion is permanent. Cancellation DOES NOT bring images back!"
+        onClick={() => console.log('fucking click')}
         onDrop={(e: DragDropEvent) => handleOnDrop(e as React.DragEvent<HTMLDivElement>)}
         locale={{
           strings: {

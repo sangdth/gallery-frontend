@@ -1,6 +1,6 @@
 version: 2
 metadata_directory: metadata
-hasura_graphql_version: v2.0.4
+hasura_graphql_version: v2.0.9
 hasura_graphql_port: 8080
 hasura_graphql_admin_secret: 123456
 hasura_backend_plus_version: v2.4.0

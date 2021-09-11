@@ -30,6 +30,7 @@ export const ImageUpload = (props: Props) => {
         const imageObjects = responses.map(({ Metadata, key }) => ({
           meta: JSON.stringify(Metadata),
           path: key,
+          name: key.substring(key.lastIndexOf('/') + 1),
           collection_id: collectionId,
         }));
 
