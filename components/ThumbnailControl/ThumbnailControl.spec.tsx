@@ -7,7 +7,15 @@ const fakeImage = ImageFactory.build();
 
 describe('ThumbnailControl', () => {
   it('can render images', async () => {
-    render(<ThumbnailControl images={[fakeImage]} width={300} />);
+    const onClickFn = jest.fn();
+
+    render(
+      <ThumbnailControl
+        images={[fakeImage]}
+        width={300} 
+        onClick={onClickFn}
+      />,
+    );
 
     const image = screen.getByRole('img');
     expect(image).toBeInstanceOf(HTMLImageElement);
