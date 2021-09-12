@@ -31,7 +31,7 @@ export const MainTemplate = (props: MainTemplateProps) => {
       {page.collection && (
         <Carousel
           images={page.collection.images}
-          width={600}
+          sliderWidth={600}
         />
       )}
       {!page.collection && page?.content}

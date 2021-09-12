@@ -1,3 +1,10 @@
+export enum Position {
+  Top = 'TOP',
+  Down = 'DOWN',
+  Left = 'LEFT',
+  Right = 'RIGHT',
+}
+
 export enum Entity {
   Sites = 'SITES',
   Collections = 'COLLECTIONS',

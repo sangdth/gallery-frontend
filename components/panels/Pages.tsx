@@ -28,6 +28,7 @@ import type {
   PageDeletedData,
   PageInsertedData,
   PageInput,
+  PageType,
   PagesAggregateData,
   SiteType,
   UserType,
@@ -153,11 +154,11 @@ export const Pages = (props: Props) => {
     pagesRefetch();
   };
 
-  const setHomePage = async (pageId: string) => {
+  const setHomePage = async (page: PageType) => {
     await updateOptions({
       id: homeOptionData?.id ?? uuidv4(),
       key: OptionKey.Home,
-      value: { id: pageId },
+      value: { id: page.id, slug: page.slug },
     });
   };
 
@@ -195,7 +196,6 @@ export const Pages = (props: Props) => {
             key: OptionKey.Menu,
             value: menu.value,
           })}
-          // refetch={optionRefetch}
         />
         <PageEditorModal
           collections={site.collections}
@@ -217,7 +217,7 @@ export const Pages = (props: Props) => {
                 variant={homeOptionData?.value.id === p.id ? 'solid' : 'outline'}
                 borderRadius="4px"
                 icon={<Icon as={MdHome}/>}
-                onClick={() => setHomePage(p.id)}
+                onClick={() => setHomePage(p)}
               />
             )}
             onEdit={() => setSelectedPage(p)}

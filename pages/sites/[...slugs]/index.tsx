@@ -26,7 +26,7 @@ export const SingleSiteView = () => {
       const pageParam = slugs[slugs.length - 1];
       return {
         siteSlug: siteParam,
-        pageSlug: pageParam !== siteParam ? pageParam : '',
+        pageSlug: slugs.length !== 1 ? pageParam : '',
       };
     }
     return {
@@ -41,6 +41,7 @@ export const SingleSiteView = () => {
   });
 
   const site: NonNullable<SiteType> = data?.sites_aggregate?.nodes[0] ?? {};
+
   const { id: siteId, layouts, options, pages } = site;
 
   const { data: optionData } = useOptions(siteId);

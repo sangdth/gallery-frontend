@@ -27,4 +27,5 @@ export * from './PageSelector';
 export * from './Input';
 export * from './Ruler';
 export * from './SiteItem';
+export * from './ThumbnailControl';
 export * from './WithPrivateRoute';
