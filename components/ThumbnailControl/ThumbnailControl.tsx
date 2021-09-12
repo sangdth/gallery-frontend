@@ -11,7 +11,7 @@ export type ThumbnailControlProps = {
   width?: number;
   position?: Position;
   onClick: (image: ImageType) => void;
-  current?: ImageType;
+  current: ImageType | null;
 };
 
 export const ThumbnailControl = (props: ThumbnailControlProps) => {
@@ -22,6 +22,7 @@ export const ThumbnailControl = (props: ThumbnailControlProps) => {
     width = 164,
     position = Position.Left,
     onClick,
+    current,
   } = props;
  
   const calculatedMargins = useMemo(() => {
@@ -68,6 +69,8 @@ export const ThumbnailControl = (props: ThumbnailControlProps) => {
             maxWidth={thumbnailWidth}
             ratio={1}
             onClick={() => handleOnClick(image)}
+            _hover={{ cursor: 'pointer' }}
+            opacity={image.id === current?.id ? 1 : 0.7}
           >
             <Image
               src={makeSrcFromPath(image.path)}

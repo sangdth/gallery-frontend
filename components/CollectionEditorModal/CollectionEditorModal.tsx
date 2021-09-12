@@ -54,6 +54,7 @@ const CollectionEditorModal = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState<Partial<ImageType>[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
+  const [index, setIndex] = useState(0);
 
   const initialInput = useMemo(() => ({
     id: uuidv4(),
@@ -119,7 +120,7 @@ const CollectionEditorModal = (props: Props) => {
     setUploaded(updatedImages);
     setInput({
       ...input,
-      images: [...(input.images ?? []), ...updatedImages],
+      images: [...(input.images ?? []), ...filteredUploaded],
     });
 
     refetch();
@@ -184,6 +185,15 @@ const CollectionEditorModal = (props: Props) => {
   const handleSubmit = async () => {
     await onSubmit(input);
     onClose();
+  };
+
+  const handleTabsChange = (i: number) => {
+    setIndex(i);
+    // if (tab !== tabs[i]) {
+    // router.push(`/dashboard?site=${siteId}&tab=${tabs[i]}`, undefined, {
+    //   shallow: true,
+    // });
+    // }
   };
 
   const shouldDisable = !me?.id || loading;
@@ -253,7 +263,12 @@ const CollectionEditorModal = (props: Props) => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Tabs width="100%" isLazy>
+            <Tabs
+              isLazy
+              width="100%"
+              index={index}
+              onChange={handleTabsChange}
+            >
               <TabList>
                 <Tab>General</Tab>
                 <Tab>Images</Tab>
@@ -296,7 +311,7 @@ const CollectionEditorModal = (props: Props) => {
 
           <ModalFooter>
             <Flex justifyContent="space-between" width="100%">
-              {selected.length > 0 ? (
+              {selected.length > 0 && index === 1 ? (
                 <ConfirmButton
                   label="Delete"
                   message="You can't undo this action. Delete selected images?"

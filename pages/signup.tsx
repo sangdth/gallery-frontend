@@ -57,7 +57,12 @@ export default function SignUp() {
       <Logo />
 
       <Stack spacing="10px" alignItems="center">
-        <Text as="h2" fontSize="2xl" color="gray">
+        <Text
+          as="h2"
+          fontSize="2xl"
+          color="gray"
+          fontWeight="bold"
+        >
           Sign Up
         </Text>
 

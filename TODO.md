@@ -8,3 +8,6 @@
 - [v] Fixed the typescript/test issue.
 - [ ] Make the loading Wrapper
 - [ ] Use ErrorBoundary
+- [ ] Automatic convert image file's name into the art title
+- [ ] Change image by scrolling the mouse?
+- [ ] Carousel thumbnail control pagination

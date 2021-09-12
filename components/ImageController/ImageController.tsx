@@ -41,7 +41,7 @@ export const ImageController = (props: ImageControllerProps) => {
       {images.map((image) => (
         <Image
           key={image.id}
-          alt={image.name ?? ''}
+          alt={image.name ?? image.path}
           fit="cover"
           padding="1px"
           boxSize="110px"
