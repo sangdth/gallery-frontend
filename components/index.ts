@@ -22,6 +22,7 @@ export * from './MenuEditorModal';
 export * from './MenuGenerator';
 export * from './MenuTemplate';
 export * from './Navbar';
+export * from './Pagination';
 export * from './PageItem';
 export * from './PageSelector';
 export * from './Input';

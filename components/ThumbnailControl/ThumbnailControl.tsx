@@ -1,5 +1,19 @@
 import React, { useMemo } from 'react';
-import { AspectRatio, Box, Image, SimpleGrid } from '@chakra-ui/react';
+import {
+  AspectRatio,
+  Box,
+  Image,
+  SimpleGrid,
+} from '@chakra-ui/react';
+import {
+  Pagination,
+  usePagination,
+  PaginationNext,
+  PaginationPage,
+  PaginationPrevious,
+  PaginationContainer,
+  PaginationPageGroup,
+} from '@/components';
 import { makeSrcFromPath } from '@/lib/helpers';
 import { Position } from '@/lib/enums';
 import type { ImageType } from '@/lib/types';
@@ -50,6 +64,21 @@ export const ThumbnailControl = (props: ThumbnailControlProps) => {
     }
   }, [position]);
 
+
+  const {
+    currentPage,
+    setCurrentPage,
+    pagesCount,
+    pages,
+  } = usePagination({
+    total: images.length,
+    initialState: {
+      pageSize: 5,
+      isDisabled: false,
+      currentPage: 1,
+    },
+  });
+
   const handleOnClick = (image: ImageType) => {
     if (typeof onClick === 'function') {
       onClick(image);
@@ -58,6 +87,40 @@ export const ThumbnailControl = (props: ThumbnailControlProps) => {
 
   return (
     <Box {...calculatedMargins}>
+      <Pagination
+        pagesCount={pagesCount}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      >
+        <PaginationContainer>
+          <PaginationPrevious
+            _hover={{
+              bg: 'yellow.400',
+            }}
+            bg="yellow.300"
+            onClick={() => console.warn("I'm clicking the previous")}
+          >
+            Previous
+          </PaginationPrevious>
+          <PaginationPageGroup>
+            {pages.map((page: number) => (
+              <PaginationPage 
+                key={`pagination_page_${page}`} 
+                page={page} 
+              />
+            ))}
+          </PaginationPageGroup>
+          <PaginationNext
+            _hover={{
+              bg: 'yellow.400',
+            }}
+            bg="yellow.300"
+            onClick={() => console.warn("I'm clicking the next")}
+          >
+            Next
+          </PaginationNext>
+        </PaginationContainer>
+      </Pagination>
       <SimpleGrid
         columns={columns}
         width={width}
