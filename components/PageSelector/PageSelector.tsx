@@ -69,7 +69,6 @@ export const PageSelector = (props: PageSelectorProps) => {
   // TODO: Can not stop the warning from Popover in development
   return (
     <Popover
-      isLazy
       isOpen={formVisible}
       closeOnBlur={false}
       returnFocusOnClose={false}
