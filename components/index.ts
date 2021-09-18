@@ -30,3 +30,4 @@ export * from './Ruler';
 export * from './SiteItem';
 export * from './ThumbnailControl';
 export * from './WithPrivateRoute';
+// PLOP WILL AUTO APPEND NEW COMPONENT HERE

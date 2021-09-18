@@ -26,6 +26,12 @@ export default (plop: NodePlopAPI): void => {
         path: 'components/{{name}}/{{name}}.spec.tsx',
         templateFile: 'templates/component/component.spec.tsx.hbs',
       },
+      {
+        type: 'modify',
+        path: 'components/index.ts',
+        pattern: /\/\/ PLOP WILL AUTO APPEND NEW COMPONENT HERE\n/gi,
+        templateFile: 'templates/component/modify.hbs',
+      },
     ],
   });
 };
