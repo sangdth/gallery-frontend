@@ -11,6 +11,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
+    "removeComments": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,6 +24,13 @@
       "@/styles/*": ["styles/*"],
       "@/test/*": ["test/*"]
     },
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compiler": "typescript",
+    "compilerOptions": {
+      "module": "commonjs",
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "nhost", "__mocks__"]
