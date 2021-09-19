@@ -26,6 +26,13 @@ const getIndex = (name: string) => {
   return 0;
 };
 
+// export async function getServerSideProps() {
+//   await new Promise((resolve) => {
+//     setTimeout(resolve, 500);
+//   });
+//   return { props: {} };
+// }
+
 const Dashboard = () => {
   const router = useRouter();
   const [me] = useAtom(meAtom);

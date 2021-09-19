@@ -34,4 +34,33 @@ export default (plop: NodePlopAPI): void => {
       },
     ],
   });
+
+  plop.setGenerator('hook', {
+    description: 'Custom hook generator',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Hook name',
+      },
+    ],
+    actions: [
+      {
+        type: 'add',
+        path: 'lib/hooks/{{name}}.ts',
+        templateFile: 'templates/hook/hook.ts.hbs',
+      },
+      {
+        type: 'add',
+        path: 'lib/hooks/{{name}}.spec.ts',
+        templateFile: 'templates/hook/hook.spec.ts.hbs',
+      },
+      {
+        type: 'modify',
+        path: 'lib/hooks/index.ts',
+        pattern: /\/\/ PLOP WILL AUTO APPEND NEW COMPONENT HERE\n/gi,
+        templateFile: 'templates/hook/modify.hbs',
+      },
+    ],
+  });
 };

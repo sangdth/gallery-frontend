@@ -32,4 +32,5 @@ export * from './SiteEditorModal';
 export * from './SiteItem';
 export * from './ThumbnailControl';
 export * from './WithPrivateRoute';
+export * from './LoadingScreen';
 // PLOP WILL AUTO APPEND NEW COMPONENT HERE

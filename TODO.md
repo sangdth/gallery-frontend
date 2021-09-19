@@ -1,15 +1,15 @@
 - [ ] Make the rich text editor for page
 - [ ] Updating a page will cause adding new item in Config Menu
-- [ ] Make the default settings process (layout/menu)
+- [x] Make the default settings process (layout/menu)
 - [ ] Make the custom domain mapping
-- [v] Make the quick update for changing home page, default layout etc.
-- [v] Make the first page/layout become default.
-- [v] Make the button to set page/layout default
-- [v] Fixed the typescript/test issue.
-- [ ] Make the loading Wrapper
-- [v] Use ErrorBoundary
+- [x] Make the quick update for changing home page, default layout etc.
+- [x] Make the first page/layout become default.
+- [x] Make the button to set page/layout default
+- [x] Fixed the typescript/test issue.
+- [x] Make the loading Wrapper
+- [x] Use ErrorBoundary
 - [ ] Automatic convert image file's name into the art title
 - [ ] Change image by scrolling the mouse?
-- [v] Carousel thumbnail control pagination
+- [x] Carousel thumbnail control pagination
 - [ ] Pagination can handle aggregate photos
-- [ ] Added plop for automatic generate component
+- [x] Added plop for automatic generate component
