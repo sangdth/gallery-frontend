@@ -11,6 +11,7 @@ describe('ThumbnailControl', () => {
 
     render(
       <ThumbnailControl
+        current={null}
         images={[fakeImage]}
         width={300} 
         onClick={onClickFn}
