@@ -79,7 +79,9 @@ export const Carousel = (props: CarouselProps) => {
         position={thumbnailPosition}
         images={images}
         current={current}
-        onClick={onClickImage}
+        nextLabel="〉"
+        previousLabel="〈"
+        onClickThumbnail={onClickImage}
       />
       <Box width={sliderWidth}>
         <SlickSlider ref={slickRef} {...finalSettings}>

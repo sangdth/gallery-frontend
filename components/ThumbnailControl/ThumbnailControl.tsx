@@ -7,36 +7,59 @@ import {
 } from '@chakra-ui/react';
 import {
   Pagination,
-  usePagination,
+  PaginationContainer,
   PaginationNext,
   PaginationPage,
-  PaginationPrevious,
-  PaginationContainer,
   PaginationPageGroup,
+  PaginationPrevious,
+  usePagination,
 } from '@/components';
 import { makeSrcFromPath } from '@/lib/helpers';
 import { Position } from '@/lib/enums';
 import type { ImageType } from '@/lib/types';
 
+const pageJumperStyles = {
+  _hover: {
+    bg: 'transparent',
+  },
+  _focus: {
+    bg: 'transparent',
+  },
+  _active: {
+    bg: 'transparent',
+  },
+  bg: 'transparent',
+};
+
 export type ThumbnailControlProps = {
-  images: ImageType[];
   columns?: number;
+  current: ImageType | null;
+  images: ImageType[];
+  nextLabel?: string;
+  onClickNext?: () => void;
+  onClickPrevious?: () => void;
+  onClickThumbnail?: (image: ImageType) => void;
+  onPageChange?: (p: number) => void;
+  position?: Position;
+  previousLabel?: string;
   thumbnailWidth?: number;
   width?: number;
-  position?: Position;
-  onClick: (image: ImageType) => void;
-  current: ImageType | null;
 };
 
 export const ThumbnailControl = (props: ThumbnailControlProps) => {
   const {
-    images,
     columns = 2,
+    current,
+    images,
+    nextLabel,
+    onClickNext,
+    onClickPrevious,
+    onClickThumbnail,
+    onPageChange,
+    position = Position.Left,
+    previousLabel,
     thumbnailWidth = 80,
     width = 164,
-    position = Position.Left,
-    onClick,
-    current,
   } = props;
  
   const calculatedMargins = useMemo(() => {
@@ -80,9 +103,16 @@ export const ThumbnailControl = (props: ThumbnailControlProps) => {
   });
 
   const handleOnClick = (image: ImageType) => {
-    if (typeof onClick === 'function') {
-      onClick(image);
+    if (typeof onClickThumbnail === 'function') {
+      onClickThumbnail(image);
     }
+  };
+
+  const handleOnPageChange = (index: number) => {
+    if (typeof onPageChange === 'function') {
+      onPageChange(index);
+    }
+    setCurrentPage(index);
   };
 
   return (
@@ -90,18 +120,16 @@ export const ThumbnailControl = (props: ThumbnailControlProps) => {
       <Pagination
         pagesCount={pagesCount}
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        onPageChange={handleOnPageChange}
       >
         <PaginationContainer>
           <PaginationPrevious
-            _hover={{
-              bg: 'yellow.400',
-            }}
-            bg="yellow.300"
-            onClick={() => console.warn("I'm clicking the previous")}
+            {...pageJumperStyles}
+            onClick={onClickPrevious}
           >
-            Previous
+            {previousLabel ?? 'Previous'}
           </PaginationPrevious>
+
           <PaginationPageGroup>
             {pages.map((page: number) => (
               <PaginationPage 
@@ -110,17 +138,16 @@ export const ThumbnailControl = (props: ThumbnailControlProps) => {
               />
             ))}
           </PaginationPageGroup>
+
           <PaginationNext
-            _hover={{
-              bg: 'yellow.400',
-            }}
-            bg="yellow.300"
-            onClick={() => console.warn("I'm clicking the next")}
+            {...pageJumperStyles}
+            onClick={onClickNext}
           >
-            Next
+            {nextLabel ?? 'Next'}
           </PaginationNext>
         </PaginationContainer>
       </Pagination>
+
       <SimpleGrid
         columns={columns}
         width={width}

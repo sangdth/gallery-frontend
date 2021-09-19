@@ -9,13 +9,11 @@ export const PaginationPrevious: FC<ButtonProps> = ({
   isDisabled: isDisabledProp,
   ...buttonProps
 }) => {
-  // provider
   const { actions, state } = usePaginationContext();
   const { changePage } = actions;
 
   const { currentPage, isDisabled: isDisabledGlobal } = state;
 
-  // memos
   const isFirst = useMemo(() => currentPage === 1, [currentPage]);
   const isDisabled = useMemo(
     () => isFirst || (isDisabledProp ?? isDisabledGlobal),
@@ -52,7 +50,11 @@ export const PaginationPrevious: FC<ButtonProps> = ({
   });
 
   return (
-    <Button className="pagination-previous" {...getPreviousProps(allProps)}>
+    <Button
+      className="pagination-previous"
+      variant="ghost"
+      {...getPreviousProps(allProps)}
+    >
       {children}
     </Button>
   );

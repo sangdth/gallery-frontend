@@ -36,7 +36,7 @@ export const ErrorFallback = (props: ErrorFallbackProps) => {
         {error.message}
       </AlertDescription>
 
-      <Divider marginY="12px"/>
+      <Divider marginY="12px" />
 
       <Button onClick={resetErrorBoundary}>
         Try again

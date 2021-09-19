@@ -53,7 +53,11 @@ export const PaginationNext: FC<ButtonProps> = ({
   });
 
   return (
-    <Button className="pagination-next" {...getNextProps(allProps)}>
+    <Button
+      className="pagination-next"
+      variant="ghost"
+      {...getNextProps(allProps)}
+    >
       {children}
     </Button>
   );
