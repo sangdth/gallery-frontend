@@ -30,4 +30,6 @@ export * from './Ruler';
 export * from './SiteItem';
 export * from './ThumbnailControl';
 export * from './WithPrivateRoute';
+export * from './ErrorBoundary';
+export * from './ErrorFallback';
 // PLOP WILL AUTO APPEND NEW COMPONENT HERE

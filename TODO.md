@@ -7,7 +7,9 @@
 - [v] Make the button to set page/layout default
 - [v] Fixed the typescript/test issue.
 - [ ] Make the loading Wrapper
-- [ ] Use ErrorBoundary
+- [v] Use ErrorBoundary
 - [ ] Automatic convert image file's name into the art title
 - [ ] Change image by scrolling the mouse?
-- [ ] Carousel thumbnail control pagination
+- [v] Carousel thumbnail control pagination
+- [ ] Pagination can handle aggregate photos
+- [ ] Added plop for automatic generate component

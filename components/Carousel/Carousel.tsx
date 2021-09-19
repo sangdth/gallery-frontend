@@ -17,7 +17,7 @@ const defaultSettings = {
   arrows: false,
   dots: false,
   infinite: false,
-  speed: 200,
+  speed: 100,
   fade: true,
   slidesToShow: 1,
   slidesToScroll: 1,
