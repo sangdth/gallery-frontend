@@ -213,7 +213,7 @@ export const Pages = (props: Props) => {
             customActions={() => (
               <IconButton
                 aria-label="Open"
-                colorScheme="green"
+                colorScheme={homeOptionData?.value.id === p.id ? 'green' : 'gray'}
                 variant={homeOptionData?.value.id === p.id ? 'solid' : 'outline'}
                 borderRadius="4px"
                 icon={<Icon as={MdHome}/>}

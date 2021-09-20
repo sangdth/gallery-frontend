@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useAuth } from '@nhost/react-auth';
 import { Flex } from '@chakra-ui/react';
-import { Layout } from '@/components';
+import { Layout, LoadingScreen } from '@/components';
 
 function Index() {
   const router = useRouter();
@@ -11,7 +11,7 @@ function Index() {
 
   if (signedIn) {
     router.push('/home');
-    return <div>Redirecting...</div>;
+    return <LoadingScreen label="Redirecting to landing page..." />;
   }
 
   return (

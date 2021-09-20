@@ -25,7 +25,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { ConfirmButton } from '@/components';
+import { ConfirmButton, ErrorBoundary } from '@/components';
+import { useErrorHandler } from 'react-error-boundary';
 import { meAtom, pageAtom } from '@/lib/jotai';
 import type { PageInput, CollectionType } from '@/lib/types';
 
@@ -47,6 +48,7 @@ const PageEditorModal = (props: Props) => {
   const [me] = useAtom(meAtom);
   const [selectedPage, setSelectedPage] = useAtom(pageAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleError = useErrorHandler();
 
   const initialInput = useMemo(() => ({
     id: uuidv4(),
@@ -71,12 +73,16 @@ const PageEditorModal = (props: Props) => {
   }, [initialInput, setSelectedPage]);
 
   const handleSubmit = async () => {
-    await onSubmit(input);
-    onClose();
-    refetch();
+    try {
+      await onSubmit(input);
+      onClose();
+      refetch();
+    } catch (err) {
+      handleError(err);
+    }
   };
 
-  const handleCancel = async () => {
+  const handleCancel = () => {
     cleanUp();
     onClose();
   };
@@ -122,7 +128,7 @@ const PageEditorModal = (props: Props) => {
   }, [isOpen, isEmptyInput, input, cleanUp]);
 
   return (
-    <>
+    <ErrorBoundary>
       <Flex justify="flex-end" marginBottom="20px">
         <Button
           size="lg"
@@ -214,7 +220,7 @@ const PageEditorModal = (props: Props) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </ErrorBoundary>
   );
 };
 

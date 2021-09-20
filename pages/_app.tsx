@@ -7,7 +7,7 @@ import '@uppy/drag-drop/dist/style.css';
 import '@/styles/globals.css';
 import '@/styles/slick.css';
 import '@/styles/slick-theme.css';
-import { AppWrapper } from '@/components';
+import { AppWrapper, ErrorBoundary } from '@/components';
 import { useLoadingProgress } from '@/lib/hooks';
 import type { AppProps } from 'next/app';
 
@@ -16,7 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <AppWrapper>
-      <Component {...pageProps} />
+      <ErrorBoundary>
+        <Component {...pageProps} />
+      </ErrorBoundary>
     </AppWrapper>
   );
 }

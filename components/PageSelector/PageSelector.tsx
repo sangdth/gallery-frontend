@@ -14,7 +14,7 @@ import {
   PopoverTrigger,
   Select,
 } from '@chakra-ui/react';
-import { Input } from '@/components';
+import { ErrorBoundary, Input } from '@/components';
 import type { Folder, PageType } from '@/lib/types';
 
 export type PageSelectorProps = {
@@ -68,49 +68,63 @@ export const PageSelector = (props: PageSelectorProps) => {
 
   // TODO: Can not stop the warning from Popover in development
   return (
-    <Popover
-      isOpen={formVisible}
-      closeOnBlur={false}
-      returnFocusOnClose={false}
-      placement="right"
-      onClose={handleClose}
-    >
-      <PopoverTrigger>
-        <Select
-          width="250px"
-          placeholder={placeholder}
-          value={selectedId}
-          onChange={handleOnSelect}
-        >
-          <option key="create-folder" value="folder-only">
-            Create folder only
-          </option>
-          {pages.map((o) => (
-            <option key={o.id} value={o.id}>
-              {o.name}
+    <ErrorBoundary>
+      <Popover
+        isOpen={formVisible}
+        closeOnBlur={false}
+        returnFocusOnClose={false}
+        placement="right"
+        onClose={handleClose}
+      >
+        <PopoverTrigger>
+          <Select
+            width="250px"
+            placeholder={placeholder}
+            value={selectedId}
+            onChange={handleOnSelect}
+          >
+            <option key="create-folder" value="folder-only">
+              Create folder only
             </option>
-          ))}
-        </Select>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader fontWeight="semibold">Confirmation</PopoverHeader>
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverBody>
-          <Input
-            placeholder="Folder name"
-            value={formInput}
-            onChange={e => setFormInput(e.currentTarget.value)}
-          />
-        </PopoverBody>
-        <PopoverFooter d="flex" justifyContent="flex-end">
-          <ButtonGroup size="sm">
-            <Button variant="outline" onClick={handleClose}>Cancel</Button>
-            <Button colorScheme="green" onClick={handleSubmit}>Apply</Button>
-          </ButtonGroup>
-        </PopoverFooter>
-      </PopoverContent>
-    </Popover>
+
+            {pages.map((o) => (
+              <option key={o.id} value={o.id}>
+                {o.name}
+              </option>
+            ))}
+          </Select>
+        </PopoverTrigger>
+
+        <PopoverContent>
+          <PopoverHeader fontWeight="semibold">
+            Confirmation
+          </PopoverHeader>
+
+          <PopoverArrow />
+
+          <PopoverCloseButton />
+
+          <PopoverBody>
+            <Input
+              placeholder="Folder name"
+              value={formInput}
+              onChange={e => setFormInput(e.currentTarget.value)}
+            />
+          </PopoverBody>
+
+          <PopoverFooter d="flex" justifyContent="flex-end">
+            <ButtonGroup size="sm">
+              <Button variant="outline" onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="green" onClick={handleSubmit}>
+                Apply
+              </Button>
+            </ButtonGroup>
+          </PopoverFooter>
+        </PopoverContent>
+      </Popover>
+    </ErrorBoundary>
   );
 };
 

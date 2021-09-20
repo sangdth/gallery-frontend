@@ -23,7 +23,7 @@ export const Layout = (props: LayoutProps) => {
         <meta name="description" content={site?.description ?? ''} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Flex direction="column">
+      <Flex direction="column" width="100%" height="100%">
         {!site && <Navbar items={NAV_ITEMS} />}
 
         <Flex>{children}</Flex>

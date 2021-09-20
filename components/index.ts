@@ -17,6 +17,7 @@ export * from './ImageUpload';
 export * from './Input';
 export * from './Layout';
 export * from './LayoutEditorModal';
+export * from './LoadingScreen';
 export * from './Logo';
 export * from './MainTemplate';
 export * from './MenuEditorModal';
@@ -32,5 +33,4 @@ export * from './SiteEditorModal';
 export * from './SiteItem';
 export * from './ThumbnailControl';
 export * from './WithPrivateRoute';
-export * from './LoadingScreen';
 // PLOP WILL AUTO APPEND NEW COMPONENT HERE

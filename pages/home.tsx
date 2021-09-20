@@ -4,7 +4,12 @@ import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/client';
 import { Flex, Stack, useToast } from '@chakra-ui/react';
 import { WithPrivateRoute } from '@/components/WithPrivateRoute';
-import { ActionItem, Layout, SiteEditorModal } from '@/components';
+import {
+  ActionItem,
+  Layout,
+  LoadingScreen,
+  SiteEditorModal,
+} from '@/components';
 import { auth } from '@/lib/nhost';
 import { siteAtom } from '@/lib/jotai';
 import { makeLink } from '@/lib/helpers';
@@ -161,7 +166,7 @@ function Home() {
   }, [deleteData, toast, queryRefetch]);
 
   if (queryLoading && !queryData) {
-    return <div>Loading...</div>;
+    return <LoadingScreen label="Loading dashboard data..." />;
   }
 
   if (queryError || !sites) {

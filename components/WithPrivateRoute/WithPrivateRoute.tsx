@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import { useAuth } from '@nhost/react-auth';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { LoadingScreen } from '@/components';
 import { auth } from '@/lib/nhost';
 import { meAtom } from '@/lib/jotai';
 import { GET_SELF } from '@/lib/graphqls';
@@ -34,12 +35,12 @@ export function WithPrivateRoute<P>(Component: React.ComponentType<P>) {
     }, [me, setMe, meData]);
 
     if (signedIn === null && loading) {
-      return <div>Checking auth...</div>;
+      return <LoadingScreen label="Checking authentication..." />;
     }
 
     if (!signedIn) {
       router.push('/login');
-      return <div>Redirecting...</div>;
+      return <LoadingScreen label="Redirecting..." />;
     }
     return <Component {...props} />;
   };

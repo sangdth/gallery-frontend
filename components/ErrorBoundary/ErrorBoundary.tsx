@@ -10,8 +10,8 @@ export const ErrorBoundary = (props: ErrorBoundaryProps) => {
   const { children } = props;
   
   const handleError = () => {
-    // console.log('### info: ', info);
-    // console.log('### error: ', error);
+    // console.log('############# info: ', info);
+    // console.log('############# error: ', error);
   };
 
   return (

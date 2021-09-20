@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useAuth } from '@nhost/react-auth';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Alert,
@@ -10,11 +8,18 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { Logo, Input } from '@/components';
+import {
+  ErrorBoundary,
+  Logo,
+  Input,
+} from '@/components';
+import { useRouter } from 'next/router';
+import { useAuth } from '@nhost/react-auth';
 import { auth } from '@/lib/nhost';
 
 export default function Login() {
   const router = useRouter();
+
   const { signedIn } = useAuth();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -45,60 +50,62 @@ export default function Login() {
   }, [router, signedIn, loading, error]);
 
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      justifyContent="space-between"
-      width="300px"
-      height={error ? '350px' : '300px'}
-      marginX="auto"
-      marginTop="100px"
-    >
-      <Logo />
+    <ErrorBoundary>
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="space-between"
+        width="300px"
+        height={error ? '350px' : '300px'}
+        marginX="auto"
+        marginTop="100px"
+      >
+        <Logo />
 
-      <Stack spacing="10px" alignItems="center">
-        <Text
-          as="h2"
-          fontSize="2xl"
-          color="gray"
-          fontWeight="bold"
-        >
+        <Stack spacing="10px" alignItems="center">
+          <Text
+            as="h2"
+            fontSize="2xl"
+            color="gray"
+            fontWeight="bold"
+          >
           Login
-        </Text>
+          </Text>
 
-        {error && (
-          <Alert status="error" variant="subtle" fontSize="xs">
-            <AlertIcon />
-            {error}
-          </Alert>
-        )}
+          {error && (
+            <Alert status="error" variant="subtle" fontSize="xs">
+              <AlertIcon />
+              {error}
+            </Alert>
+          )}
 
-        <Input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-        />
-        <Input
-          type="password"
-          value={password}
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button
-          isFullWidth
-          isLoading={loading}
-          disabled={!email || !password}
-          variant="solid"
-          colorScheme="green"
-          onClick={handleSubmit}
-        >
+          <Input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <Input
+            type="password"
+            value={password}
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            isFullWidth
+            isLoading={loading}
+            disabled={!email || !password}
+            variant="solid"
+            colorScheme="green"
+            onClick={handleSubmit}
+          >
           Login
-        </Button>
-        <Link href="/signup">
+          </Button>
+          <Link href="/signup">
           Sign up
-        </Link>
-      </Stack>
-    </Flex>
+          </Link>
+        </Stack>
+      </Flex>
+    </ErrorBoundary>
   );
 }

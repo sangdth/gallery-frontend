@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-
+import { ErrorBoundary } from '@/components';
 import { PaginationProvider } from './PaginationProvider';
 import { INITIAL_VALUES } from './constants';
 
@@ -17,12 +17,14 @@ export const Pagination: FC<PaginationProps> = ({
   isDisabled = INITIAL_VALUES.isDisabled,
   currentPage = INITIAL_VALUES.currentPage,
 }) => (
-  <PaginationProvider
-    currentPage={currentPage}
-    isDisabled={isDisabled}
-    pagesCount={pagesCount}
-    onPageChange={onPageChange}
-  >
-    {children}
-  </PaginationProvider>
+  <ErrorBoundary>
+    <PaginationProvider
+      currentPage={currentPage}
+      isDisabled={isDisabled}
+      pagesCount={pagesCount}
+      onPageChange={onPageChange}
+    >
+      {children}
+    </PaginationProvider>
+  </ErrorBoundary>
 );

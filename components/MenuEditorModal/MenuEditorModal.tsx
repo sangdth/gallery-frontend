@@ -1,9 +1,4 @@
-import React, {
-// useCallback,
-// useEffect,
-// useMemo,
-  useState,
-} from 'react';
+import { useState } from 'react';
 import {
   Button,
   Flex,
@@ -17,8 +12,16 @@ import {
   Stack,
   useDisclosure,
 } from '@chakra-ui/react';
-import { MinusIcon, SettingsIcon } from '@chakra-ui/icons';
-import { ActionItem, ConfirmButton, PageSelector } from '@/components';
+import {
+  MinusIcon,
+  SettingsIcon,
+} from '@chakra-ui/icons';
+import {
+  ActionItem,
+  ConfirmButton,
+  ErrorBoundary,
+  PageSelector,
+} from '@/components';
 import { recursiveRemove, recursiveInsert } from '@/lib/helpers';
 import type { Folder, MenuOption, PageType } from '@/lib/types';
 
@@ -99,7 +102,7 @@ export const MenuEditorModal = (props: MenuEditorModalProps) => {
   };
 
   return (
-    <>
+    <ErrorBoundary>
       <Flex justify="flex-end">
         <Button
           size="lg"
@@ -183,7 +186,7 @@ export const MenuEditorModal = (props: MenuEditorModalProps) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </ErrorBoundary>
   );
 };
 

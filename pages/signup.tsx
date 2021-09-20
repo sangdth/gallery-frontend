@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
   Alert,
@@ -9,11 +8,13 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { Logo, Input } from '@/components';
+import { useRouter } from 'next/router';
+import { ErrorBoundary, Logo, Input } from '@/components';
 import { auth } from '@/lib/nhost';
 
 export default function SignUp() {
   const router = useRouter();
+
   const [loading, setLoading] = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
@@ -37,7 +38,6 @@ export default function SignUp() {
 
       return await router.push('/');
     } catch (err) {
-      console.warn(err);
       setError('Signup failed, please try again');
     } finally {
       setLoading(false);
@@ -45,67 +45,73 @@ export default function SignUp() {
   }
 
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      justifyContent="space-between"
-      width="300px"
-      height={error ? '400px' : '350px'}
-      marginX="auto"
-      marginTop="100px"
-    >
-      <Logo />
+    <ErrorBoundary>
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="space-between"
+        width="300px"
+        height={error ? '400px' : '350px'}
+        marginX="auto"
+        marginTop="100px"
+      >
+        <Logo />
 
-      <Stack spacing="10px" alignItems="center">
-        <Text
-          as="h2"
-          fontSize="2xl"
-          color="gray"
-          fontWeight="bold"
-        >
-          Sign Up
-        </Text>
+        <Stack spacing="10px" alignItems="center">
+          <Text
+            as="h2"
+            color="gray"
+            fontSize="2xl"
+            fontWeight="bold"
+          >
+            Sign Up
+          </Text>
 
-        {error && (
-          <Alert status="error" variant="subtle" fontSize="xs">
-            <AlertIcon />
-            {error}
-          </Alert>
-        )}
+          {error && (
+            <Alert
+              status="error"
+              variant="subtle"
+              fontSize="xs"
+            >
+              <AlertIcon />
+              {error}
+            </Alert>
+          )}
 
-        <Input
-          type="text"
-          placeholder="Display name"
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-        />
-        <Input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          type="password"
-          value={password}
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button
-          isFullWidth
-          isLoading={loading}
-          disabled={!email || !password}
-          variant="solid"
-          colorScheme="green"
-          onClick={handleSubmit}
-        >
-          Agree Terms & Sign Up
-        </Button>
+          <Input
+            type="text"
+            placeholder="Display name"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+          />
+          <Input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="password"
+            value={password}
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            isFullWidth
+            isLoading={loading}
+            disabled={!email || !password}
+            variant="solid"
+            colorScheme="green"
+            onClick={handleSubmit}
+          >
+            Agree Terms & Sign Up
+          </Button>
 
-        <Link href="/login">
+          <Link href="/login">
           Login
-        </Link>
-      </Stack>
-    </Flex>
+          </Link>
+        </Stack>
+      </Flex>
+    </ErrorBoundary>
   );
 }

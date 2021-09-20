@@ -158,7 +158,7 @@ export const Layouts = (props: Props) => {
             customActions={() => (
               <IconButton
                 aria-label="Open"
-                colorScheme="green"
+                colorScheme={layoutOptionData?.value.id === p.id ? 'green' : 'gray'}
                 variant={layoutOptionData?.value.id === p.id ? 'solid' : 'outline'}
                 borderRadius="4px"
                 icon={<Icon as={MdStar}/>}

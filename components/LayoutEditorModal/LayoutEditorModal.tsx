@@ -5,8 +5,8 @@ import React, {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-// import { isEqual } from 'lodash';
 import { useAtom } from 'jotai';
+import { useErrorHandler } from 'react-error-boundary';
 import {
   Button,
   Flex,
@@ -23,7 +23,12 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import type { Layouts } from 'react-grid-layout';
-import { ConfirmButton, Input, GridEditor } from '@/components';
+import {
+  ConfirmButton,
+  ErrorBoundary,
+  Input,
+  GridEditor,
+} from '@/components';
 import { meAtom, layoutAtom } from '@/lib/jotai';
 import { DEFAULT_LAYOUT } from '@/lib/constants';
 import type { LayoutInput } from '@/lib/types';
@@ -41,10 +46,10 @@ const LayoutEditorModal = (props: Props) => {
     refetch,
   } = props;
 
-
   const [me] = useAtom(meAtom);
   const [selectedLayout, setSelectedLayout] = useAtom(layoutAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleError = useErrorHandler();
 
   const initialInput = useMemo(() => ({
     id: uuidv4(),
@@ -56,7 +61,6 @@ const LayoutEditorModal = (props: Props) => {
   const [input, setInput] = useState<LayoutInput>(initialInput);
 
   const shouldDisable = !me?.id || loading;
-  // const valueChanged = !isEqual(input.value, selectedLayout?.value);
   const isEmptyInput = !input.name;
   const hasChanged = selectedLayout && (
     input.name !== selectedLayout.name || input.value !== selectedLayout.value
@@ -68,9 +72,13 @@ const LayoutEditorModal = (props: Props) => {
   }, [initialInput, setSelectedLayout]);
 
   const handleSubmit = async () => {
-    await onSubmit(input);
-    onClose();
-    refetch();
+    try {
+      await onSubmit(input);
+      onClose();
+      refetch();
+    } catch (err) {
+      handleError(err);
+    }
   };
 
   const handleOpen = () => {
@@ -115,7 +123,7 @@ const LayoutEditorModal = (props: Props) => {
   }, [isOpen, input, cleanUp]);
 
   return (
-    <>
+    <ErrorBoundary>
       <Flex justify="flex-end">
         <Button
           size="lg"
@@ -186,7 +194,7 @@ const LayoutEditorModal = (props: Props) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </ErrorBoundary>
   );
 };
 

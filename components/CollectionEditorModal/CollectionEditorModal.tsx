@@ -29,10 +29,16 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useMutation } from '@apollo/client';
+import { useErrorHandler } from 'react-error-boundary';
 import { meAtom, siteAtom } from '@/lib/jotai';
 import { DELETE_IMAGES } from '@/lib/graphqls';
 import { storage } from '@/lib/nhost';
-import { ConfirmButton, ImageUpload, ImageController } from '@/components';
+import {
+  ConfirmButton,
+  ErrorBoundary,
+  ImageUpload,
+  ImageController,
+} from '@/components';
 import { collectionAtom } from '@/components/panels/Collections';
 import type { CollectionInput, ImageType } from '@/lib/types';
 
@@ -41,10 +47,10 @@ type Props = {
   refetch: () => void;
 };
 
-// TODO:
-// - Delete button should not interfere with other tab or show number selected
 const CollectionEditorModal = (props: Props) => {
   const toast = useToast();
+  const handleError = useErrorHandler();
+
   const { onSubmit, refetch } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -78,14 +84,15 @@ const CollectionEditorModal = (props: Props) => {
   const handleCancel = async () => {
     if (uploaded.length > 0) {
       try {
-        await Promise.all(uploaded.map((image) => storage.delete(`/${image.path}`)));
+        await Promise.all(
+          uploaded.map((image) => storage.delete(`/${image.path}`)),
+        );
+        cleanUp();
+        onClose();
       } catch (err) {
-        console.log('### err: ', err);
+        handleError(err);
       }
     }
-
-    cleanUp();
-    onClose();
   };
 
   const handleOnChange = (key: string, value: string) => {
@@ -139,7 +146,6 @@ const CollectionEditorModal = (props: Props) => {
 
     const uploadedRemained = uploaded.filter((o) => selected.includes(o.id ?? ''));
     setUploaded(uploadedRemained);
-    console.log('### uploadedRemained: ', uploadedRemained);
 
     try {
       await deleteImages({
@@ -160,6 +166,8 @@ const CollectionEditorModal = (props: Props) => {
       );
     } catch (err) {
       if (err) {
+        handleError(err);
+
         toast({
           title: 'Deletion Error',
           description: '[CollectionEditorModal] Error on storage.delete()',
@@ -189,11 +197,6 @@ const CollectionEditorModal = (props: Props) => {
 
   const handleTabsChange = (i: number) => {
     setIndex(i);
-    // if (tab !== tabs[i]) {
-    // router.push(`/dashboard?site=${siteId}&tab=${tabs[i]}`, undefined, {
-    //   shallow: true,
-    // });
-    // }
   };
 
   const shouldDisable = !me?.id || loading;
@@ -228,7 +231,7 @@ const CollectionEditorModal = (props: Props) => {
   }, [isOpen, uploaded, input, cleanUp]);
 
   return (
-    <>
+    <ErrorBoundary>
       <Flex justify="flex-end">
         <Button
           size="lg"
@@ -343,7 +346,7 @@ const CollectionEditorModal = (props: Props) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </ErrorBoundary>
   );
 };
 

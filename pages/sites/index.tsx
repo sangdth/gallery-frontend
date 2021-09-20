@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useAuth } from '@nhost/react-auth';
-import { Flex } from '@chakra-ui/react';
-import { Layout } from '../../components/Layout';
+import { Layout, LoadingScreen } from '@/components';
 
 function SiteIndex() {
   const router = useRouter();
@@ -26,9 +25,7 @@ function SiteIndex() {
       </Head>
 
       <Layout>
-        <Flex direction="column" width="100%" padding="20px">
-          Redirecting...
-        </Flex>
+        <LoadingScreen label="Redirecting to Dashboard..." />
       </Layout>
     </>
   );

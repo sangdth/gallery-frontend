@@ -6,6 +6,7 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react';
 import {
+  ErrorBoundary,
   Pagination,
   PaginationContainer,
   PaginationNext,
@@ -116,60 +117,62 @@ export const ThumbnailControl = (props: ThumbnailControlProps) => {
   };
 
   return (
-    <Box {...calculatedMargins}>
-      <Pagination
-        pagesCount={pagesCount}
-        currentPage={currentPage}
-        onPageChange={handleOnPageChange}
-      >
-        <PaginationContainer>
-          <PaginationPrevious
-            {...pageJumperStyles}
-            onClick={onClickPrevious}
-          >
-            {previousLabel ?? 'Previous'}
-          </PaginationPrevious>
+    <ErrorBoundary>
+      <Box {...calculatedMargins}>
+        <Pagination
+          pagesCount={pagesCount}
+          currentPage={currentPage}
+          onPageChange={handleOnPageChange}
+        >
+          <PaginationContainer>
+            <PaginationPrevious
+              {...pageJumperStyles}
+              onClick={onClickPrevious}
+            >
+              {previousLabel ?? 'Previous'}
+            </PaginationPrevious>
 
-          <PaginationPageGroup>
-            {pages.map((page: number) => (
-              <PaginationPage 
-                key={`pagination_page_${page}`} 
-                page={page} 
+            <PaginationPageGroup>
+              {pages.map((page: number) => (
+                <PaginationPage 
+                  key={`pagination_page_${page}`} 
+                  page={page} 
+                />
+              ))}
+            </PaginationPageGroup>
+
+            <PaginationNext
+              {...pageJumperStyles}
+              onClick={onClickNext}
+            >
+              {nextLabel ?? 'Next'}
+            </PaginationNext>
+          </PaginationContainer>
+        </Pagination>
+
+        <SimpleGrid
+          columns={columns}
+          width={width}
+          spacing={1}
+        >
+          {images.map((image) => (
+            <AspectRatio
+              key={`thumb-${image.id}`}
+              maxWidth={thumbnailWidth}
+              ratio={1}
+              onClick={() => handleOnClick(image)}
+              _hover={{ cursor: 'pointer' }}
+              opacity={image.id === current?.id ? 1 : 0.7}
+            >
+              <Image
+                src={makeSrcFromPath(image.path)}
+                alt={image.name ?? image.path}
               />
-            ))}
-          </PaginationPageGroup>
-
-          <PaginationNext
-            {...pageJumperStyles}
-            onClick={onClickNext}
-          >
-            {nextLabel ?? 'Next'}
-          </PaginationNext>
-        </PaginationContainer>
-      </Pagination>
-
-      <SimpleGrid
-        columns={columns}
-        width={width}
-        spacing={1}
-      >
-        {images.map((image) => (
-          <AspectRatio
-            key={`thumb-${image.id}`}
-            maxWidth={thumbnailWidth}
-            ratio={1}
-            onClick={() => handleOnClick(image)}
-            _hover={{ cursor: 'pointer' }}
-            opacity={image.id === current?.id ? 1 : 0.7}
-          >
-            <Image
-              src={makeSrcFromPath(image.path)}
-              alt={image.name ?? image.path}
-            />
-          </AspectRatio>
-        ))}
-      </SimpleGrid>
-    </Box>
+            </AspectRatio>
+          ))}
+        </SimpleGrid>
+      </Box>
+    </ErrorBoundary>
   );
 };
 

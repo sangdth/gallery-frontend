@@ -1,13 +1,20 @@
-import React, { useMemo, useRef, useState } from 'react';
 import deepmerge from 'deepmerge';
 import SlickSlider from 'react-slick';
+import React, {
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   AspectRatio,
   Box,
   Flex,
   Image,
 } from '@chakra-ui/react';
-import { ThumbnailControl } from '@/components';
+import {
+  ErrorBoundary,
+  ThumbnailControl,
+} from '@/components';
 import { makeSrcFromPath } from '@/lib/helpers';
 import { Position } from '@/lib/enums';
 import type { Settings } from 'react-slick';
@@ -74,32 +81,34 @@ export const Carousel = (props: CarouselProps) => {
   };
 
   return (
-    <Flex width={wrapperWidth} marginX="auto">
-      <ThumbnailControl
-        position={thumbnailPosition}
-        images={images}
-        current={current}
-        nextLabel="〉"
-        previousLabel="〈"
-        onClickThumbnail={onClickImage}
-      />
-      <Box width={sliderWidth}>
-        <SlickSlider ref={slickRef} {...finalSettings}>
-          {images.map((image) => (
-            <AspectRatio
-              key={`slide-${image.id}`}
-              maxWidth={sliderWidth}
-              ratio={sliderRatio}
-            >
-              <Image
-                alt={image.name ?? ''}
-                src={makeSrcFromPath(image.path)}
-              />
-            </AspectRatio>
-          ))}
-        </SlickSlider>
-      </Box>
-    </Flex>
+    <ErrorBoundary>
+      <Flex width={wrapperWidth} marginX="auto">
+        <ThumbnailControl
+          position={thumbnailPosition}
+          images={images}
+          current={current}
+          nextLabel="〉"
+          previousLabel="〈"
+          onClickThumbnail={onClickImage}
+        />
+        <Box width={sliderWidth}>
+          <SlickSlider ref={slickRef} {...finalSettings}>
+            {images.map((image) => (
+              <AspectRatio
+                key={`slide-${image.id}`}
+                maxWidth={sliderWidth}
+                ratio={sliderRatio}
+              >
+                <Image
+                  alt={image.name ?? ''}
+                  src={makeSrcFromPath(image.path)}
+                />
+              </AspectRatio>
+            ))}
+          </SlickSlider>
+        </Box>
+      </Flex>
+    </ErrorBoundary>
   );
 };
 

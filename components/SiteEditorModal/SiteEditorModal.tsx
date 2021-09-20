@@ -24,7 +24,12 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon, RepeatIcon } from '@chakra-ui/icons';
-import { ConfirmButton, Input } from '@/components';
+import { useErrorHandler } from 'react-error-boundary';
+import {
+  ConfirmButton,
+  ErrorBoundary,
+  Input,
+} from '@/components';
 import { meAtom, siteAtom } from '@/lib/jotai';
 import type { SiteType, SiteInput } from '@/lib/types';
 
@@ -41,8 +46,8 @@ const SiteEditorModal = (props: Props) => {
   const {
     isEditing,
     loading,
-    onClose: onCloseTmp,
-    onOpen: onOpenTmp,
+    onClose: onCloseProp,
+    onOpen: onOpenProp,
     onSubmit,
     refetch,
   } = props;
@@ -50,6 +55,7 @@ const SiteEditorModal = (props: Props) => {
   const [me] = useAtom(meAtom);
   const [selectedSite, setSelectedSite] = useAtom(siteAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleError = useErrorHandler();
 
   const initialInput = useMemo(() => ({
     id: uuidv4(),
@@ -73,20 +79,24 @@ const SiteEditorModal = (props: Props) => {
   }, [initialInput, setSelectedSite]);
 
   const handleSubmit = async () => {
-    await onSubmit(input);
-    onClose();
-    refetch();
+    try {
+      await onSubmit(input);
+      onClose();
+      refetch();
+    } catch (err) {
+      handleError(err);
+    }
   };
 
   const handleOpen = () => {
     onOpen();
-    onOpenTmp();
+    onOpenProp();
   };
 
   const handleCancel = () => {
     cleanUp();
     onClose();
-    onCloseTmp();
+    onCloseProp();
   };
 
   const handleOnChange = (key: string, value: string) => {
@@ -130,7 +140,7 @@ const SiteEditorModal = (props: Props) => {
   }, [isOpen, isEditing, input, cleanUp, onClose, onOpen]);
 
   return (
-    <>
+    <ErrorBoundary>
       <Flex justify="flex-end">
         <Button
           size="lg"
@@ -220,7 +230,7 @@ const SiteEditorModal = (props: Props) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </ErrorBoundary>
   );
 };
 
