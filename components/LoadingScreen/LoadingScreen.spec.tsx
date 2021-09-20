@@ -4,7 +4,8 @@ import { LoadingScreen } from './LoadingScreen';
 
 describe('LoadingScreen', () => {
   it('renders text', () => {
-    render(<LoadingScreen something="lorem" />);
-    expect(screen.getByText('LoadingScreen')).toBeDefined();
+    render(<LoadingScreen label="loadingisloading" />);
+    const labels = screen.getAllByText('loadingisloading');
+    expect(labels).toBeDefined();
   });
 });

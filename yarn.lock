@@ -647,7 +647,7 @@
     "@chakra-ui/react-utils" "1.1.2"
     "@popperjs/core" "2.4.4"
 
-"@chakra-ui/portal@1.2.9":
+"@chakra-ui/portal@1.2.9", "@chakra-ui/portal@^1.2.9":
   version "1.2.9"
   resolved "https://registry.yarnpkg.com/@chakra-ui/portal/-/portal-1.2.9.tgz#966b4f3c2c5e7e862594b36d66d844047cba053b"
   integrity sha512-Rp0/1uNsjx5KaGQZ8r5ZIdjuUXqXjn9gWUCacZDlYO5DqJ4YcsYJ4UA7KjLubwokDsS2ddyrTbdZYFyspnWk+Q==
