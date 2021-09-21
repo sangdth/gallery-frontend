@@ -60,7 +60,7 @@
     "@testing-library/react": "12.1.0",
     "@testing-library/user-event": "13.2.1",
     "@types/faker": "5.5.8",
-    "@types/jest": "27.0.1",
+    "@types/jest": "27.0.2",
     "@types/lodash": "4.14.173",
     "@types/nprogress": "0.2.0",
     "@types/react": "17.0.22",
