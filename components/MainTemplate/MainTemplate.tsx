@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useMeasure, usePrevious } from 'react-use';
 import { useUpdateAtom } from 'jotai/utils';
 import { Flex } from '@chakra-ui/react';
-import { Carousel } from '@/components';
+import { Carousel, ErrorBoundary } from '@/components';
 import { childrenHeightAtom } from '@/lib/jotai';
 import type { PageType } from '@/lib/types';
 
@@ -27,15 +27,17 @@ export const MainTemplate = (props: MainTemplateProps) => {
   }
 
   return (
-    <Flex ref={ref}>
-      {page.collection && (
-        <Carousel
-          images={page.collection.images}
-          sliderWidth={600}
-        />
-      )}
-      {!page.collection && page?.content}
-    </Flex>
+    <ErrorBoundary>
+      <Flex ref={ref}>
+        {page.collection && (
+          <Carousel
+            collectionId={page.collection.id}
+            sliderWidth={600}
+          />
+        )}
+        {!page.collection && page?.content}
+      </Flex>
+    </ErrorBoundary>
   );
 };
 

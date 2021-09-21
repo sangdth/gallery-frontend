@@ -41,9 +41,11 @@ export type ThumbnailControlProps = {
   onClickPrevious?: () => void;
   onClickThumbnail?: (image: ImageType) => void;
   onPageChange?: (p: number) => void;
+  pageSize?: number;
   position?: Position;
   previousLabel?: string;
   thumbnailWidth?: number;
+  totalCount: number;
   width?: number;
 };
 
@@ -57,9 +59,11 @@ export const ThumbnailControl = (props: ThumbnailControlProps) => {
     onClickPrevious,
     onClickThumbnail,
     onPageChange,
+    pageSize = 8,
     position = Position.Left,
     previousLabel,
     thumbnailWidth = 80,
+    totalCount,
     width = 164,
   } = props;
  
@@ -95,9 +99,9 @@ export const ThumbnailControl = (props: ThumbnailControlProps) => {
     pagesCount,
     pages,
   } = usePagination({
-    total: images.length,
+    total: totalCount,
     initialState: {
-      pageSize: 5,
+      pageSize,
       isDisabled: false,
       currentPage: 1,
     },

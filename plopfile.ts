@@ -1,6 +1,6 @@
 import { NodePlopAPI } from 'plop';
 
-export default (plop: NodePlopAPI): void => {
+const generators = (plop: NodePlopAPI): void => {
   plop.setGenerator('component', {
     description: 'React component generator',
     prompts: [
@@ -50,11 +50,11 @@ export default (plop: NodePlopAPI): void => {
         path: 'lib/hooks/{{name}}.ts',
         templateFile: 'templates/hook/hook.ts.hbs',
       },
-      {
-        type: 'add',
-        path: 'lib/hooks/{{name}}.spec.ts',
-        templateFile: 'templates/hook/hook.spec.ts.hbs',
-      },
+      // {
+      //   type: 'add',
+      //   path: 'lib/hooks/{{name}}.spec.ts',
+      //   templateFile: 'templates/hook/hook.spec.ts.hbs',
+      // },
       {
         type: 'modify',
         path: 'lib/hooks/index.ts',
@@ -64,3 +64,5 @@ export default (plop: NodePlopAPI): void => {
     ],
   });
 };
+
+export default generators;

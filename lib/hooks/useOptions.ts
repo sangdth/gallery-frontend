@@ -10,7 +10,7 @@ import type {
   OptionValue,
 } from '@/lib/types';
 
-export default (siteId: string) => {
+export const useOptions = (siteId: string) => {
   const toast = useToast();
   const {
     data: optionData,
@@ -76,3 +76,5 @@ export default (siteId: string) => {
     updateOptions,
   };
 };
+
+export default useOptions;

@@ -21,7 +21,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/no-unused-prop-types": "off",
     "max-len": ["error", {
-      "code": 100,
+      "code": 120,
       "ignoreComments": true,
       "ignoreUrls": true,
       "ignoreRegExpLiterals": true

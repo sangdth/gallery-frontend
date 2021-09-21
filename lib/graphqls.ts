@@ -1,4 +1,5 @@
-import { gql } from '@apollo/client';
+// Beware: Vittu gql from @apollo/client has problem with tests
+import gql from 'graphql-tag';
 
 export const GET_SELF = gql`
   query getSelf($user_id: uuid!) {
@@ -300,6 +301,33 @@ export const DELETE_IMAGES = gql`
   mutation DELETE_IMAGES($ids: [uuid!]!) {
     delete_images(where: {id: {_in: $ids}}) {
       affected_rows
+    }
+  }
+`;
+
+export const IMAGE_AGGREGATE = gql`
+  query IMAGE_AGGREGATE(
+    $collectionId: uuid!,
+    $limit: Int!,
+    $offset: Int!,
+  ) {
+    images_aggregate {
+      aggregate {
+        count
+      }
+    }
+    images(
+      limit: $limit,
+      offset: $offset,
+      where: {
+        collection_id: {_eq: $collectionId},
+        status: {_eq: "PUBLIC"}
+      }
+    ) {
+      id
+      name
+      description
+      path
     }
   }
 `;

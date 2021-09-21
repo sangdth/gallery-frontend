@@ -23,3 +23,5 @@ export const ErrorBoundary = (props: ErrorBoundaryProps) => {
     </ReactErrorBoundary>
   );
 };
+
+export default ErrorBoundary;

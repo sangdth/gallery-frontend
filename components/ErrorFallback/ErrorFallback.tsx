@@ -47,3 +47,5 @@ export const ErrorFallback = (props: ErrorFallbackProps) => {
     </Flex>
   );
 };
+
+export default ErrorFallback;

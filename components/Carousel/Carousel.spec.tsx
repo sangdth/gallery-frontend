@@ -1,18 +1,42 @@
-import { render, screen } from '@/test/utils';
+import { fireEvent, render, screen } from '@/test/utils';
 import { ImageFactory } from '@/test/factories';
-// import { makeSrcFromPath } from '@/lib/helpers';
-import { Carousel } from './Carousel';
+import { CarouselPlain } from './Carousel';
 
-const fakeImage = ImageFactory.build();
+const totalCount = 10;
+const fakeImages = ImageFactory.buildList(totalCount);
 
 describe('Carousel', () => {
-  it('can render images', async () => {
-    render(<Carousel images={[fakeImage]} sliderWidth={600} />);
+  it('can render components', async () => {
+    render(
+      <CarouselPlain
+        images={fakeImages}
+        totalCount={totalCount}
+      />,
+    );
 
-    const images = screen.getAllByRole('img');
-    expect(images[0]).toBeInstanceOf(HTMLImageElement);
-    expect(images[images.length - 1]).toBeInstanceOf(HTMLImageElement);
-    //  TODO: Why it does not have src?
-    // expect(image).toHaveAttribute('src', makeSrcFromPath(fakeImage.path));
+    const nextButton = screen.getByText('〉');
+    expect(nextButton).toBeInTheDocument();
+  });
+
+  it('fire onPageChange when clicking on next', async () => {
+    const onPageChangeFn = jest.fn();
+
+    render(
+      <CarouselPlain
+        images={fakeImages}
+        totalCount={totalCount}
+        onPageChange={onPageChangeFn}
+      />,
+    );
+
+    fireEvent(
+      screen.getByText('〉'),
+      new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+
+    expect(onPageChangeFn).toHaveBeenCalledTimes(1);
   });
 });

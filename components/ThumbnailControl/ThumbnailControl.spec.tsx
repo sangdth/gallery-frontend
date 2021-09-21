@@ -11,6 +11,7 @@ describe('ThumbnailControl', () => {
       <ThumbnailControl
         current={null}
         images={[fakeImage]}
+        totalCount={10}
         width={300} 
       />,
     );
@@ -28,8 +29,9 @@ describe('ThumbnailControl', () => {
       <ThumbnailControl
         current={null}
         images={[fakeImage]}
-        width={300} 
         onClickThumbnail={onClickThumbnailFn}
+        totalCount={10}
+        width={300} 
       />,
     );
 

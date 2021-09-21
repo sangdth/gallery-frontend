@@ -49,3 +49,5 @@ export const LoadingScreen = (props: LoadingScreenProps) => {
     </Modal>
   );
 };
+
+export default LoadingScreen;

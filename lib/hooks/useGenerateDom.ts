@@ -8,7 +8,7 @@ export type GenerateDomProps = {
   component?: JSX.Element | JSX.Element[] | (({ key }: { key: SectionElement }) => JSX.Element);
 };
 
-export default  (props: GenerateDomProps) => {
+export const useGenerateDom = (props: GenerateDomProps) => {
   const { isDragged, onClick, component } = props;
 
   const elements = useMemo(() => {
@@ -23,3 +23,5 @@ export default  (props: GenerateDomProps) => {
 
   return elements;
 };
+
+export default useGenerateDom;

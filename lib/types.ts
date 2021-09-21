@@ -225,10 +225,10 @@ export type UserType = Exclude<BaseType, 'user_id' | 'status'> & {
 };
 
 export type Returning<T> = { returning: T[]; };
+export type Aggregate<T> = { nodes: T[], aggregate: { count: number } };
 
-export type AggregateData<T, K extends Entity> = Record<
-  `${Lowercase<K>}_aggregate`, { nodes: T[] }
->;
+export type AggregateData<T, K extends Entity> =
+  Record<`${Lowercase<K>}_aggregate`, Aggregate<T>> & Record<`${Lowercase<K>}`, T[]>;
 export type SingleData<T, K extends Entity> = Record<
   `${Lowercase<K>}_by_pk`, T
 >;
@@ -259,8 +259,8 @@ export type CollectionData = SingleData<CollectionType, Entity.Collections>;
 export type CollectionInsertedData = InsertedData<CollectionType, Entity.Collections>;
 export type CollectionDeletedData = DeletedData<CollectionType, Entity.Collections>;
 
-export type ImagesAggregateData = AggregateData<ImageType, Entity.Images>;
-export type ImageData = SingleData<ImageType, Entity.Images>;
+export type ImageAggregatedData = AggregateData<ImageType, Entity.Images>;
+export type ImageSingleData = SingleData<ImageType, Entity.Images>;
 export type ImageInsertedData = InsertedData<ImageType, Entity.Images>;
 export type ImageDeletedData = DeletedData<ImageType, Entity.Images>;
 
