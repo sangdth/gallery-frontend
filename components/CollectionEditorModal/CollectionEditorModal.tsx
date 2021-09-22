@@ -88,11 +88,12 @@ const CollectionEditorModal = (props: Props) => {
           uploaded.map((image) => storage.delete(`/${image.path}`)),
         );
         cleanUp();
-        onClose();
       } catch (err) {
         handleError(err);
       }
     }
+
+    onClose();
   };
 
   const handleOnChange = (key: string, value: string) => {

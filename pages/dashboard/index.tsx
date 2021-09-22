@@ -132,7 +132,7 @@ const Dashboard = () => {
               {(site && me) && <LayoutsPanel site={site} user={me} />}
             </TabPanel>
             <TabPanel>
-              {(site && me) && <OptionsPanel />}
+              {(site && me) && <OptionsPanel site={site} />}
             </TabPanel>
           </TabPanels>
         </Tabs>

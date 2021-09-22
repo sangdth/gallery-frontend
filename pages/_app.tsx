@@ -2,8 +2,9 @@
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import 'nprogress/nprogress.css';
-import '@uppy/core/dist/style.css';
-import '@uppy/drag-drop/dist/style.css';
+import '@uppy/core/dist/style.min.css';
+import '@uppy/drag-drop/dist/style.min.css';
+import '@uppy/file-input/dist/style.min.css';
 import '@/styles/globals.css';
 import '@/styles/slick.css';
 import '@/styles/slick-theme.css';

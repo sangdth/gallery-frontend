@@ -5,8 +5,14 @@ type {{name}}Props = {
   other?: number;
 };
 
-export const {{name}} = (props: {{ name }}Props) => {
+const {{name}} = (props: {{ name }}Props) => {
   const { something } = props;
 
-  return <div>{something}</div>;
+  return (
+    <div>
+      {something}
+    </div>
+  );
 };
+
+export default {{name}};

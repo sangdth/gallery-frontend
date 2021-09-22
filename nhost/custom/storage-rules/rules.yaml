@@ -12,3 +12,6 @@ paths:
   /site/:siteId/collection/:collectionId*:
     write: isAuthenticated()
     read: 'true'
+  /site/:siteId/general*:
+    write: isAuthenticated()
+    read: 'true'

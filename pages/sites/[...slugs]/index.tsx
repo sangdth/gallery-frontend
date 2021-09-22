@@ -59,8 +59,7 @@ const SingleSiteView = () => {
 
   // const menuOptionData = optionData[OptionKey.Menu];
   const homeOptionData = optionData[OptionKey.Home];
-  const logoOptionData = optionData[OptionKey.Logo];
-  console.log('### logoOptionData: ', logoOptionData);
+  // const logoOptionData = optionData[OptionKey.Logo];
 
   let currentLayouts = layouts ? layouts[0] : undefined;
   const currentMenuData = options?.find(({ key }) => key === OptionKey.Menu);
