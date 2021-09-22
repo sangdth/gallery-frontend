@@ -10,7 +10,7 @@ type Props = {
 
 type DragDropEvent = MouseEvent | React.DragEvent<HTMLDivElement>;
 
-export const ImageUploadView = (props: Props) => {
+const ImageUploadView = (props: Props) => {
   const { isLoading, onDrop } = props;
 
   const uppy = useUppy(

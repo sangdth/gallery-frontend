@@ -1,5 +1,5 @@
 import { render, screen } from '@/test/utils';
-import { MenuTemplate } from './MenuTemplate';
+import MenuTemplate from './MenuTemplate';
 
 // const testPages: PageType[] = PageFactory.buildList(5);
 const testMenuValue = {

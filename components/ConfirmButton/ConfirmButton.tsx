@@ -25,7 +25,7 @@ export type ConfirmButtonProps = {
   onConfirm?: () => void;
 };
 
-export const ConfirmButton = (props: ConfirmButtonProps) => {
+const ConfirmButton = (props: ConfirmButtonProps) => {
   const {
     alertProps,
     buttonProps,

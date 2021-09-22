@@ -1,13 +1,9 @@
 import React, { FC, useMemo, MouseEvent } from 'react';
 import { Button, Flex, ButtonProps, Icon, IconProps } from '@chakra-ui/react';
-
-// components
 import FiMoreHorizontal from './FiMoreHorizontal';
-
-// lib
-import { usePaginationContext } from './usePaginationContext';
+import usePaginationContext from './usePaginationContext';
 import { INITIAL_VALUES } from './constants';
-import { IconType, SeparatorPosition } from './types';
+import type { IconType, SeparatorPosition } from './types';
 
 type SeparatorProps = {
   hoverIcon?: IconType
@@ -51,7 +47,7 @@ const separatorTransitionStyles: IconProps = {
   transition: 'all  cubic-bezier(0.4, 1, 0.9, 0.6) 0.3s',
 };
 
-export const PaginationSeparator: FC<SeparatorProps & ButtonProps> = ({
+const PaginationSeparator: FC<SeparatorProps & ButtonProps> = ({
   hoverIcon,
   separatorPosition: separatorPositionProp,
   isDisabled: isDisabledProp,
@@ -143,3 +139,5 @@ export const PaginationSeparator: FC<SeparatorProps & ButtonProps> = ({
     </Flex>
   );
 };
+
+export default PaginationSeparator;

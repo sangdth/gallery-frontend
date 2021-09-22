@@ -1,7 +1,7 @@
 import { render, fireEvent, screen } from '@/test/utils';
 import { PageFactory, MenuFactory } from '@/test/factories';
 import type { MenuOption, PageType } from '@/lib/types';
-import { MenuEditorModal } from './MenuEditorModal';
+import MenuEditorModal from './MenuEditorModal';
 
 const testPages: PageType[] = PageFactory.buildList(5);
 const testMenu: MenuOption = MenuFactory.build();

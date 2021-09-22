@@ -1,5 +1,5 @@
 import { render, screen } from '@/test/utils';
-import { Footer } from './Footer';
+import Footer from './Footer';
 
 describe('Footer', () => {
   it('can render Footer text', () => {

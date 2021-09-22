@@ -11,7 +11,7 @@ import type {
   OptionValue,
 } from '@/lib/types';
 
-export const useOptions = (siteId: string) => {
+const useOptions = (siteId: string) => {
   const toast = useToast();
   const {
     data: optionData,

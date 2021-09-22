@@ -43,7 +43,7 @@ type MenuGeneratorProps<T> = {
   onEdit?: (o: T) => void;
 };
 
-export const MenuGenerator = <T extends ActionItemType>(props: MenuGeneratorProps<T>) => {
+const MenuGenerator = <T extends ActionItemType>(props: MenuGeneratorProps<T>) => {
   const {
     menu,
     data,

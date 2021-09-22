@@ -10,7 +10,7 @@ import {
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import type { NavItem } from '@/lib/types';
 
-export const DesktopSubNav = ({ label, href, subLabel }: NavItem) => (
+const DesktopSubNav = ({ label, href, subLabel }: NavItem) => (
   <Link
     p={2}
     href={href}

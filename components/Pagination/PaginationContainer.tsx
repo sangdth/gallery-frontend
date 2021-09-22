@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { FlexProps, Flex } from '@chakra-ui/react';
 
-export const PaginationContainer: FC<FlexProps> = ({
+const PaginationContainer: FC<FlexProps> = ({
   children,
   ...flexProps
 }) => (
@@ -14,3 +14,5 @@ export const PaginationContainer: FC<FlexProps> = ({
     {children}
   </Flex>
 );
+
+export default PaginationContainer;

@@ -39,7 +39,7 @@ import {
   ImageUpload,
   ImageController,
 } from '@/components';
-import { collectionAtom } from '@/components/panels/Collections';
+import { collectionAtom } from '@/components/panels/CollectionsPanel';
 import type { CollectionInput, ImageType } from '@/lib/types';
 
 type Props = {

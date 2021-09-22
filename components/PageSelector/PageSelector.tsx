@@ -25,7 +25,7 @@ export type PageSelectorProps = {
 };
 
 // TODO: Change name and add grouping only option (no page uuid)
-export const PageSelector = (props: PageSelectorProps) => {
+const PageSelector = (props: PageSelectorProps) => {
   const {
     placeholder = 'Select page to add',
     pages,

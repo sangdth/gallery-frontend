@@ -1,11 +1,9 @@
 import { useContext } from 'react';
+import { PaginationContext } from './PaginationProvider';
+import type { PaginationContextValues } from './PaginationProvider';
 
-// lib
-import {
-  PaginationContext,
-  PaginationContextValues,
-} from './PaginationProvider';
-
-export const usePaginationContext = (): PaginationContextValues => {
+const usePaginationContext = (): PaginationContextValues => {
   return useContext(PaginationContext);
 };
+
+export default usePaginationContext;

@@ -6,7 +6,7 @@ type Props = {
   items: NavItem[];
 };
 
-export const MobileNav = ({ items }: Props) => (
+const MobileNav = ({ items }: Props) => (
   <Stack
     bg={useColorModeValue('white', 'gray.800')}
     p={4}

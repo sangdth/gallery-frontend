@@ -10,7 +10,7 @@ export type MainTemplateProps = {
   page?: PageType;
 };
 
-export const MainTemplate = (props: MainTemplateProps) => {
+const MainTemplate = (props: MainTemplateProps) => {
   const { page } = props;
   const [ref, { height }] = useMeasure<HTMLDivElement>();
   const prevHeight = usePrevious(height);

@@ -6,10 +6,10 @@ import React, {
 import { useMeasure } from 'react-use';
 import { Box } from '@chakra-ui/react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import type { Layout, Layouts } from 'react-grid-layout';
-import { GridItem, Ruler } from '@/components';
+import { ErrorBoundary, GridItem, Ruler } from '@/components';
 import { DEFAULT_LAYOUT } from '@/lib/constants';
 import { SectionElement } from '@/lib/enums';
+import type { Layout, Layouts } from 'react-grid-layout';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -18,7 +18,7 @@ type GridEditorProps = {
   onLayoutChange: (allLayouts: Layouts) => void;
 };
 
-export const GridEditor = (props: GridEditorProps) => {
+const GridEditor = (props: GridEditorProps) => {
   const {
     layouts,
     onLayoutChange,
@@ -78,35 +78,37 @@ export const GridEditor = (props: GridEditorProps) => {
   }, [checkDragged, handleItemOnClick]);
 
   return (
-    <Box
-      ref={ref}
-      width="auto"
-      maxWidth="1400px"
-      marginX="auto"
-    >
-      <Ruler value={width} />
-
-      <ResponsiveGridLayout
-        layouts={layoutsLocal}
-        breakpoints={DEFAULT_LAYOUT.breakpoints}
-        cols={DEFAULT_LAYOUT.cols}
-        rowHeight={40}
-        onDragStart={handleOnDragStart}
-        onDragStop={() => setCurrentItem(null)}
-        onLayoutChange={handleLayoutChange}
+    <ErrorBoundary>
+      <Box
+        ref={ref}
+        width="auto"
+        maxWidth="1400px"
+        marginX="auto"
       >
-        {elements.map(({ id, isDragged, onClick, component }) => (
-          <GridItem
-            key={id}
-            editable
-            isDragged={isDragged}
-            onClick={onClick}
-          >
-            {component}
-          </GridItem>
-        ))}
-      </ResponsiveGridLayout>
-    </Box>
+        <Ruler value={width} />
+
+        <ResponsiveGridLayout
+          layouts={layoutsLocal}
+          breakpoints={DEFAULT_LAYOUT.breakpoints}
+          cols={DEFAULT_LAYOUT.cols}
+          rowHeight={40}
+          onDragStart={handleOnDragStart}
+          onDragStop={() => setCurrentItem(null)}
+          onLayoutChange={handleLayoutChange}
+        >
+          {elements.map(({ id, isDragged, onClick, component }) => (
+            <GridItem
+              key={id}
+              editable
+              isDragged={isDragged}
+              onClick={onClick}
+            >
+              {component}
+            </GridItem>
+          ))}
+        </ResponsiveGridLayout>
+      </Box>
+    </ErrorBoundary>
   );
 };
 

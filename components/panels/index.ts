@@ -1,4 +1,4 @@
-export { default as Collections } from './Collections';
-export { default as Pages } from './Pages';
-export { default as Layouts } from './Layouts';
+export { default as CollectionsPanel } from './CollectionsPanel';
+export { default as PagesPanel } from './PagesPanel';
+export { default as LayoutsPanel } from './LayoutsPanel';
 export { default as OptionsPanel } from './OptionsPanel';

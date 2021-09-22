@@ -17,7 +17,7 @@ type Props = {
   onDelete: () => void;
 };
 
-export const SiteItem = (props: Props) => {
+const SiteItem = (props: Props) => {
   const {
     name,
     onDelete,

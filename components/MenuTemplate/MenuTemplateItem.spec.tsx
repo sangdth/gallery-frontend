@@ -5,9 +5,10 @@ import {
   MenuButton,
   MenuList,
 } from '@chakra-ui/react';
-import { MenuTemplateItem } from './index';
+import type { OptionValue } from '@/lib/types';
+import MenuTemplateItem from './MenuTemplateItem';
 
-const testMenuItemValue = {
+const testMenuItemValue: OptionValue = {
   id: '7982f80c-922a-459f-8406-a7fc91ed01ad',
   label: 'Clean house',
   slug: 'clean-house',

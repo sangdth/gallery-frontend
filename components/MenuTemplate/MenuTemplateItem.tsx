@@ -7,7 +7,7 @@ export type MenuTemplateItemProps = {
   onClick: (item: OptionValue) => void;
 };
 
-export const MenuTemplateItem = (props: MenuTemplateItemProps) => {
+const MenuTemplateItem = (props: MenuTemplateItemProps) => {
   const { value, onClick } = props;
   
   return (

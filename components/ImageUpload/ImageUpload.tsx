@@ -3,14 +3,14 @@ import { useAtom } from 'jotai';
 import { siteAtom } from '@/lib/jotai';
 import { storage } from '@/lib/nhost';
 import type { StorageResponse, ImageType } from '@/lib/types';
-import { ImageUploadView } from './ImageUploadView';
+import ImageUploadView from './ImageUploadView';
 
 type Props = {
   collectionId: string;
   onUpload: (images: Partial<ImageType>[]) => void;
 };
 
-export const ImageUpload = (props: Props) => {
+const ImageUpload = (props: Props) => {
   const { collectionId, onUpload } = props;
   const [site] = useAtom(siteAtom);
   const [loading, setLoading] = useState(false);

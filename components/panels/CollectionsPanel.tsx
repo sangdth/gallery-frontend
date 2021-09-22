@@ -24,7 +24,7 @@ type CollectionsProps = {
 
 export const collectionAtom = atom<CollectionInput | null>(null);
 
-export const Collections = (props: CollectionsProps) => {
+const CollectionsPanel = (props: CollectionsProps) => {
   const toast = useToast();
 
   const { site, user } = props;
@@ -164,4 +164,4 @@ export const Collections = (props: CollectionsProps) => {
   );
 };
 
-export default Collections;
+export default CollectionsPanel;

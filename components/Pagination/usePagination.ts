@@ -1,5 +1,4 @@
 import { Dispatch, useState, useMemo, SetStateAction, useEffect } from 'react';
-
 import { generatePages, isDecimalNumber } from './helpers';
 
 type InitialState = {
@@ -20,7 +19,7 @@ type UsePagination = {
   limits?: Limits
 };
 
-export const usePagination = ({
+const usePagination = ({
   total,
   initialState,
   pagesCount: pagesCountProp,
@@ -107,3 +106,5 @@ export const usePagination = ({
     pagesCount,
   };
 };
+
+export default usePagination;

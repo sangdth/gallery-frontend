@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@/test/utils';
 import { ImageFactory } from '@/test/factories';
-import { CarouselPlain } from './Carousel';
+import CarouselPlain from './CarouselPlain';
 
 const totalCount = 10;
 const fakeImages = ImageFactory.buildList(totalCount);

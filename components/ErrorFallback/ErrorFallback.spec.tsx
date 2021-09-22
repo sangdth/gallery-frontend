@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@/test/utils';
-import { ErrorFallback } from './ErrorFallback';
+import ErrorFallback from './ErrorFallback';
 
 describe('ErrorFallback', () => {
   it('renders text', () => {

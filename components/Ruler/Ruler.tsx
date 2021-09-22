@@ -6,7 +6,7 @@ type RulerProps = {
   value: number;
 };
 
-export const Ruler = (props: RulerProps) => {
+const Ruler = (props: RulerProps) => {
   const { value } = props;
   return (
     <Flex

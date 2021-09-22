@@ -15,9 +15,9 @@ import {
   WithPrivateRoute,
 } from '@/components';
 import {
-  Pages,
-  Collections,
-  Layouts,
+  PagesPanel,
+  CollectionsPanel,
+  LayoutsPanel,
   OptionsPanel,
 } from '@/components/panels';
 import { siteAtom, meAtom } from '@/lib/jotai';
@@ -123,13 +123,13 @@ const Dashboard = () => {
 
           <TabPanels paddingX="0">
             <TabPanel>
-              {(site && me) && <Pages site={site} user={me} />}
+              {(site && me) && <PagesPanel site={site} user={me} />}
             </TabPanel>
             <TabPanel>
-              {(site && me) && <Collections site={site} user={me} />}
+              {(site && me) && <CollectionsPanel site={site} user={me} />}
             </TabPanel>
             <TabPanel>
-              {(site && me) && <Layouts site={site} user={me} />}
+              {(site && me) && <LayoutsPanel site={site} user={me} />}
             </TabPanel>
             <TabPanel>
               {(site && me) && <OptionsPanel />}

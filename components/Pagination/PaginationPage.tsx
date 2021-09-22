@@ -1,14 +1,10 @@
 import React, { FC, ReactElement, MouseEvent, useMemo } from 'react';
 import { Button, Flex, ButtonProps } from '@chakra-ui/react';
-
-// lib
 import { SEPARATORS } from './constants';
-import { usePaginationContext } from './usePaginationContext';
-
-// components
+import usePaginationContext from './usePaginationContext';
 import FiChevronLeft from './FiChevronLeft';
 import FiChevronRight from './FiChevronRight';
-import { PaginationSeparator } from './PaginationSeparator';
+import PaginationSeparator from './PaginationSeparator';
 
 export type PageProps = {
   page: number
@@ -23,7 +19,7 @@ const buttonStyles: ButtonProps = {
   cursor: 'pointer',
 };
 
-export const PaginationPage: FC<PageProps & ButtonProps> = ({
+const PaginationPage: FC<PageProps & ButtonProps> = ({
   page,
   isDisabled: isDisabledProp,
   separator,
@@ -114,3 +110,5 @@ export const PaginationPage: FC<PageProps & ButtonProps> = ({
     </Flex>
   );
 };
+
+export default PaginationPage;

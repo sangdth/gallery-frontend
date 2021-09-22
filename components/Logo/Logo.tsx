@@ -16,7 +16,7 @@ type LogoProps = {
   size?: 'huge' | 'default' | 'small';
 };
 
-export const Logo = (props: LogoProps) => {
+const Logo = (props: LogoProps) => {
   const {
     name = 'GALLERY',
     url = '/',

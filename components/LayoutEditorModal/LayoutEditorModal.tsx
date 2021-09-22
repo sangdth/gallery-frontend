@@ -22,7 +22,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import type { Layouts } from 'react-grid-layout';
 import {
   ConfirmButton,
   ErrorBoundary,
@@ -31,6 +30,7 @@ import {
 } from '@/components';
 import { meAtom, layoutAtom } from '@/lib/jotai';
 import { DEFAULT_LAYOUT } from '@/lib/constants';
+import type { Layouts } from 'react-grid-layout';
 import type { LayoutInput } from '@/lib/types';
 
 type Props = {
@@ -156,7 +156,9 @@ const LayoutEditorModal = (props: Props) => {
           <ModalHeader>
             {selectedLayout ? `Edit Layout: ${selectedLayout.name}` : 'Create New Layout'}
           </ModalHeader>
+
           <ModalCloseButton />
+
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Name</FormLabel>

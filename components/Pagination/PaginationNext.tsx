@@ -1,9 +1,8 @@
 import React, { FC, useMemo, useContext, MouseEvent } from 'react';
 import { Button, ButtonProps } from '@chakra-ui/react';
-
 import { PaginationContext } from './PaginationProvider';
 
-export const PaginationNext: FC<ButtonProps> = ({
+const PaginationNext: FC<ButtonProps> = ({
   children,
   isDisabled: isDisabledProp,
   ...buttonProps
@@ -62,3 +61,5 @@ export const PaginationNext: FC<ButtonProps> = ({
     </Button>
   );
 };
+
+export default PaginationNext;

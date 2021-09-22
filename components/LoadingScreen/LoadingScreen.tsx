@@ -14,7 +14,7 @@ type LoadingScreenProps = {
   onFinish?: () => void;
 };
 
-export const LoadingScreen = (props: LoadingScreenProps) => {
+const LoadingScreen = (props: LoadingScreenProps) => {
   const { color, label, onFinish } = props;
 
   const handleClose = () => {

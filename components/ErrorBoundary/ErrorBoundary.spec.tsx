@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@/test/utils';
-import { ErrorBoundary } from './ErrorBoundary';
+import ErrorBoundary from './ErrorBoundary';
 
 describe('ErrorBoundary', () => {
   beforeAll(() => {

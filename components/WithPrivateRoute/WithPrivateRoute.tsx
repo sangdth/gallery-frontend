@@ -9,7 +9,7 @@ import { meAtom } from '@/lib/jotai';
 import { GET_SELF } from '@/lib/graphqls';
 import type { UserData } from '@/lib/types';
 
-export function WithPrivateRoute<P>(Component: React.ComponentType<P>) {
+function WithPrivateRoute<P>(Component: React.ComponentType<P>) {
   return function WrapperComponent(props: P) {
     const router = useRouter();
     const { signedIn } = useAuth();

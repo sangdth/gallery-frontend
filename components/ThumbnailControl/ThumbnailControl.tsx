@@ -49,7 +49,7 @@ export type ThumbnailControlProps = {
   width?: number;
 };
 
-export const ThumbnailControl = (props: ThumbnailControlProps) => {
+const ThumbnailControl = (props: ThumbnailControlProps) => {
   const {
     columns = 2,
     current,

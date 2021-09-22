@@ -1,5 +1,5 @@
 import { render, screen } from '@/test/utils';
-import { ImageUpload } from './ImageUpload';
+import ImageUpload from './ImageUpload';
 
 describe('ImageUpload', () => {
   it('can render and see the description text', () => {

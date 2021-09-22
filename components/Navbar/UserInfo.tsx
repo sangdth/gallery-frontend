@@ -19,7 +19,7 @@ import {
 import { meAtom } from '@/lib/jotai';
 import { auth } from '@/lib/nhost';
 
-export const UserInfo = () => {
+const UserInfo = () => {
   const router = useRouter();
   const [me] = useAtom(meAtom);
 

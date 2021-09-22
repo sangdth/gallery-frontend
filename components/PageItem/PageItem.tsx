@@ -18,7 +18,7 @@ type Props = Partial<PageType> & {
   style?: Record<string, unknown>;
 };
 
-export const PageItem = (props: Props) => {
+const PageItem = (props: Props) => {
   const {
     children,
     id,

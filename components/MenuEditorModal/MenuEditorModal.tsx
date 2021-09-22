@@ -33,7 +33,7 @@ export type MenuEditorModalProps = {
   refetch?: () => void;
 };
 
-export const MenuEditorModal = (props: MenuEditorModalProps) => {
+const MenuEditorModal = (props: MenuEditorModalProps) => {
   const {
     loading,
     pages,

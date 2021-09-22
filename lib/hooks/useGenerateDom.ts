@@ -8,7 +8,7 @@ export type GenerateDomProps = {
   component?: JSX.Element | JSX.Element[] | (({ key }: { key: SectionElement }) => JSX.Element);
 };
 
-export const useGenerateDom = (props: GenerateDomProps) => {
+const useGenerateDom = (props: GenerateDomProps) => {
   const { isDragged, onClick, component } = props;
 
   const elements = useMemo(() => {

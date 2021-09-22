@@ -19,7 +19,7 @@ export type Props = InputProps & {
   icon?: React.ReactElement;
 };
 
-export const Input = (props: Props) => {
+const Input = (props: Props) => {
   const {
     size = 'md',
     type = 'text',

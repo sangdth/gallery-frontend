@@ -3,6 +3,7 @@ import { Provider as JotaiProvider } from 'jotai';
 import { NhostAuthProvider } from '@nhost/react-auth';
 import { NhostApolloProvider } from '@nhost/react-apollo';
 import { ChakraProvider } from '@chakra-ui/react';
+import { ErrorBoundary } from '@/components';
 import { auth } from '@/lib/nhost';
 import { GRAPHQL_ENDPOINT } from '@/lib/constants';
 
@@ -12,7 +13,9 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
       <NhostAuthProvider auth={auth}>
         <NhostApolloProvider auth={auth} gqlEndpoint={GRAPHQL_ENDPOINT}>
           <ChakraProvider>
-            {children}
+            <ErrorBoundary>
+              {children}
+            </ErrorBoundary>
           </ChakraProvider>
         </NhostApolloProvider>
       </NhostAuthProvider>

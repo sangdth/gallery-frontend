@@ -6,7 +6,7 @@ import {
   WithPrivateRoute,
 } from '@/components';
 
-export const Settings = () => (
+const Settings = () => (
   <Layout>
     <Flex direction="column" padding="20px">
       <ChangePassword />

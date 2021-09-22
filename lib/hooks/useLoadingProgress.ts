@@ -7,7 +7,7 @@ const defaultSettings = {
   showSpinner: false,
 };
 
-export const useLoadingProgress = (settings = {}) => {
+const useLoadingProgress = (settings = {}) => {
   const router = useRouter();
 
   const finalSettings = deepmerge(defaultSettings, settings);

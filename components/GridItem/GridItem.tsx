@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Flex } from '@chakra-ui/react';
 
 type GridItemProps = {
@@ -10,7 +10,7 @@ type GridItemProps = {
   onClick?: () => void;
 };
 
-export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
+const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
   (props, forwardedRef) => {
     const {
       editable = false,
@@ -54,7 +54,6 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
     );
   },
 );
-
 GridItem.displayName = 'GridItem';
 
-export default memo(GridItem);
+export default GridItem;

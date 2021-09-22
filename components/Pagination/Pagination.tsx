@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { ErrorBoundary } from '@/components';
-import { PaginationProvider } from './PaginationProvider';
 import { INITIAL_VALUES } from './constants';
+import PaginationProvider from './PaginationProvider';
 
 export type PaginationProps = {
   onPageChange: (page: number) => void
@@ -10,7 +10,7 @@ export type PaginationProps = {
   isDisabled?: boolean
 };
 
-export const Pagination: FC<PaginationProps> = ({
+const Pagination: FC<PaginationProps> = ({
   children,
   pagesCount,
   onPageChange,
@@ -28,3 +28,5 @@ export const Pagination: FC<PaginationProps> = ({
     </PaginationProvider>
   </ErrorBoundary>
 );
+
+export default Pagination;

@@ -60,7 +60,7 @@ export default function Login() {
         marginX="auto"
         marginTop="100px"
       >
-        <Logo />
+        <Logo name="GALLERY" />
 
         <Stack spacing="10px" alignItems="center">
           <Text

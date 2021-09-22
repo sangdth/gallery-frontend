@@ -1,2 +1,2 @@
-export { default as LayoutEditorModal } from './LayoutEditorModal';
 export { default } from './LayoutEditorModal';
+export { default as LayoutEditorModal } from './LayoutEditorModal';

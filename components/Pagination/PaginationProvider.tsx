@@ -6,7 +6,6 @@ import React, {
   SetStateAction,
   useEffect,
 } from 'react';
-
 import { INITIAL_VALUES } from './constants';
 import { isDecimalNumber } from './helpers';
 
@@ -23,7 +22,7 @@ export type PaginationContextValues = {
   }
 };
 
-export const PaginationContext = createContext<PaginationContextValues>({
+const PaginationContext = createContext<PaginationContextValues>({
   state: {
     currentPage: INITIAL_VALUES.currentPage,
     isDisabled: INITIAL_VALUES.isDisabled,
@@ -43,7 +42,7 @@ export type PaginationProviderProps = {
   onPageChange: (page: number) => void
 };
 
-export const PaginationProvider: FC<PaginationProviderProps> = ({
+const PaginationProvider: FC<PaginationProviderProps> = ({
   children,
   onPageChange,
   pagesCount: pagesCountProp,
@@ -114,3 +113,6 @@ export const PaginationProvider: FC<PaginationProviderProps> = ({
     </PaginationContext.Provider>
   );
 };
+
+export default PaginationProvider;
+export { PaginationContext };

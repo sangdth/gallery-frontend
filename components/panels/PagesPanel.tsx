@@ -39,7 +39,7 @@ type Props = {
   user: UserType;
 };
 
-export const Pages = (props: Props) => {
+const PagesPanel = (props: Props) => {
   const { site, user } = props;
   const toast = useToast();
   const setSelectedPage = useUpdateAtom(pageAtom);
@@ -236,4 +236,4 @@ export const Pages = (props: Props) => {
   );
 };
 
-export default Pages;
+export default PagesPanel;

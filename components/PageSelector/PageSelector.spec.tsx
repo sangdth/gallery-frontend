@@ -1,7 +1,7 @@
 import { render, screen } from '@/test/utils';
 import { PageFactory } from '@/test/factories';
 import type { PageType } from '@/lib/types';
-import { PageSelector } from './PageSelector';
+import PageSelector from './PageSelector';
 
 const testPlaceholder = 'test placeholder string';
 const testPages: PageType[] = PageFactory.buildList(3);

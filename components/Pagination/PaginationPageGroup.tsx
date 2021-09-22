@@ -11,7 +11,7 @@ export type PageGroupProps = {
   separator?: ReactElement
 };
 
-export const PaginationPageGroup: FC<PageGroupProps & StackProps> = ({
+const PaginationPageGroup: FC<PageGroupProps & StackProps> = ({
   children,
   separator,
   ...stackProps
@@ -33,3 +33,5 @@ export const PaginationPageGroup: FC<PageGroupProps & StackProps> = ({
     </Stack>
   );
 };
+
+export default PaginationPageGroup;

@@ -1,23 +1,23 @@
 import React from 'react';
 import Head from 'next/head';
 import { Flex } from '@chakra-ui/react';
+import { ErrorBoundary, Navbar } from '@/components';
 import { NAV_ITEMS } from '@/lib/constants';
 import type { SiteType } from '@/lib/types';
-import { Navbar } from '@/components';
 
 export type LayoutProps = {
   children: React.ReactNode;
   site?: SiteType;
 };
 
-export const Layout = (props: LayoutProps) => {
+const Layout = (props: LayoutProps) => {
   const {
     children,
     site,
   } = props;
 
   return (
-    <>
+    <ErrorBoundary>
       <Head>
         <title>{site?.name ?? 'Gallery'}</title>
         <meta name="description" content={site?.description ?? ''} />
@@ -28,7 +28,7 @@ export const Layout = (props: LayoutProps) => {
 
         <Flex>{children}</Flex>
       </Flex>
-    </>
+    </ErrorBoundary>
   );
 };
 

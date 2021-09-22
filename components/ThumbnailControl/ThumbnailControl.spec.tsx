@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@/test/utils';
 import { ImageFactory } from '@/test/factories';
 // import { makeSrcFromPath } from '@/lib/helpers';
-import { ThumbnailControl } from './ThumbnailControl';
+import ThumbnailControl from './ThumbnailControl';
 
 const fakeImage = ImageFactory.build();
 

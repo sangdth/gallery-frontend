@@ -11,14 +11,14 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { ErrorBoundary } from '@/components';
 import { makeId, arrayHasValue } from '@/lib/helpers';
 import type { MenuOption, OptionValue } from '@/lib/types';
-import { MenuTemplateItem } from './MenuTemplateItem';
+import MenuTemplateItem from './MenuTemplateItem';
 
 export type MenuTemplateProps = {
   menu: MenuOption['value'];
   onSelect: (items: OptionValue[]) => void;
 };
 
-export const MenuTemplate = (props: MenuTemplateProps) => {
+const MenuTemplate = (props: MenuTemplateProps) => {
   const { menu, onSelect } = props;
   const [items, setItems] = useState<OptionValue[]>([]);
 

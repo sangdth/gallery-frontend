@@ -12,7 +12,7 @@ type ImageControllerProps = {
   onSelect: (selections: string[]) => void;
 };
 
-export const ImageController = (props: ImageControllerProps) => {
+const ImageController = (props: ImageControllerProps) => {
   const { images, selected, onSelect } = props;
 
   const isSelected = (target?: string) => selected.some((id) => id === target);

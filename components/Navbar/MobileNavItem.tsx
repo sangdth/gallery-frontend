@@ -11,7 +11,7 @@ import {
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import type { NavItem } from '@/lib/types';
 
-export const MobileNavItem = ({ label, children, href }: NavItem) => {
+const MobileNavItem = ({ label, children, href }: NavItem) => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (

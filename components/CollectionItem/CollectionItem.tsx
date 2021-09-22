@@ -16,7 +16,7 @@ type Props = {
   onDelete: () => void;
 };
 
-export const CollectionItem = (props: Props) => {
+const CollectionItem = (props: Props) => {
   const {
     name,
     onDelete,

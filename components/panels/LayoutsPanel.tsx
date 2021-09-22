@@ -36,7 +36,7 @@ type Props = {
   user: UserType;
 };
 
-export const Layouts = (props: Props) => {
+const LayoutsPanel = (props: Props) => {
   const { site, user } = props;
   const toast = useToast();
   const setSelectedLayout = useUpdateAtom(layoutAtom);
@@ -181,4 +181,4 @@ export const Layouts = (props: Props) => {
   );
 };
 
-export default Layouts;
+export default LayoutsPanel;

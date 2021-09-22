@@ -1,7 +1,7 @@
 import { render, screen } from '@/test/utils';
 import { PageFactory } from '@/test/factories';
 import type { PageType } from '@/lib/types';
-import { MainTemplate } from './MainTemplate';
+import MainTemplate from './MainTemplate';
 
 const testPage: PageType = PageFactory.build();
 

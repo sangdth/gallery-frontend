@@ -10,7 +10,7 @@ import {
 import { auth } from '@/lib/nhost';
 import { Input } from '@/components/Input';
 
-export const ChangePassword = () => {
+const ChangePassword = () => {
   const toast = useToast();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');

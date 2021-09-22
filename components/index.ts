@@ -5,7 +5,6 @@ export * from './ChangePassword';
 export * from './CollectionEditorModal';
 export * from './CollectionItem';
 export * from './ConfirmButton';
-export * from './Container';
 export * from './EditingProvider';
 export * from './ErrorBoundary';
 export * from './ErrorFallback';

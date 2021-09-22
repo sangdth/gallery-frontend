@@ -20,7 +20,7 @@ import type { OptionValue, SiteType } from '@/lib/types';
 
 const ResponsiveLayout = WidthProvider(Responsive);
 
-export const SingleSiteView = () => {
+const SingleSiteView = () => {
   const [childrenHeight] = useAtom(childrenHeightAtom);
   const router = useRouter();
   const { slugs } = router.query;

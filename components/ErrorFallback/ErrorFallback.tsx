@@ -14,7 +14,7 @@ type ErrorFallbackProps = {
   resetErrorBoundary: (...args: Array<unknown>) => void;
 };
 
-export const ErrorFallback = (props: ErrorFallbackProps) => {
+const ErrorFallback = (props: ErrorFallbackProps) => {
   const { error, resetErrorBoundary } = props;
 
   return (

@@ -8,13 +8,13 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import type { NavItem } from '@/lib/types';
-import { DesktopSubNav } from './DesktopSubNav';
+import DesktopSubNav from './DesktopSubNav';
 
 export type Props = {
   items: NavItem[];
 };
 
-export const DesktopNav = ({ items }: Props) => {
+const DesktopNav = ({ items }: Props) => {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
   const popoverContentBgColor = useColorModeValue('white', 'gray.800');

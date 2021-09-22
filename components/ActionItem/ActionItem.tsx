@@ -65,7 +65,7 @@ export type ActionItemProps<T> = {
   onHover?: (id: string) => void;
 };
 
-export const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
+const ActionItem = <T extends DataType>(props: ActionItemProps<T>) => {
   const {
     confirmButtonProps,
     data: originalData,

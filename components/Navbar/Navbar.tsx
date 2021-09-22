@@ -21,15 +21,15 @@ import { makeLink } from '@/lib/helpers';
 import { siteAtom } from '@/lib/jotai';
 import type { NavItem } from '@/lib/types';
 
-import { DesktopNav } from './DesktopNav';
-import { MobileNav } from './MobileNav';
-import { UserInfo } from './UserInfo';
+import DesktopNav from './DesktopNav';
+import MobileNav from './MobileNav';
+import UserInfo from './UserInfo';
 
 export type Props = {
   items: NavItem[];
 };
 
-export const Navbar = ({ items }: Props) => {
+const Navbar = ({ items }: Props) => {
   const { isOpen, onToggle } = useDisclosure();
   const { signedIn } = useAuth();
   const [currentSite] = useAtom(siteAtom);
@@ -63,7 +63,7 @@ export const Navbar = ({ items }: Props) => {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Logo />
+          <Logo name="Gallery"/>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             {currentSite && (

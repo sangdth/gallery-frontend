@@ -6,7 +6,7 @@ type ErrorBoundaryProps = {
   children: React.ReactNode;
 };
 
-export const ErrorBoundary = (props: ErrorBoundaryProps) => {
+const ErrorBoundary = (props: ErrorBoundaryProps) => {
   const { children } = props;
   
   const handleError = () => {

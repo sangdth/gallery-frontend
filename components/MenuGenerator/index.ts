@@ -1,2 +1,2 @@
-export { default as MenuGenerator } from './MenuGenerator';
 export { default } from './MenuGenerator';
+export { default as MenuGenerator } from './MenuGenerator';

@@ -1,5 +1,5 @@
 import { render, screen } from '@/test/utils';
-import { Ruler } from './Ruler';
+import Ruler from './Ruler';
 
 describe('Ruler', () => {
   it('can render correct width number', () => {
