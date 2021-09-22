@@ -3,6 +3,8 @@ export enum Position {
   Down = 'DOWN',
   Left = 'LEFT',
   Right = 'RIGHT',
+  Center = 'CENTER',
+  Middle = 'MIDDLE',
 }
 
 export enum Entity {
@@ -29,6 +31,7 @@ export enum OptionKey {
   Style = 'STYLE',
   Home = 'HOME',
   Layout = 'LAYOUT',
+  Logo = 'LOGO',
 }
 
 export enum SectionElement {

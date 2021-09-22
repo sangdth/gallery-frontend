@@ -4,8 +4,9 @@ import { ALL_OPTIONS, UPSERT_OPTIONS } from '@/lib/graphqls';
 import { OptionKey } from '@/lib/enums';
 import type {
   HomeOption,
-  MenuOption,
   LayoutOption,
+  LogoOption,
+  MenuOption,
   OptionType,
   OptionValue,
 } from '@/lib/types';
@@ -37,6 +38,8 @@ export const useOptions = (siteId: string) => {
     .find(({ key }) => key === OptionKey.Home) as HomeOption;
   const layoutOptionData = optionData?.options
     .find(({ key }) => key === OptionKey.Layout) as LayoutOption;
+  const logoOptionData = optionData?.options
+    .find(({ key }) => key === OptionKey.Logo) as LogoOption;
 
   const updateOptions = async ({ id, key, value }: {
     id: string;
@@ -71,6 +74,7 @@ export const useOptions = (siteId: string) => {
       [OptionKey.Home]: homeOptionData,
       [OptionKey.Menu]: menuOptionData,
       [OptionKey.Layout]: layoutOptionData,
+      [OptionKey.Logo]: logoOptionData,
     },
     error: { queryError, mutationError },
     updateOptions,

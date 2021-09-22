@@ -17,15 +17,14 @@ import type {
   UserType,
 } from '@/lib/types';
 
-// TODO: Bring these gql to lib/graphqls
-type Props = {
+type CollectionsProps = {
   site: SiteType;
   user: UserType;
 };
 
 export const collectionAtom = atom<CollectionInput | null>(null);
 
-export const Collections = (props: Props) => {
+export const Collections = (props: CollectionsProps) => {
   const toast = useToast();
 
   const { site, user } = props;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useLazyQuery } from '@apollo/client';
@@ -9,14 +9,27 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { Layout, WithPrivateRoute } from '@/components';
-import { Pages, Collections, Layouts } from '@/components/panels';
+import {
+  ErrorBoundary,
+  Layout,
+  WithPrivateRoute,
+} from '@/components';
+import {
+  Pages,
+  Collections,
+  Layouts,
+  OptionsPanel,
+} from '@/components/panels';
 import { siteAtom, meAtom } from '@/lib/jotai';
 import { SITE_BY_PK } from '@/lib/graphqls';
 import type { SiteData } from '@/lib/types';
 
-// TODO: Turn it to enums
-const tabs = ['pages', 'collections', 'layouts'];
+const tabs = [
+  'pages',
+  'collections',
+  'layouts',
+  'options',
+];
 
 const getIndex = (name: string) => {
   const found = tabs.findIndex((tab) => tab === name);
@@ -56,9 +69,11 @@ const Dashboard = () => {
   const handleTabsChange = (i: number) => {
     setIndex(i);
     if (tab !== tabs[i]) {
-      router.push(`/dashboard?site=${siteId}&tab=${tabs[i]}`, undefined, {
-        shallow: true,
-      });
+      router.push(
+        `/dashboard?site=${siteId}&tab=${tabs[i]}`,
+        undefined,
+        { shallow: true },
+      );
     }
   };
 
@@ -92,30 +107,37 @@ const Dashboard = () => {
   }, [tab, index]);
 
   return (
-    <Layout>
-      <Tabs
-        width="100%"
-        index={index}
-        onChange={handleTabsChange}
-      >
-        <TabList>
-          <Tab>Pages</Tab>
-          <Tab>Collections</Tab>
-          <Tab>Layouts</Tab>
-        </TabList>
-        <TabPanels paddingX="0">
-          <TabPanel>
-            {(site && me) && <Pages site={site} user={me} />}
-          </TabPanel>
-          <TabPanel>
-            {(site && me) && <Collections site={site} user={me} />}
-          </TabPanel>
-          <TabPanel>
-            {(site && me) && <Layouts site={site} user={me} />}
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </Layout>
+    <ErrorBoundary>
+      <Layout>
+        <Tabs
+          width="100%"
+          index={index}
+          onChange={handleTabsChange}
+        >
+          <TabList>
+            <Tab>Pages</Tab>
+            <Tab>Collections</Tab>
+            <Tab>Layouts</Tab>
+            <Tab>Options</Tab>
+          </TabList>
+
+          <TabPanels paddingX="0">
+            <TabPanel>
+              {(site && me) && <Pages site={site} user={me} />}
+            </TabPanel>
+            <TabPanel>
+              {(site && me) && <Collections site={site} user={me} />}
+            </TabPanel>
+            <TabPanel>
+              {(site && me) && <Layouts site={site} user={me} />}
+            </TabPanel>
+            <TabPanel>
+              {(site && me) && <OptionsPanel />}
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Layout>
+    </ErrorBoundary>
   );
 };
 

@@ -4,7 +4,12 @@ import { useRouter } from 'next/router';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { useQuery } from '@apollo/client';
 import { Box } from '@chakra-ui/react';
-import { GridItem, MainTemplate, MenuTemplate } from '@/components';
+import {
+  GridItem,
+  Logo,
+  MainTemplate,
+  MenuTemplate,
+} from '@/components';
 import { GET_EVERYTHING_BY_SITE_SLUG } from '@/lib/graphqls';
 import { DEFAULT_LAYOUT, ROW_HEIGHT } from '@/lib/constants';
 import { useGenerateDom, useOptions } from '@/lib/hooks';
@@ -42,12 +47,20 @@ export const SingleSiteView = () => {
 
   const site: NonNullable<SiteType> = data?.sites_aggregate?.nodes[0] ?? {};
 
-  const { id: siteId, layouts, options, pages } = site;
+  const {
+    id: siteId,
+    name: siteName,
+    layouts,
+    options,
+    pages,
+  } = site;
 
   const { data: optionData } = useOptions(siteId);
 
   // const menuOptionData = optionData[OptionKey.Menu];
   const homeOptionData = optionData[OptionKey.Home];
+  const logoOptionData = optionData[OptionKey.Logo];
+  console.log('### logoOptionData: ', logoOptionData);
 
   let currentLayouts = layouts ? layouts[0] : undefined;
   const currentMenuData = options?.find(({ key }) => key === OptionKey.Menu);
@@ -78,6 +91,13 @@ export const SingleSiteView = () => {
 
   const componentSwitcher = (key: SectionElement) => {
     switch (key) {
+    case SectionElement.Logo:
+      return (
+        <Logo
+          name={siteName}
+          url={`/sites/${siteSlug}`}
+        />
+      );
     case SectionElement.Menu:
       return (
         <MenuTemplate

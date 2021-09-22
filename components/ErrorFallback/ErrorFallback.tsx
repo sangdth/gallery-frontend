@@ -41,7 +41,7 @@ export const ErrorFallback = (props: ErrorFallbackProps) => {
         <Divider marginY="12px" />
 
         <Button onClick={resetErrorBoundary}>
-        Try again
+          Try again
         </Button>
       </Alert>
     </Flex>

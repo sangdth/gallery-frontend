@@ -4,6 +4,7 @@ import {
   DisplayType,
   Entity,
   OptionKey,
+  Position,
   SectionElement,
   Status,
 } from './enums';
@@ -91,8 +92,19 @@ export type LayoutOption = BaseOption & {
   value: { id: string };
 };
 
+export type LogoOption = BaseOption & {
+  key: OptionKey.Logo;
+  value: { path: string; position: Position };
+};
+
 // TODO: This is bullshit
-export type OptionType = MenuOption | StyleOption | HomeOption | LayoutOption;
+export type OptionType =
+  | HomeOption
+  | LayoutOption
+  | LogoOption
+  | MenuOption
+  | StyleOption
+;
 
 export type MenuItemType = {
   id: string;
@@ -193,7 +205,8 @@ export type LayoutPicked =
   | 'value'
   | 'status';
 
-export type MakeInputType<T, K extends keyof T> = RecursivePartial<Pick<T, K>> & { id: string };
+export type MakeInputType<T, K extends keyof T> = 
+  RecursivePartial<Pick<T, K>> & { id: string };
 
 export type CollectionInput = MakeInputType<CollectionType, CollectionPicked>;
 export type PageInput = MakeInputType<PageType, PagePicked>;

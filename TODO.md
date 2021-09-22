@@ -13,3 +13,4 @@
 - [x] Carousel thumbnail control pagination
 - [ ] Pagination can handle aggregate photos
 - [x] Added plop for automatic generate component
+- [ ] Make customise logo feature

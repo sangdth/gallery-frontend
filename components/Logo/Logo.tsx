@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import {
   Heading,
+  Image,
   LinkBox,
   LinkOverlay,
 } from '@chakra-ui/react';
@@ -8,18 +9,24 @@ import NextLink from 'next/link';
 import { useAuth } from '@nhost/react-auth';
 
 type LogoProps = {
+  imagePath?: string;
+  url?: string;
+  name: string;
   preview?: boolean;
   size?: 'huge' | 'default' | 'small';
 };
 
 export const Logo = (props: LogoProps) => {
   const {
+    name = 'GALLERY',
+    url = '/',
+    imagePath,
     preview = false,
     size = 'default',
   } = props;
   const { signedIn } = useAuth();
 
-  const href = signedIn ? '/home' : '/';
+  const href = signedIn ? '/home' : url;
 
   const styles = useMemo(() => {
     switch (size) {
@@ -51,9 +58,13 @@ export const Logo = (props: LogoProps) => {
     >
       <NextLink passHref href={href}>
         <LinkOverlay>
-          <Heading size={styles.size} fontWeight="bold">
-            GALLERY
-          </Heading>
+          {imagePath ? (
+            <Image src={imagePath} alt={name} /> 
+          ) : (
+            <Heading size={styles.size} fontWeight="bold">
+              {name}
+            </Heading>
+          )}
         </LinkOverlay>
       </NextLink>
     </LinkBox>
