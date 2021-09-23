@@ -9,7 +9,7 @@ import {
   DELETE_COLLECTION_BY_PK,
 } from '@/lib/graphqls';
 import type {
-  CollectionInsertedData,
+  CollectionInsertedOneData,
   CollectionsAggregateData,
   CollectionDeletedData,
   CollectionInput,
@@ -59,7 +59,7 @@ const CollectionsPanel = (props: CollectionsProps) => {
       // loading: upsertLoading,
       // error: insertError,
     },
-  ] = useMutation<CollectionInsertedData>(UPSERT_COLLECTION_ONE);
+  ] = useMutation<CollectionInsertedOneData>(UPSERT_COLLECTION_ONE);
 
   const [
     deleteCollection,
@@ -108,9 +108,9 @@ const CollectionsPanel = (props: CollectionsProps) => {
     });
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (collectionId: string) => {
     await deleteCollection({
-      variables: { id },
+      variables: { collectionId },
       context: {
         headers: {
           'x-hasura-role': 'me',

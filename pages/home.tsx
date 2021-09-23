@@ -23,7 +23,7 @@ import { OptionKey } from '@/lib/enums';
 import type {
   SiteType,
   SitesAggregateData,
-  SiteInsertedData,
+  SiteInsertedOneData,
   SiteDeletedData,
   OptionType,
 } from '@/lib/types';
@@ -64,7 +64,7 @@ function Home() {
       loading: insertLoading,
       // error: insertError,
     },
-  ] = useMutation<SiteInsertedData>(UPSERT_SITE_ONE);
+  ] = useMutation<SiteInsertedOneData>(UPSERT_SITE_ONE);
 
   const [
     deleteSite,
@@ -122,9 +122,9 @@ function Home() {
     router.push(`/dashboard?site=${o.id}&tab=pages`);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (siteId: string) => {
     await deleteSite({
-      variables: { id },
+      variables: { siteId },
       context: {
         headers: {
           'x-hasura-role': 'me',

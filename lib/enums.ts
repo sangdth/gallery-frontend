@@ -16,6 +16,17 @@ export enum Entity {
   Options = 'OPTIONS',
   Layouts = 'LAYOUTS',
 }
+
+export enum SingularEntity {
+  Sites = 'SITE',
+  Collections = 'COLLECTION',
+  Pages = 'PAGE',
+  Images = 'IMAGE',
+  Users = 'USER',
+  Options = 'OPTION',
+  Layouts = 'LAYOUT',
+}
+
 export enum Status {
   Public = 'PUBLIC',
   Private = 'PRIVATE',

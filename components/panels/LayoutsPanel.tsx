@@ -24,7 +24,7 @@ import {
 } from '@/lib/graphqls';
 import type {
   LayoutDeletedData,
-  LayoutInsertedData,
+  LayoutInsertedOneData,
   LayoutInput,
   LayoutsAggregateData,
   SiteType,
@@ -73,7 +73,7 @@ const LayoutsPanel = (props: Props) => {
       loading: insertLoading,
       // error: insertError,
     },
-  ] = useMutation<LayoutInsertedData>(UPSERT_LAYOUT_ONE);
+  ] = useMutation<LayoutInsertedOneData>(UPSERT_LAYOUT_ONE);
 
   const [
     deleteLayout,
@@ -101,9 +101,9 @@ const LayoutsPanel = (props: Props) => {
     });
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (layoutId: string) => {
     await deleteLayout({
-      variables: { id },
+      variables: { layoutId },
       context: {
         headers: {
           'x-hasura-role': 'me',

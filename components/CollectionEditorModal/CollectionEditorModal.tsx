@@ -150,7 +150,7 @@ const CollectionEditorModal = (props: Props) => {
 
     try {
       await deleteImages({
-        variables: { ids: selected },
+        variables: { imageIds: selected },
         context: {
           headers: {
             'x-hasura-role': 'me',

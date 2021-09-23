@@ -19,7 +19,7 @@ import {
 } from '@/lib/helpers';
 import { childrenHeightAtom } from '@/lib/jotai';
 import { OptionKey, SectionElement } from '@/lib/enums';
-import type { OptionValue, SiteType } from '@/lib/types';
+import type { OptionValue, SitesAggregateData, SiteType } from '@/lib/types';
 
 const ResponsiveLayout = WidthProvider(Responsive);
 
@@ -44,11 +44,11 @@ const SingleSiteView = () => {
   }, [slugs]);
 
 
-  const { loading, error, data } = useQuery(GET_EVERYTHING_BY_SITE_SLUG, {
-    variables: { slug: siteSlug },
+  const { loading, error, data } = useQuery<SitesAggregateData>(GET_EVERYTHING_BY_SITE_SLUG, {
+    variables: { siteSlug },
   });
 
-  const site: NonNullable<SiteType> = data?.sites_aggregate?.nodes[0] ?? {};
+  const site = data?.sites_aggregate?.nodes[0] as SiteType;
 
   const {
     id: siteId,

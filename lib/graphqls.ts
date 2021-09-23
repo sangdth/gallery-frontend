@@ -2,8 +2,8 @@
 import gql from 'graphql-tag';
 
 export const GET_SELF = gql`
-  query getSelf($user_id: uuid!) {
-    users_by_pk(id: $user_id) {
+  query getSelf($userId: uuid!) {
+    users_by_pk(id: $userId) {
       id
       display_name
       account {
@@ -60,8 +60,8 @@ export const UPSERT_SITE_ONE = gql`
 `;
 
 export const DELETE_SITE_BY_PK = gql`
-  mutation DELETE_SITE_BY_PK($id: uuid!) {
-    delete_sites_by_pk(id: $id) {
+  mutation DELETE_SITE_BY_PK($siteId: uuid!) {
+    delete_sites_by_pk(id: $siteId) {
       id
       name
     }
@@ -69,8 +69,8 @@ export const DELETE_SITE_BY_PK = gql`
 `;
 
 export const SITE_BY_PK = gql`
-  query SITE_BY_PK($id: uuid!) {
-    sites_by_pk(id: $id) {
+  query SITE_BY_PK($siteId: uuid!) {
+    sites_by_pk(id: $siteId) {
       description
       created_at
       id
@@ -90,8 +90,8 @@ export const SITE_BY_PK = gql`
 `;
 
 export const PAGE_BY_PK = gql`
-  query PAGE_BY_PK($id: uuid!) {
-    page_by_pk(id: $id) {
+  query PAGE_BY_PK($pageId: uuid!) {
+    page_by_pk(id: $pageId) {
       id
       name
       slug
@@ -114,9 +114,9 @@ export const INSERT_PAGE = gql`
   }
 `;
 export const ALL_OPTIONS = gql`
-  query ALL_OPTIONS($id: uuid!) {
+  query ALL_OPTIONS($siteId: uuid!) {
     options(
-      where: {site_id: {_eq: $id}}
+      where: {site_id: {_eq: $siteId}}
     ) {
       id
       key
@@ -188,8 +188,8 @@ export const UPSERT_PAGE_ONE = gql`
 `;
 
 export const DELETE_PAGE_BY_PK = gql`
-  mutation DELETE_PAGE_BY_PK($id: uuid!) {
-    delete_pages_by_pk(id: $id) {
+  mutation DELETE_PAGE_BY_PK($pageId: uuid!) {
+    delete_pages_by_pk(id: $pageId) {
       id
       name
     }
@@ -235,8 +235,8 @@ export const UPSERT_LAYOUT_ONE = gql`
 `;
 
 export const DELETE_LAYOUT_BY_PK = gql`
-  mutation DELETE_LAYOUT_BY_PK($id: uuid!) {
-    delete_layouts_by_pk(id: $id) {
+  mutation DELETE_LAYOUT_BY_PK($layoutId: uuid!) {
+    delete_layouts_by_pk(id: $layoutId) {
       id
       name
     }
@@ -289,8 +289,8 @@ export const UPSERT_COLLECTION_ONE = gql`
 `;
 
 export const DELETE_COLLECTION_BY_PK = gql`
-  mutation DELETE_collection_BY_PK($id: uuid!) {
-    delete_collections_by_pk(id: $id) {
+  mutation DELETE_collection_BY_PK($collectionId: uuid!) {
+    delete_collections_by_pk(id: $collectionId) {
       id
       name
     }
@@ -311,15 +311,15 @@ export const INSERT_IMAGES = gql`
 `;
 
 export const DELETE_IMAGES = gql`
-  mutation DELETE_IMAGES($ids: [uuid!]!) {
-    delete_images(where: {id: {_in: $ids}}) {
+  mutation DELETE_IMAGES($imageIds: [uuid!]!) {
+    delete_images(where: {id: {_in: $imageIds}}) {
       affected_rows
     }
   }
 `;
 
-export const IMAGE_AGGREGATE = gql`
-  query IMAGE_AGGREGATE(
+export const IMAGE_PAGINATED = gql`
+  query IMAGE_PAGINATED(
     $collectionId: uuid!,
     $limit: Int!,
     $offset: Int!,
@@ -346,7 +346,7 @@ export const IMAGE_AGGREGATE = gql`
 `;
 
 export const GET_EVERYTHING_BY_SITE_SLUG = gql`
-  query GET_EVERYTHING_BY_SITE_SLUG($slug: String!) {
+  query GET_EVERYTHING_BY_SITE_SLUG($siteSlug: String!) {
     sites_aggregate(limit: 1, offset: 0, where: {slug: {_eq: $slug}, status: {_eq: "PUBLIC"}}) {
       nodes {
         description

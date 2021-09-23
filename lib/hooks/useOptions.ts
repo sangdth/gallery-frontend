@@ -7,8 +7,9 @@ import type {
   LayoutOption,
   LogoOption,
   MenuOption,
-  OptionType,
   OptionValue,
+  OptionQueryData,
+  OptionInsertedData,
 } from '@/lib/types';
 
 const useOptions = (siteId: string) => {
@@ -19,8 +20,8 @@ const useOptions = (siteId: string) => {
     loading: queryLoading,
     error: queryError,
     refetch: optionRefetch,
-  } = useQuery<{ options: OptionType[] }>(ALL_OPTIONS, {
-    variables: { id: siteId },
+  } = useQuery<OptionQueryData>(ALL_OPTIONS, {
+    variables: { siteId },
     context: {
       headers: {
         'x-hasura-role': 'me',
@@ -31,7 +32,7 @@ const useOptions = (siteId: string) => {
   const [updateOption, {
     loading: mutationLoading,
     error: mutationError,
-  }] = useMutation(UPSERT_OPTIONS);
+  }] = useMutation<OptionInsertedData>(UPSERT_OPTIONS);
 
   const menuOptionData = optionData?.options
     .find(({ key }) => key === OptionKey.Menu) as MenuOption;

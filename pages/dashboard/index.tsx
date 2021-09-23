@@ -58,7 +58,7 @@ const Dashboard = () => {
     getSite,
     { data: siteData, error: siteError },
   ] = useLazyQuery<SiteData>(SITE_BY_PK, {
-    variables: { id: siteId },
+    variables: { siteId },
     context: {
       headers: {
         'x-hasura-role': 'me',

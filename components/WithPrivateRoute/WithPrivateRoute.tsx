@@ -17,7 +17,7 @@ function WithPrivateRoute<P>(Component: React.ComponentType<P>) {
 
     const { loading, data } = useQuery<UserData>(GET_SELF, {
       variables: {
-        user_id: auth.getClaim('x-hasura-user-id'),
+        userId: auth.getClaim('x-hasura-user-id'),
       },
       context: {
         headers: {

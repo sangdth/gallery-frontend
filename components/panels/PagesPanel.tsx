@@ -29,7 +29,7 @@ import {
 import type {
   MenuOption,
   PageDeletedData,
-  PageInsertedData,
+  PageInsertedOneData,
   PageInput,
   PageType,
   PagesAggregateData,
@@ -80,7 +80,7 @@ const PagesPanel = (props: Props) => {
       loading: insertLoading,
       // error: insertError,
     },
-  ] = useMutation<PageInsertedData>(UPSERT_PAGE_ONE);
+  ] = useMutation<PageInsertedOneData>(UPSERT_PAGE_ONE);
 
   const [
     deletePage,
@@ -139,10 +139,10 @@ const PagesPanel = (props: Props) => {
 
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (pageId: string) => {
     try {
       await deletePage({
-        variables: { id },
+        variables: { pageId },
         context: {
           headers: {
             'x-hasura-role': 'me',
@@ -153,7 +153,7 @@ const PagesPanel = (props: Props) => {
       // TODO: use the menu to get id path, then delete page and update menu
       // This way can not delete page nested
       if (menuOptionData && Array.isArray(currentMenu)) {
-        const remainedMenu = currentMenu.filter((o) => o.id !== id);
+        const remainedMenu = currentMenu.filter((o) => o.id !== pageId);
         await updateOptions({
           id: menuOptionData.id,
           key: OptionKey.Menu,

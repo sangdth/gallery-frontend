@@ -73,7 +73,7 @@ const LogoOptionSection = () => {
       const currentLogo = logoOptionData.value;
       try {
         await deleteImages({
-          variables: { ids: [currentLogo.id] },
+          variables: { imageIds: [currentLogo.id] },
           context: {
             headers: {
               'x-hasura-role': 'me',

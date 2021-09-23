@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { ErrorBoundary, LoadingScreen } from '@/components';
 import { useErrorHandler } from 'react-error-boundary';
 import { useQuery } from '@apollo/client';
-import { IMAGE_AGGREGATE } from '@/lib/graphqls';
+import { IMAGE_PAGINATED } from '@/lib/graphqls';
 import { THUMBNAIL_LIMIT } from '@/lib/constants';
 import { Position } from '@/lib/enums';
 import type { Settings } from 'react-slick';
-import type { ImageAggregatedData } from '@/lib/types';
+import type { ImagePaginatedData } from '@/lib/types';
 import CarouselPlain from './CarouselPlain';
 
 type CarouselProps = {
@@ -35,7 +35,7 @@ const Carousel = (props: CarouselProps) => {
   const {
     data: imagesData,
     error: queryImagesError,
-  } = useQuery<ImageAggregatedData>(IMAGE_AGGREGATE, {
+  } = useQuery<ImagePaginatedData>(IMAGE_PAGINATED, {
     variables: {
       collectionId,
       offset,

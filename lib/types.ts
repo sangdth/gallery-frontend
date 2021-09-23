@@ -6,6 +6,7 @@ import {
   OptionKey,
   Position,
   SectionElement,
+  SingularEntity,
   Status,
 } from './enums';
 
@@ -95,10 +96,10 @@ export type LogoOption = BaseOption & {
   value: { id: string; path: string | null; position: Position };
 };
 
-export type OptionValue = { [k: string]: string | number | boolean | null | OptionValue | OptionValue[] }
-;
+export type PrimitiveValue = string | number | boolean | null;
 
-// TODO: This is bullshit
+export type OptionValue = { [k: string]: string | number | boolean | null | OptionValue | OptionValue[] };
+
 export type OptionType =
   | HomeOption
   | LayoutOption
@@ -206,15 +207,53 @@ export type LayoutPicked =
   | 'value'
   | 'status';
 
-export type MakeInputType<T, K extends keyof T> = 
-  RecursivePartial<Pick<T, K>> & { id: string };
+export type ImagePicked =
+  | 'id'
+  | 'meta'
+  | 'path'
+  | 'collection_id'
+  | 'status'
+  | 'name'
+  | 'description';
+
+export type OptionPicked =
+  | 'id'
+  | 'site_id'
+  | 'status'
+  | 'key'
+  | 'value';
+
+export type UserPicked =
+  | 'id'
+  | 'display_name'
+  | 'avatar_url';
+
+export type TypeMap = {
+  [Entity.Sites]: SiteType;
+  [Entity.Collections]: CollectionType;
+  [Entity.Pages]: PageType;
+  [Entity.Layouts]: LayoutType;
+  [Entity.Users]: UserType;
+  [Entity.Images]: ImageType;
+  [Entity.Options]: OptionType;
+};
+
+export type PickedMap = {
+  [Entity.Sites]: SitePicked;
+  [Entity.Collections]: CollectionPicked;
+  [Entity.Pages]: PagePicked;
+  [Entity.Layouts]: LayoutPicked;
+  [Entity.Users]: UserPicked;
+  [Entity.Images]: ImagePicked;
+  [Entity.Options]: OptionPicked;
+};
+
+export type MakeInputType<T, K extends keyof T> = RecursivePartial<Pick<T, K>> & { id: string };
 
 export type CollectionInput = MakeInputType<CollectionType, CollectionPicked>;
 export type PageInput = MakeInputType<PageType, PagePicked>;
 export type SiteInput = MakeInputType<SiteType, SitePicked>;
-export type LayoutInput = MakeInputType<LayoutType, LayoutPicked> & {
-  value: GridLayouts;
-};
+export type LayoutInput = MakeInputType<LayoutType, LayoutPicked> & { value: GridLayouts };
 
 export type DataInput = SiteInput | PageInput | CollectionInput;
 
@@ -238,51 +277,61 @@ export type UserType = Exclude<BaseType, 'user_id' | 'status'> & {
   account: AccountType;
 };
 
-export type Returning<T> = { returning: T[]; };
-export type Aggregate<T> = { nodes: T[], aggregate: { count: number } };
+export type IdVar<K extends SingularEntity> = Record<`${Lowercase<K>}Id`, string>;
+export type IdsVar<K extends SingularEntity> = Record<`${Lowercase<K>}Ids`, string>;
 
-export type AggregateData<T, K extends Entity> =
-  Record<`${Lowercase<K>}_aggregate`, Aggregate<T>> & Record<`${Lowercase<K>}`, T[]>;
-export type SingleData<T, K extends Entity> = Record<
-  `${Lowercase<K>}_by_pk`, T
->;
-export type InsertedData<T, K extends Entity> = Record<
-  `insert_${Lowercase<K>}_one`, T
->;
-export type DeletedData<T, K extends Entity> = Record<
-  `delete_${Lowercase<K>}_by_pk`, T
->;
-export type UpdatedData<T, K extends Entity> = Record<
-  `update_${Lowercase<K>}`, Returning<T>
->;
+// export type ObjectVar<T> = Record<'object', MakeInputType<T, PickedMap[]>>;
+// export type PageObjectVar = ObjectVar<PageType>;
+
+export type SiteIdVar = IdVar<SingularEntity.Sites>;
+export type PageIdVar = IdVar<SingularEntity.Pages>;
+export type CollectionIdVar = IdVar<SingularEntity.Collections>;
+
+export type ImageIdsVar = IdsVar<SingularEntity.Images>;
+
+export type ReturningValue<T> = { returning: T[]; };
+export type AggregateValue<T> = { nodes: T[], aggregate: { count: number } };
+
+export type QueryData<T, K extends Entity> = Record<`${Lowercase<K>}`, T[]>;
+
+export type AggregateData<T, K extends Entity> = Record<`${Lowercase<K>}_aggregate`, AggregateValue<T>>;
+export type SingleData<T, K extends Entity> = Record<`${Lowercase<K>}_by_pk`, T>;
+export type InsertedOneData<T, K extends Entity> = Record<`insert_${Lowercase<K>}_one`, T>;
+export type InsertedData<T, K extends Entity> = Record<`insert_${Lowercase<K>}`, ReturningValue<T>>;
+export type DeletedData<T, K extends Entity> = Record<`delete_${Lowercase<K>}_by_pk`, T>;
+export type UpdatedData<T, K extends Entity> = Record<`update_${Lowercase<K>}`, ReturningValue<T>>;
+export type PaginatedData<T, K extends Entity> = AggregateData<T, K> & QueryData<T, K>;
 
 export type UserData = SingleData<UserType, Entity.Users>;
 
 export type SitesAggregateData = AggregateData<SiteType, Entity.Sites>;
 export type SiteData = SingleData<SiteType, Entity.Sites>;
-export type SiteInsertedData = InsertedData<SiteType, Entity.Sites>;
+export type SiteInsertedOneData = InsertedOneData<SiteType, Entity.Sites>;
 export type SiteDeletedData = DeletedData<SiteType, Entity.Sites>;
 
 export type PagesAggregateData = AggregateData<PageType, Entity.Pages>;
 export type PageData = SingleData<PageType, Entity.Pages>;
-export type PageInsertedData = InsertedData<PageType, Entity.Pages>;
+export type PageInsertedOneData = InsertedOneData<PageType, Entity.Pages>;
 export type PageDeletedData = DeletedData<PageType, Entity.Pages>;
 
 export type CollectionsAggregateData = AggregateData<CollectionType, Entity.Collections>;
 export type CollectionData = SingleData<CollectionType, Entity.Collections>;
-export type CollectionInsertedData = InsertedData<CollectionType, Entity.Collections>;
+export type CollectionInsertedOneData = InsertedOneData<CollectionType, Entity.Collections>;
 export type CollectionDeletedData = DeletedData<CollectionType, Entity.Collections>;
 
 export type ImageAggregatedData = AggregateData<ImageType, Entity.Images>;
 export type ImageSingleData = SingleData<ImageType, Entity.Images>;
-export type ImageInsertedData = InsertedData<ImageType, Entity.Images>;
+export type ImageInsertedOneData = InsertedOneData<ImageType, Entity.Images>;
 export type ImageDeletedData = DeletedData<ImageType, Entity.Images>;
+export type ImagePaginatedData = PaginatedData<ImageType, Entity.Images>;
 
 export type LayoutsAggregateData = AggregateData<LayoutType, Entity.Layouts>;
 export type LayoutData = SingleData<LayoutType, Entity.Layouts>;
-export type LayoutInsertedData = InsertedData<LayoutType, Entity.Layouts>;
+export type LayoutInsertedOneData = InsertedOneData<LayoutType, Entity.Layouts>;
 export type LayoutDeletedData = DeletedData<LayoutType, Entity.Layouts>;
 
+export type OptionInsertedData = InsertedData<OptionType, Entity.Options>;
+export type OptionQueryData = QueryData<OptionType, Entity.Options>;
 export type OptionUpdated = UpdatedData<OptionType, Entity.Options>;
 
 export type EditingItem<T extends DataType> = {
