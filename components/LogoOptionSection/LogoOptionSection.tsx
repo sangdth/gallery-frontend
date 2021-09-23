@@ -106,7 +106,7 @@ const LogoOptionSection = () => {
           src={makeSrcFromPath(logoOptionData?.value?.path ?? '')}
         />
         <Flex direction="column" justify="space-around">
-          {logoOptionData?.value ? (
+          {logoOptionData?.value.path ? (
             <ConfirmButton
               icon={<DeleteIcon />}
               label="Delete current logo"
