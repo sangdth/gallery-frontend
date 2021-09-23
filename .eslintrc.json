@@ -26,6 +26,7 @@
       "ignoreUrls": true,
       "ignoreRegExpLiterals": true
     }],
+    "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",
       { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
@@ -35,6 +36,8 @@
       2,
       { "ignoredNodes": [ "TSTypeParameterInstantiation" ] }
     ],
+    "no-return-await": "off", // note you must disable the base rule as it can report incorrect errors
+    // "@typescript-eslint/return-await": ["error", { "always": true } ],
     "import/no-anonymous-default-export": [ 2, {"allowArrowFunction": true} ],
     "import/no-extraneous-dependencies": [ "error", { "devDependencies": true } ]
   }

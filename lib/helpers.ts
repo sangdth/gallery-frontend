@@ -1,8 +1,16 @@
 import { v4 as uuidv4 } from 'uuid';
+import { customAlphabet } from 'nanoid';
 import { cloneDeep } from 'lodash';
 import { BASE_ENDPOINT, DEFAULT_LAYOUT, ROW_HEIGHT } from '@/lib/constants';
 import type { Layouts } from 'react-grid-layout';
 import type { OptionValue, SiteType, Tag } from '@/lib/types';
+
+export const alphabetNano = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 6);
+
+export const makeRandomName = (nameWithExt: string) => {
+  const [name, ext] = nameWithExt.split('.');
+  return `${name}-${alphabetNano()}.${ext}`;
+};
 
 export const recursiveRemove = (tree: OptionValue[], id: string): OptionValue[] => {
   return tree.map(o => o).filter(a => a.id !== id).map(e => {

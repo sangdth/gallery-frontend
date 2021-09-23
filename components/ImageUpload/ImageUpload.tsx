@@ -1,12 +1,14 @@
 import Uppy from '@uppy/core';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { DragDrop, FileInput, useUppy } from '@uppy/react';
 import { useErrorHandler } from 'react-error-boundary';
 import { ErrorBoundary } from '@/components';
 import { Skeleton } from '@chakra-ui/react';
+import { isEqual } from 'lodash';
 import { useAtom } from 'jotai';
 import { siteAtom } from '@/lib/jotai';
 import { storage } from '@/lib/nhost';
-import { DragDrop, FileInput, useUppy } from '@uppy/react';
+import { makeRandomName } from '@/lib/helpers';
 import type { StorageResponse, ImageType } from '@/lib/types';
 
 type DragDropUploadViewProps = {
@@ -27,21 +29,24 @@ const ImageUpload = (props: DragDropUploadViewProps) => {
   const [site] = useAtom(siteAtom);
   const handleError = useErrorHandler();
 
+
+  const [currentFiles, setCurrentFiles] = useState<File[] | null>(null);
   const [loading, setLoading] = useState(false);
 
   const uppy = useUppy(
     () => new (Uppy as any)({ id: 'image-upload' }),
   );
 
-  const handleUpload = async (files: File[]) => {
+  const handleUpload = useCallback(async (files: File[]) => {
+    console.log('### files: ', files);
     try {
-      if (site) {
+      if (site && files.length > 0) {
         setLoading(true);
+
         const responses: StorageResponse[] = await Promise.all(
           files.map(async (file) => {
             const destination = collectionId ? `collection/${collectionId}` : 'general';
-            const path = `/site/${site.id}/${destination}/${file.name}`;
-            console.log('### path: ', path);
+            const path = `/site/${site.id}/${destination}/${makeRandomName(file.name)}`;
             return storage.put(path, file);
           }),
         );
@@ -53,16 +58,16 @@ const ImageUpload = (props: DragDropUploadViewProps) => {
           collection_id: collectionId ?? 'general',
         }));
 
-        console.log('### imageObjects: ', imageObjects);
-
         onUpload(imageObjects);
+
+        uppy.reset();
       }
     } catch (err) {
       handleError(err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [collectionId, handleError, onUpload, site, uppy]);
 
   const handleOnDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     try {
@@ -77,14 +82,19 @@ const ImageUpload = (props: DragDropUploadViewProps) => {
   };
 
   useEffect(() => {
-    // let isSubscribe = true;
+    let isSubscribed = true;
 
     uppy.on('file-added', async (file) => {
-      if (!collectionId && viewType === 'button') {
-        await handleUpload([file]);
+      if (file.data instanceof File && isSubscribed && !isEqual(currentFiles, file.data)) {
+        setCurrentFiles([file.data]);
+        return handleUpload([file.data]);
       }
     });
-  }, [uppy]);
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [uppy, handleUpload, currentFiles]);
 
   return (
     <ErrorBoundary>
@@ -99,10 +109,7 @@ const ImageUpload = (props: DragDropUploadViewProps) => {
             onDrop={(e: DragDropEvent) => handleOnDrop(e as React.DragEvent<HTMLDivElement>)}
             locale={{
               strings: {
-              // Text to show on the droppable area.
-              // `%{browse}` is replaced with a link that opens the system file selection dialog.
-                dropHereOr: 'Drop file here, browse does not work', // 'Drop here or %{browse}',
-              // Used as the label for the link that opens the system file selection dialog.
+                dropHereOr: 'Drop file(s) here or %{browse}',
               },
             }}
           />
