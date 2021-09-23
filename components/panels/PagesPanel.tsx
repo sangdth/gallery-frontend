@@ -10,8 +10,11 @@ import {
 } from '@chakra-ui/react';
 import { MdHome } from 'react-icons/md';
 import { useQuery, useMutation } from '@apollo/client';
+import { useErrorHandler } from 'react-error-boundary';
 import {
   ActionItem,
+  ErrorBoundary,
+  LoadingScreen,
   MenuEditorModal,
   PageEditorModal,
 } from '@/components';
@@ -42,6 +45,7 @@ type Props = {
 const PagesPanel = (props: Props) => {
   const { site, user } = props;
   const toast = useToast();
+  const handleError = useErrorHandler();
   const setSelectedPage = useUpdateAtom(pageAtom);
   
   const {
@@ -93,65 +97,74 @@ const PagesPanel = (props: Props) => {
   const currentMenu = menuOptionData?.value ?? [];
 
   const handleSubmit = async (input: PageInput) => {
-    const response = await upsertPage({
-      variables: {
-        object: {
-          ...input,
-          site_id: site.id,
+    try {
+      const response = await upsertPage({
+        variables: {
+          object: {
+            ...input,
+            site_id: site.id,
+          },
         },
-      },
-      context: {
-        headers: {
-          'x-hasura-role': 'me',
+        context: {
+          headers: {
+            'x-hasura-role': 'me',
+          },
         },
-      },
-    });
+      });
 
-    // Push new page item in menu
-    if (response && response.data && Array.isArray(currentMenu)) {
-      const tmpMenu = [...currentMenu];
-      const newMenuItem = response?.data?.insert_pages_one;
-      const found = tmpMenu.find((o) => o.id === newMenuItem.id);
-      if (!found) {
-        tmpMenu.push({
-          id: newMenuItem.id,
-          slug: newMenuItem.slug,
-          label: newMenuItem.name,
-          children: [],
+      // Push new page item in menu
+      if (response && response.data && Array.isArray(currentMenu)) {
+        const tmpMenu = [...currentMenu];
+        const newMenuItem = response?.data?.insert_pages_one;
+        const found = tmpMenu.find((o) => o.id === newMenuItem.id);
+        if (!found) {
+          tmpMenu.push({
+            id: newMenuItem.id,
+            slug: newMenuItem.slug,
+            label: newMenuItem.name,
+            children: [],
+          });
+        }
+        await updateOptions({
+          id: menuOptionData?.id ?? uuidv4(),
+          key: OptionKey.Menu,
+          value: tmpMenu,
         });
       }
-      await updateOptions({
-        id: menuOptionData?.id ?? uuidv4(),
-        key: OptionKey.Menu,
-        value: tmpMenu,
-      });
+    } catch (err) {
+      handleError(err);
+    } finally {
+      pagesRefetch();
     }
 
-    pagesRefetch();
   };
 
   const handleDelete = async (id: string) => {
-    await deletePage({
-      variables: { id },
-      context: {
-        headers: {
-          'x-hasura-role': 'me',
+    try {
+      await deletePage({
+        variables: { id },
+        context: {
+          headers: {
+            'x-hasura-role': 'me',
+          },
         },
-      },
-    });
-
-    // TODO: use the menu to get id path, then delete page and update menu
-    // This way can not delete page nested
-    if (menuOptionData && Array.isArray(currentMenu)) {
-      const remainedMenu = currentMenu.filter((o) => o.id !== id);
-      await updateOptions({
-        id: menuOptionData.id,
-        key: OptionKey.Menu,
-        value: remainedMenu,
       });
-    }
 
-    pagesRefetch();
+      // TODO: use the menu to get id path, then delete page and update menu
+      // This way can not delete page nested
+      if (menuOptionData && Array.isArray(currentMenu)) {
+        const remainedMenu = currentMenu.filter((o) => o.id !== id);
+        await updateOptions({
+          id: menuOptionData.id,
+          key: OptionKey.Menu,
+          value: remainedMenu,
+        });
+      }
+    } catch (err) {
+      handleError(err);
+    } finally {
+      pagesRefetch();
+    }
   };
 
   const setHomePage = async (page: PageType) => {
@@ -176,7 +189,7 @@ const PagesPanel = (props: Props) => {
   }, [insertData, toast, pagesRefetch]);
 
   if (pagesLoading && !pagesData) {
-    return <div>Loading...</div>;
+    return <LoadingScreen label="Getting page data..."/>;
   }
 
   if (pagesError || !pages) {
@@ -185,54 +198,55 @@ const PagesPanel = (props: Props) => {
 
   // TODO: get rid of 'as MenuOption'
   return (
-    <Flex direction="column">
-      <Flex justifyContent="space-between">
-        <MenuEditorModal
-          loading={updateOptionLoading}
-          pages={pages}
-          menu={menuOptionData as MenuOption}
-          onSubmit={(menu) => updateOptions({
-            id: menuOptionData?.id ?? uuidv4(),
-            key: OptionKey.Menu,
-            value: menu.value,
-          })}
-        />
-        <PageEditorModal
-          collections={site.collections}
-          loading={insertLoading || deleteLoading}
-          onSubmit={handleSubmit}
-          refetch={pagesRefetch}
-        />
-      </Flex>
-
-      <Stack spacing="10px">
-        {pages.map((p) => (
-          <ActionItem
-            key={p.id}
-            data={p}
-            customActions={() => (
-              <IconButton
-                aria-label="Open"
-                colorScheme={homeOptionData?.value.id === p.id ? 'green' : 'gray'}
-                variant={homeOptionData?.value.id === p.id ? 'solid' : 'outline'}
-                borderRadius="4px"
-                icon={<Icon as={MdHome}/>}
-                onClick={() => setHomePage(p)}
-              />
-            )}
-            onEdit={() => setSelectedPage(p)}
-            onDelete={(id) => handleDelete(id)}
+    <ErrorBoundary>
+      <Flex direction="column">
+        <Flex justifyContent="space-between">
+          <MenuEditorModal
+            loading={updateOptionLoading}
+            pages={pages}
+            menu={menuOptionData as MenuOption}
+            onSubmit={(menu) => updateOptions({
+              id: menuOptionData?.id ?? uuidv4(),
+              key: OptionKey.Menu,
+              value: menu.value,
+            })}
           />
-        ))}
+          <PageEditorModal
+            collections={site.collections}
+            loading={insertLoading || deleteLoading}
+            onSubmit={handleSubmit}
+            refetch={pagesRefetch}
+          />
+        </Flex>
 
-        {(pages.length === 0) && (
-          <Flex>
+        <Stack spacing="10px">
+          {pages.map((p) => (
+            <ActionItem
+              key={p.id}
+              data={p}
+              customActions={() => (
+                <IconButton
+                  aria-label="Open"
+                  colorScheme={homeOptionData?.value.id === p.id ? 'green' : 'gray'}
+                  variant={homeOptionData?.value.id === p.id ? 'solid' : 'outline'}
+                  borderRadius="4px"
+                  icon={<Icon as={MdHome}/>}
+                  onClick={() => setHomePage(p)}
+                />
+              )}
+              onEdit={() => setSelectedPage(p)}
+              onDelete={(id) => handleDelete(id)}
+            />
+          ))}
+
+          {(pages.length === 0) && (
+            <Flex>
             Empty pages! Start create new page by clicking the green button
-          </Flex>
-        )}
-      </Stack>
-
-    </Flex>
+            </Flex>
+          )}
+        </Stack>
+      </Flex>
+    </ErrorBoundary>
   );
 };
 

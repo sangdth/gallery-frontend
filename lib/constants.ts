@@ -7,6 +7,8 @@ export const STORAGE_ENDPOINT = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT || '
 export const IS_DEV = process.env.NODE_ENV === 'development';
 export const THUMBNAIL_LIMIT = 8;
 
+export const DRAGDROP_DESCRIPTION = 'Drop file(s) here or browse';
+
 export const NAV_ITEMS: Array<NavItem> = [
   {
     label: 'Inspiration',

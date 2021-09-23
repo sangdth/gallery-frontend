@@ -13,7 +13,10 @@ import {
 import { GET_EVERYTHING_BY_SITE_SLUG } from '@/lib/graphqls';
 import { DEFAULT_LAYOUT, ROW_HEIGHT } from '@/lib/constants';
 import { useGenerateDom, useOptions } from '@/lib/hooks';
-import { makeProductionLayouts } from '@/lib/helpers';
+import {
+  makeProductionLayouts,
+  makeSrcFromPath,
+} from '@/lib/helpers';
 import { childrenHeightAtom } from '@/lib/jotai';
 import { OptionKey, SectionElement } from '@/lib/enums';
 import type { OptionValue, SiteType } from '@/lib/types';
@@ -59,7 +62,7 @@ const SingleSiteView = () => {
 
   // const menuOptionData = optionData[OptionKey.Menu];
   const homeOptionData = optionData[OptionKey.Home];
-  // const logoOptionData = optionData[OptionKey.Logo];
+  const logoOptionData = optionData[OptionKey.Logo];
 
   let currentLayouts = layouts ? layouts[0] : undefined;
   const currentMenuData = options?.find(({ key }) => key === OptionKey.Menu);
@@ -94,6 +97,7 @@ const SingleSiteView = () => {
       return (
         <Logo
           name={siteName}
+          imagePath={makeSrcFromPath(logoOptionData?.value?.path)}
           url={`/sites/${siteSlug}`}
         />
       );

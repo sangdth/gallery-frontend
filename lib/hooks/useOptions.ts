@@ -13,6 +13,7 @@ import type {
 
 const useOptions = (siteId: string) => {
   const toast = useToast();
+
   const {
     data: optionData,
     loading: queryLoading,

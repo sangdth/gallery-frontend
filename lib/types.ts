@@ -65,8 +65,6 @@ export type BaseType = {
   status: Status;
 };
 
-export type OptionValue = { [k: string]: string | number | boolean | OptionValue | OptionValue[] };
-
 export type BaseOption = BaseType & {
   site_id: string;
   key: OptionKey;
@@ -94,8 +92,11 @@ export type LayoutOption = BaseOption & {
 
 export type LogoOption = BaseOption & {
   key: OptionKey.Logo;
-  value: { path: string; position: Position };
+  value: { id: string; path: string | null; position: Position };
 };
+
+export type OptionValue = { [k: string]: string | number | boolean | null | OptionValue | OptionValue[] }
+;
 
 // TODO: This is bullshit
 export type OptionType =
@@ -134,7 +135,7 @@ export type ImageType = BaseType & {
   name: string;
   meta: string;
   path: string;
-  collection_id: string;
+  collection_id: string | null;
   description: string | null;
 };
 

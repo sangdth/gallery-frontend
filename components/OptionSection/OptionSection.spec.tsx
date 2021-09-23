@@ -4,7 +4,13 @@ import OptionSection from './OptionSection';
 
 describe('OptionSection', () => {
   it('renders text', () => {
-    render(<OptionSection something="lorem" />);
-    expect(screen.getByText('OptionSection')).toBeDefined();
+    const Child = () => <>something</>;
+
+    render(
+      <OptionSection title="Lorem">
+        <Child />
+      </OptionSection>,
+    );
+    expect(screen.getByText('Lorem')).toBeDefined();
   });
 });

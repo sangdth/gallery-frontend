@@ -61,7 +61,7 @@ export const parseTags = (content?: string | null): Tag[] => {
   }, []);
 };
 
-export const makeSrcFromPath = (path?: string) => {
+export const makeSrcFromPath = (path?: string | null) => {
   if (path) {
     return `${BASE_ENDPOINT}/storage/o/${path}`;
   }

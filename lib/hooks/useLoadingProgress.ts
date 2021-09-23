@@ -14,8 +14,8 @@ const useLoadingProgress = (settings = {}) => {
   NProgress.configure(finalSettings);
 
   useEffect(() => {
-    const handleStart = (url: string) => {
-      console.log(`Loading: ${url}`);
+    const handleStart = () => {
+      // console.log(`Loading: ${url}`);
       NProgress.start();
     };
     const handleStop = () => {

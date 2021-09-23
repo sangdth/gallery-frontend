@@ -297,6 +297,19 @@ export const DELETE_COLLECTION_BY_PK = gql`
   }
 `;
 
+export const INSERT_IMAGES = gql`
+  mutation INSERT_IMAGES($objects: [images_insert_input!]!) {
+    insert_images(objects: $objects) {
+      returning {
+        id
+        name
+        description
+        path
+      }
+    }
+  }
+`;
+
 export const DELETE_IMAGES = gql`
   mutation DELETE_IMAGES($ids: [uuid!]!) {
     delete_images(where: {id: {_in: $ids}}) {

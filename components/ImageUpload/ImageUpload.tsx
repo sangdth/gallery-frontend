@@ -8,6 +8,7 @@ import { isEqual } from 'lodash';
 import { useAtom } from 'jotai';
 import { siteAtom } from '@/lib/jotai';
 import { storage } from '@/lib/nhost';
+import { DRAGDROP_DESCRIPTION } from '@/lib/constants';
 import { makeRandomName } from '@/lib/helpers';
 import type { StorageResponse, ImageType } from '@/lib/types';
 
@@ -29,7 +30,6 @@ const ImageUpload = (props: DragDropUploadViewProps) => {
   const [site] = useAtom(siteAtom);
   const handleError = useErrorHandler();
 
-
   const [currentFiles, setCurrentFiles] = useState<File[] | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +38,6 @@ const ImageUpload = (props: DragDropUploadViewProps) => {
   );
 
   const handleUpload = useCallback(async (files: File[]) => {
-    console.log('### files: ', files);
     try {
       if (site && files.length > 0) {
         setLoading(true);
@@ -55,24 +54,24 @@ const ImageUpload = (props: DragDropUploadViewProps) => {
           meta: JSON.stringify(Metadata),
           path: key,
           name: key.substring(key.lastIndexOf('/') + 1),
-          collection_id: collectionId ?? 'general',
+          collection_id: collectionId ?? null,
         }));
 
         onUpload(imageObjects);
-
-        uppy.reset();
       }
     } catch (err) {
       handleError(err);
     } finally {
+      setCurrentFiles(null);
       setLoading(false);
     }
-  }, [collectionId, handleError, onUpload, site, uppy]);
+  }, [collectionId, handleError, onUpload, site]);
 
   const handleOnDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     try {
       setLoading(true);
       const files = Array.from(e.dataTransfer.files);
+      setCurrentFiles(files);
       await handleUpload(files);
     } catch (err) {
       handleError(err);
@@ -84,17 +83,19 @@ const ImageUpload = (props: DragDropUploadViewProps) => {
   useEffect(() => {
     let isSubscribed = true;
 
-    uppy.on('file-added', async (file) => {
-      if (file.data instanceof File && isSubscribed && !isEqual(currentFiles, file.data)) {
-        setCurrentFiles([file.data]);
-        return handleUpload([file.data]);
+    uppy.on('file-added', async ({ data }) => {
+      const shouldAutoUpload = viewType !== 'dragdrop' && isSubscribed && !isEqual(currentFiles, data);
+
+      if (data instanceof File && shouldAutoUpload) {
+        setCurrentFiles([data]);
+        return handleUpload([data]);
       }
     });
 
     return () => {
       isSubscribed = false;
     };
-  }, [uppy, handleUpload, currentFiles]);
+  }, [uppy, handleUpload, currentFiles, viewType]);
 
   return (
     <ErrorBoundary>
@@ -105,12 +106,9 @@ const ImageUpload = (props: DragDropUploadViewProps) => {
             height="150px"
             uppy={uppy}
             note="Deletion is permanent. Cancellation DOES NOT bring images back!"
-            onClick={() => console.log('fucking click')}
             onDrop={(e: DragDropEvent) => handleOnDrop(e as React.DragEvent<HTMLDivElement>)}
             locale={{
-              strings: {
-                dropHereOr: 'Drop file(s) here or %{browse}',
-              },
+              strings: { dropHereOr: DRAGDROP_DESCRIPTION },
             }}
           />
         )}

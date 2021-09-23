@@ -1,4 +1,5 @@
 import { render, screen } from '@/test/utils';
+import { DRAGDROP_DESCRIPTION } from '@/lib/constants';
 import ImageUpload from './ImageUpload';
 
 describe('ImageUpload', () => {
@@ -10,7 +11,7 @@ describe('ImageUpload', () => {
         onUpload={handleOnUploadFn}
       />,
     );
-    const text = screen.getByText(/Drop file here, browse does not work/);
+    const text = screen.getByText(DRAGDROP_DESCRIPTION);
     expect(text).toBeInTheDocument();
   });
 });

@@ -32,7 +32,9 @@ const OptionSection = (props: OptionSectionProps) => {
           {description}
         </Text>
 
-        {children}
+        <Flex direction="row" marginY="10px">
+          {children}
+        </Flex>
 
         {!isLastItem && <Divider />}
       </Flex>
