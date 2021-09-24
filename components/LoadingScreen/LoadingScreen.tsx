@@ -24,13 +24,18 @@ const LoadingScreen = (props: LoadingScreenProps) => {
   };
 
   return (
-    <Modal onClose={handleClose} size="full" isOpen={true}>
+    <Modal
+      isOpen
+      closeOnEsc={false}
+      closeOnOverlayClick={false}
+      onClose={handleClose}
+      size="full"
+    >
       <ModalOverlay />
-      <ModalContent>
-        <ModalBody>
+      <ModalContent borderRadius="0">
+        <ModalBody display="flex" justifyContent="center" alignItems="center">
           <Flex
             width="100%"
-            height="100vh"
             direction="column"
             justifyContent="center"
             alignItems="center"
@@ -42,7 +47,9 @@ const LoadingScreen = (props: LoadingScreenProps) => {
               label={label ?? 'Loading...'}
             />
 
-            {label}
+            <Flex marginTop="10px">
+              {label}
+            </Flex>
           </Flex>
         </ModalBody>
       </ModalContent>

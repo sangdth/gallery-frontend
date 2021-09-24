@@ -347,7 +347,7 @@ export const IMAGE_PAGINATED = gql`
 
 export const GET_EVERYTHING_BY_SITE_SLUG = gql`
   query GET_EVERYTHING_BY_SITE_SLUG($siteSlug: String!) {
-    sites_aggregate(limit: 1, offset: 0, where: {slug: {_eq: $slug}, status: {_eq: "PUBLIC"}}) {
+    sites_aggregate(limit: 1, offset: 0, where: {slug: {_eq: $siteSlug}, status: {_eq: "PUBLIC"}}) {
       nodes {
         description
         id

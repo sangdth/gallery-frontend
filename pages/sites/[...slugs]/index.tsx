@@ -43,12 +43,13 @@ const SingleSiteView = () => {
     };
   }, [slugs]);
 
+  console.log('### siteSlug: ', siteSlug);
 
   const { loading, error, data } = useQuery<SitesAggregateData>(GET_EVERYTHING_BY_SITE_SLUG, {
     variables: { siteSlug },
   });
 
-  const site = data?.sites_aggregate?.nodes[0] as SiteType;
+  const site = data?.sites_aggregate?.nodes[0] ?? {} as SiteType;
 
   const {
     id: siteId,
@@ -57,6 +58,8 @@ const SingleSiteView = () => {
     options,
     pages,
   } = site;
+
+  console.log('### siteId: ', siteId);
 
   const { data: optionData } = useOptions(siteId);
 

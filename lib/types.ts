@@ -176,57 +176,59 @@ export type ActionItemType = {
 };
 
 export type CollectionPicked =
-  | 'id'
-  | 'name'
   | 'description'
+  | 'id'
   | 'images'
-  | 'type'
+  | 'name'
   | 'site_id'
-  | 'status';
-
+  | 'status'
+  | 'type'
+;
 export type PagePicked =
-  | 'id'
-  | 'name'
-  | 'slug'
-  | 'content'
-  | 'collection_id'
   | 'collection'
-  | 'status';
-
-export type SitePicked =
+  | 'collection_id'
+  | 'content'
   | 'id'
   | 'name'
-  | 'description'
-  | 'collections'
   | 'slug'
-  | 'status';
-
+  | 'status'
+;
+export type SitePicked =
+  | 'collections'
+  | 'description'
+  | 'id'
+  | 'name'
+  | 'slug'
+  | 'status'
+;
 export type LayoutPicked =
   | 'id'
   | 'name'
+  | 'status'
   | 'value'
-  | 'status';
-
+;
 export type ImagePicked =
+  | 'collection_id'
+  | 'description'
   | 'id'
   | 'meta'
-  | 'path'
-  | 'collection_id'
-  | 'status'
   | 'name'
-  | 'description';
-
+  | 'path'
+  | 'status'
+;
 export type OptionPicked =
   | 'id'
+  | 'key'
   | 'site_id'
   | 'status'
-  | 'key'
-  | 'value';
-
+  | 'value'
+;
 export type UserPicked =
-  | 'id'
+  | 'account'
+  | 'avatar_url'
   | 'display_name'
-  | 'avatar_url';
+  | 'id'
+;
 
 export type TypeMap = {
   [Entity.Sites]: SiteType;

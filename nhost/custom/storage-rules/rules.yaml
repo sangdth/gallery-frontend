@@ -15,3 +15,4 @@ paths:
   /site/:siteId/general*:
     write: isAuthenticated()
     read: 'true'
+
