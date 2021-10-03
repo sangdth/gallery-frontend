@@ -14,3 +14,4 @@
 - [ ] Pagination can handle aggregate photos
 - [x] Added plop for automatic generate component
 - [ ] Make customise logo feature
+- [ ] Investigate how to make custom CSS.
