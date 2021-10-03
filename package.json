@@ -5,7 +5,8 @@
   "scripts": {
     "build": "next build",
     "server:prod": "next start",
-    "dev": "next dev",
+    "server:dev": "next dev",
+    "dev": "concurrently \"nhost dev\" \"yarn server:dev\" \"open http://localhost:3000\"",
     "start": "yarn server:prod",
     "lint": "next lint",
     "plop": "plop",
