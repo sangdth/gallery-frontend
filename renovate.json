@@ -11,12 +11,6 @@
     {
       "matchDepTypes": ["devDependencies"],
       "automerge": true
-    },
-    {
-      "matchPackageNames": [
-        "next"
-      ],
-      "enabled": false
     }
   ]
 }

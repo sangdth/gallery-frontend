@@ -94,6 +94,8 @@ const SingleSiteView = () => {
     return pages?.find((o) => o.id === homeOptionData?.value.id);
   }, [pageSlug, pages, homeOptionData]);
 
+  console.log('### currentPage: ', currentPage);
+
   const componentSwitcher = (key: SectionElement) => {
     switch (key) {
     case SectionElement.Logo:

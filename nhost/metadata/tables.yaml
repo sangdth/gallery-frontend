@@ -693,7 +693,6 @@
       columns:
       - collection_id
       - content
-      - id
       - name
       - site_id
       - slug

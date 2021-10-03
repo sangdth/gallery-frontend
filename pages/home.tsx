@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation } from '@apollo/client';
@@ -25,12 +26,7 @@ import type {
   SitesAggregateData,
   SiteInsertedOneData,
   SiteDeletedData,
-  OptionType,
 } from '@/lib/types';
-
-const defaultOptions: Partial<OptionType>[] = [
-  { key: OptionKey.Menu, value: [] },
-];
 
 function Home() {
   const router = useRouter();
@@ -83,10 +79,22 @@ function Home() {
   };
 
   const handleSubmit = async (input: Partial<SiteType>) => {
+    const pageId = uuidv4();
+
     const siteDataObject = {
       ...input,
+      pages: !currentSite ? {
+        data: [ { id: pageId, name: 'Home', slug: 'home', content: 'Hello world' } ],
+        on_conflict: {
+          constraint: 'pages_pkey',
+          update_columns: ['name', 'content', 'slug', 'status', 'collection_id'],
+        },
+      } : undefined,
       options: !currentSite ? {
-        data: defaultOptions,
+        data: [
+          { key: OptionKey.Menu, value: [] },
+          { key: OptionKey.Home, value: { id: pageId, slug: 'home' } },
+        ],
         on_conflict: {
           constraint: 'options_pkey',
           update_columns: ['key', 'value', 'status'],
