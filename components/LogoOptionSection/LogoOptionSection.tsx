@@ -31,7 +31,7 @@ const LogoOptionSection = () => {
     // isLoading: updateOptionLoading,
     data: optionData,
     updateOptions,
-  } = useOptions(site?.id ?? '');
+  } = useOptions(site?.id);
 
   const logoOptionData = optionData[OptionKey.Logo];
 

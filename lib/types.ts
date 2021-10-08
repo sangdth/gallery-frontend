@@ -96,6 +96,11 @@ export type LogoOption = BaseOption & {
   value: { id: string; path: string | null; position: Position };
 };
 
+export type DomainOption = BaseOption & {
+  key: OptionKey.Domain;
+  value: { name: string };
+};
+
 export type PrimitiveValue = string | number | boolean | null;
 
 export type OptionValue = { [k: string]: string | number | boolean | null | OptionValue | OptionValue[] };
@@ -106,6 +111,7 @@ export type OptionType =
   | LogoOption
   | MenuOption
   | StyleOption
+  | DomainOption
 ;
 
 export type MenuItemType = {

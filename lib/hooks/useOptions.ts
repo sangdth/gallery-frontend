@@ -3,6 +3,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { ALL_OPTIONS, UPSERT_OPTIONS } from '@/lib/graphqls';
 import { OptionKey } from '@/lib/enums';
 import type {
+  DomainOption,
   HomeOption,
   LayoutOption,
   LogoOption,
@@ -12,7 +13,7 @@ import type {
   OptionInsertedData,
 } from '@/lib/types';
 
-const useOptions = (siteId: string) => {
+const useOptions = (siteId?: string) => {
   const toast = useToast();
 
   const {
@@ -42,6 +43,8 @@ const useOptions = (siteId: string) => {
     .find(({ key }) => key === OptionKey.Layout) as LayoutOption;
   const logoOptionData = optionData?.options
     .find(({ key }) => key === OptionKey.Logo) as LogoOption;
+  const domainOptionData = optionData?.options
+    .find(({ key }) => key === OptionKey.Domain) as DomainOption;
 
   const updateOptions = async ({ id, key, value }: {
     id: string;
@@ -77,6 +80,7 @@ const useOptions = (siteId: string) => {
       [OptionKey.Menu]: menuOptionData,
       [OptionKey.Layout]: layoutOptionData,
       [OptionKey.Logo]: logoOptionData,
+      [OptionKey.Domain]: domainOptionData,
     },
     error: { queryError, mutationError },
     updateOptions,

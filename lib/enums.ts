@@ -43,6 +43,7 @@ export enum OptionKey {
   Home = 'HOME',
   Layout = 'LAYOUT',
   Logo = 'LOGO',
+  Domain = 'DOMAIN',
 }
 
 export enum SectionElement {

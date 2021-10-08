@@ -34,4 +34,5 @@ export * from './ThumbnailControl';
 export * from './WithPrivateRoute';
 export * from './OptionSection';
 export * from './LogoOptionSection';
+export * from './DomainOptionSection';
 // PLOP WILL AUTO APPEND NEW COMPONENT HERE

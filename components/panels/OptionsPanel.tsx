@@ -1,4 +1,4 @@
-import { LogoOptionSection } from '@/components';
+import { DomainOptionSection, LogoOptionSection } from '@/components';
 // import type { SiteType } from '@/lib/types';
 
 // type OptionsPanelProps = {
@@ -9,6 +9,7 @@ const OptionsPanel = () => {
   return (
     <>
       <LogoOptionSection />
+      <DomainOptionSection />
     </>
   );
 };
