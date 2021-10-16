@@ -47,8 +47,7 @@ export const arrayHasValue = (data: unknown): boolean => {
   return Array.isArray(data) && data.length > 0;
 };
 
-export const curlyBracketsRegex = /[^{\{]+(?=}\})/g;
-export const curlyBracketsRegex2 = /{([^}]+)}+/g;
+export const curlyBracketsRegex = /[^{\{]+(?=}\})/g; // or /{([^}]+)}+/g ?;
 export const parseTags = (content?: string | null): Tag[] => {
   if (!content) {
     return [];
@@ -62,10 +61,10 @@ export const parseTags = (content?: string | null): Tag[] => {
 };
 
 export const makeSrcFromPath = (path?: string | null) => {
-  if (path) {
+  if (typeof path === 'string' && path.length > 0) {
     return `${BASE_ENDPOINT}/storage/o/${path}`;
   }
-  return '/fallback-image.png';
+  return undefined;
 };
 
 export const makeLink = (o: SiteType | null) => ({

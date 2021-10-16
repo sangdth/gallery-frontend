@@ -100,11 +100,13 @@ const LogoOptionSection = () => {
   return (
     <OptionSection title="Logo">
       <HStack>
+      {logoOptionData?.value?.path && (
         <Image
           maxWidth="200px"
-          alt={logoOptionData?.value?.path ?? 'no name'}
-          src={makeSrcFromPath(logoOptionData?.value?.path ?? '')}
+          alt={logoOptionData.value.path}
+          src={makeSrcFromPath(logoOptionData?.value?.path)}
         />
+        )}
         <Flex direction="column" justify="space-around">
           {logoOptionData?.value.path ? (
             <ConfirmButton
