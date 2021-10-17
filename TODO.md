@@ -1,3 +1,4 @@
+General bugs and fixes:
 - [ ] Make the rich text editor for page
 - [ ] Updating a page will cause adding new item in Config Menu
 - [x] Make the default settings process (layout/menu)
@@ -15,4 +16,11 @@
 - [x] Added plop for automatic generate component
 - [x] Make customise logo feature
 - [ ] Investigate how to make custom CSS.
-- [ ] Make default logo as text
+- [x] Make default logo as text
+
+Plan for multi domains:
+- [-] Setup Ansible, Vagrant, VirtualBox
+- [ ] Setup a small nginx reverse proxy
+- [ ] Create a template for each config
+- [x] Create a hook event in Hasura
+- [ ] Whenever new domain is added, create new config and ssl cert

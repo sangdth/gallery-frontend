@@ -36,7 +36,7 @@ const OptionSection = (props: OptionSectionProps) => {
           {children}
         </Flex>
 
-        {!isLastItem && <Divider />}
+        {!isLastItem && <Divider marginBottom="20px" />}
       </Flex>
     </ErrorBoundary>
   );

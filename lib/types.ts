@@ -98,7 +98,7 @@ export type LogoOption = BaseOption & {
 
 export type DomainOption = BaseOption & {
   key: OptionKey.Domain;
-  value: { name: string };
+  value: { name: string; redirect: boolean };
 };
 
 export type PrimitiveValue = string | number | boolean | null;

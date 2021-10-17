@@ -592,6 +592,26 @@
       filter:
         user_id:
           _eq: X-Hasura-User-Id
+  event_triggers:
+  - name: setup_domain
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+      delete:
+        columns: '*'
+      update:
+        columns:
+        - value
+        - key
+    retry_conf:
+      num_retries: 3
+      interval_sec: 10
+      timeout_sec: 60
+    webhook: http://host.docker.internal:1234
+    headers:
+    - value: what-is-value
+      name: what-is-header
 - table:
     schema: public
     name: pages

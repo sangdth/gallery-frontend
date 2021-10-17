@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useErrorHandler } from 'react-error-boundary';
 import { v4 as uuidv4 } from 'uuid';
 import { useAtom } from 'jotai';
 import {
   Button,
+  Checkbox,
   HStack,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -24,10 +25,16 @@ export const DomainOptionSection = () => {
 
   const domainOptionData = optionData[OptionKey.Domain];
   const currentDomain = domainOptionData?.value?.name ?? '';
+  const currentRedirect = domainOptionData?.value?.redirect ?? false;
 
-  const [domainInput, setDomainInput] = useState(currentDomain);
+  const [domainInput, setDomainInput] = useState('example.com');
+  const [domainRedirect, setDomainRedirect] = useState(false);
 
-  const buttonBg = currentDomain === domainInput ? 'gray.300' : 'green.600';
+  const hasChanged = useMemo(() => {
+    return currentDomain !== domainInput || currentRedirect !== domainRedirect;
+  }, [currentDomain, currentRedirect, domainInput, domainRedirect]);
+
+  const buttonBg = hasChanged ? 'green.600' : 'gray.300';
   const hoverBg = useColorModeValue('green.500', 'gray.600');
 
   const handleSaveDomain = async () => {
@@ -37,6 +44,7 @@ export const DomainOptionSection = () => {
         key: OptionKey.Domain,
         value: {
           name: domainInput,
+          redirect: domainRedirect,
         },
       });
     } catch (err) {
@@ -45,19 +53,26 @@ export const DomainOptionSection = () => {
   };
 
   useEffect(() => {
-    if (!domainInput && currentDomain.length > 0) {
+    if (currentDomain.length > 0 && domainInput === 'example.com') {
       setDomainInput(currentDomain);
+      setDomainRedirect(currentRedirect);
     }
   }, [currentDomain, domainInput]);
 
   return (
-    <OptionSection title="Logo">
+    <OptionSection title="Domain">
       <HStack>
         <Input
           placeholder="example.com"
           value={domainInput}
           onChange={(e) => setDomainInput(e.currentTarget.value)}
         />
+        <Checkbox
+          isChecked={domainRedirect}
+          onChange={(e) => setDomainRedirect(e.target.checked)}
+        >
+          Redirect to wwww.{domainInput}
+        </Checkbox>
         <Button
           isLoading={updateOptionLoading}
           color="white"
