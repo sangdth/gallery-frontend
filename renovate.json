@@ -11,6 +11,10 @@
     {
       "matchDepTypes": ["devDependencies"],
       "automerge": true
+    },
+    {
+      "matchPackagePatterns": ["^eslint"],
+      "automerge": false
     }
   ]
 }

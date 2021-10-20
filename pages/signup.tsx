@@ -108,7 +108,7 @@ export default function SignUp() {
           </Button>
 
           <Link href="/login">
-          Login
+            Login
           </Link>
         </Stack>
       </Flex>
