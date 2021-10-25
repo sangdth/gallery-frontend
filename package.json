@@ -37,7 +37,7 @@
     "framer-motion": "4.1.17",
     "graphql": "15.6.1",
     "graphql-tag": "2.12.5",
-    "jotai": "1.4.1",
+    "jotai": "1.4.2",
     "lodash": "4.17.21",
     "nanoid": "3.1.30",
     "next": "11.1.2",
