@@ -34,7 +34,7 @@
     "@uppy/xhr-upload": "2.0.5",
     "cross-fetch": "3.1.4",
     "deepmerge": "4.2.2",
-    "framer-motion": "4.1.17",
+    "framer-motion": "5.0.0",
     "graphql": "16.0.0",
     "graphql-tag": "2.12.5",
     "jotai": "1.4.2",
