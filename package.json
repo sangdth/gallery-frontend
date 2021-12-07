@@ -40,7 +40,7 @@
     "jotai": "1.4.6",
     "lodash": "4.17.21",
     "nanoid": "3.1.30",
-    "next": "12.0.4",
+    "next": "12.0.5",
     "nextjs-cors": "2.1.0",
     "nhost-js-sdk": "3.1.0",
     "nprogress": "0.2.0",
