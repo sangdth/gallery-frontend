@@ -2851,20 +2851,6 @@ cli-spinners@^2.5.0, cli-spinners@^2.6.0:
   resolved "https://registry.yarnpkg.com/cli-spinners/-/cli-spinners-2.6.1.tgz#adc954ebe281c37a6319bfa401e6dd2488ffb70d"
   integrity sha512-x/5fWmGMnbKQAaNwN+UZlV79qBLM9JFnJuJ03gIi5whrob0xV0ofNVHy9DhwGdsMJQc2OKv0oGmLzvaqvAVv+g==
 
-cli-testing-library@^1.0.0-alpha.10:
-  version "1.0.0-alpha.10"
-  resolved "https://registry.yarnpkg.com/cli-testing-library/-/cli-testing-library-1.0.0-alpha.10.tgz#97a5689a37d2a57c5c964575e491a7dd41d98b0b"
-  integrity sha512-hO1oZPOf3qxSi5V2x+5eXpQlI8akbRAwRdR3kyIWzyDms5jNoLL85//mYQGRPwrlbXlQz+YkH0ZxcHeS0wx1Pw==
-  dependencies:
-    "@babel/code-frame" "^7.10.4"
-    "@babel/runtime" "^7.12.5"
-    chalk "^4.1.0"
-    lz-string "^1.4.4"
-    pretty-format "^27.0.2"
-    strip-ansi "^6.0.1"
-    strip-final-newline "^2.0.0"
-    tree-kill "^1.2.2"
-
 cli-width@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-3.0.0.tgz#a2f48437a2caa9a22436e794bf071ec9e61cedf6"
@@ -6359,14 +6345,13 @@ platform@1.3.6:
   resolved "https://registry.yarnpkg.com/platform/-/platform-1.3.6.tgz#48b4ce983164b209c2d45a107adb31f473a6e7a7"
   integrity sha512-fnWVljUchTro6RiCFvCXBbNhJc2NijN7oIQxbwsyL0buWJPG85v81ehlHI9fXrJsMNgTofEoWIQeClKpgxFLrg==
 
-plop@3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/plop/-/plop-3.0.4.tgz#625802a210678c721364840a63187be529399cd7"
-  integrity sha512-Qc7Mrj1uuMu6B8Qmj/2KyR2sjxRDZnbAcPf/udg5/24dYWL4lMBgUKGLs7wmatQ5AqKCMiZVbAlnEXHO2cil3Q==
+plop@3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/plop/-/plop-3.0.5.tgz#09720a3c28547ae3be0876b77313a981d56b6dcb"
+  integrity sha512-bD+/Lr+7NCjNIaYJq1cyHDfxtVCdjwfprgKsNwHwFnwntTiNwZWyxd1NuRDygdQWyPi+rstFMMFAPMek0cYaqA==
   dependencies:
     "@types/liftoff" "^4.0.0"
     chalk "^5.0.0"
-    cli-testing-library "^1.0.0-alpha.10"
     interpret "^2.2.0"
     liftoff "^4.0.0"
     minimist "^1.2.5"
