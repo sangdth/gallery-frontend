@@ -39,7 +39,7 @@
     "graphql-tag": "2.12.6",
     "jotai": "1.5.0",
     "lodash": "4.17.21",
-    "nanoid": "3.1.31",
+    "nanoid": "3.1.32",
     "next": "12.0.7",
     "nextjs-cors": "2.1.0",
     "nhost-js-sdk": "3.1.0",
