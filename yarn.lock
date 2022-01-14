@@ -1590,12 +1590,12 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.0.7.tgz#8d75d3b6a872ab97ab73e3b4173d56dbb2991917"
   integrity sha512-frEWtbf+q8Oz4e2UqKJrNssk6DZ6/NLCQXn5/ORWE9dPAfe9XS6aK5FRZ6DuEPmmKd5gOoRkKJFFz5nYd+TeyQ==
 
-"@nhost/react-apollo@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@nhost/react-apollo/-/react-apollo-1.1.3.tgz#651b0e36c7ad21f8d84831572af4db0efc1ea8c1"
-  integrity sha512-w2d5yfjbQh6UE+hvIuJMvxJ/ci91lqcjqXtXXjYNiVPxIJ5u9yKgfNDsN9isCG6acxc6ZfouxFyhqYoN6o3m9g==
+"@nhost/react-apollo@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@nhost/react-apollo/-/react-apollo-2.1.0.tgz#86144df39c1b7412cacc43320355a207e60c035e"
+  integrity sha512-kk7Qvid4LvWSDKZEAJD32OOgGHoPDtdxwbFyPvzfvrE1OuobucCiFAG/01emjCyIbHkFKI1flbYiziv8a5JOBA==
   dependencies:
-    subscriptions-transport-ws "^0.9.19"
+    subscriptions-transport-ws "^0.11.0"
 
 "@nhost/react-auth@1.0.5":
   version "1.0.5"
@@ -7588,10 +7588,10 @@ stylis@^4.0.3, stylis@^4.0.6:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.0.10.tgz#446512d1097197ab3f02fb3c258358c3f7a14240"
   integrity sha512-m3k+dk7QeJw660eIKRRn3xPF6uuvHs/FFzjX3HQ5ove0qYsiygoAhwn5a3IYKaZPo5LrYD0rfVmtv1gNY1uYwg==
 
-subscriptions-transport-ws@^0.9.19:
-  version "0.9.19"
-  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.19.tgz#10ca32f7e291d5ee8eb728b9c02e43c52606cdcf"
-  integrity sha512-dxdemxFFB0ppCLg10FTtRqH/31FNRL1y1BQv8209MK5I4CwALb7iihQg+7p65lFcIl8MHatINWBLOqpgU4Kyyw==
+subscriptions-transport-ws@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.11.0.tgz#baf88f050cba51d52afe781de5e81b3c31f89883"
+  integrity sha512-8D4C6DIH5tGiAIpp5I0wD/xRlNiZAPGHygzCe7VzyzUoxHtawzjNAY9SUTXU05/EY2NMY9/9GF0ycizkXr1CWQ==
   dependencies:
     backo2 "^1.0.2"
     eventemitter3 "^3.1.0"
