@@ -57,7 +57,7 @@ export const DomainOptionSection = () => {
       setDomainInput(currentDomain);
       setDomainRedirect(currentRedirect);
     }
-  }, [currentDomain, domainInput]);
+  }, [currentDomain, currentRedirect, domainInput]);
 
   return (
     <OptionSection title="Domain">

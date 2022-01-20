@@ -13,7 +13,7 @@ const baseAttributes = {
   id: () => uuidv4(),
   created_at: () => new Date(),
   updated_at: () => new Date(),
-  user_id: () => uuidv4(),
+  profile_id: () => uuidv4(),
   status: Status.Public,
 };
 

@@ -1590,17 +1590,45 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.0.7.tgz#8d75d3b6a872ab97ab73e3b4173d56dbb2991917"
   integrity sha512-frEWtbf+q8Oz4e2UqKJrNssk6DZ6/NLCQXn5/ORWE9dPAfe9XS6aK5FRZ6DuEPmmKd5gOoRkKJFFz5nYd+TeyQ==
 
-"@nhost/react-apollo@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@nhost/react-apollo/-/react-apollo-1.1.3.tgz#651b0e36c7ad21f8d84831572af4db0efc1ea8c1"
-  integrity sha512-w2d5yfjbQh6UE+hvIuJMvxJ/ci91lqcjqXtXXjYNiVPxIJ5u9yKgfNDsN9isCG6acxc6ZfouxFyhqYoN6o3m9g==
+"@nhost/hasura-auth-js@^0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@nhost/hasura-auth-js/-/hasura-auth-js-0.1.9.tgz#447a6494b5bab2129f0db7e159c76880ef85287b"
+  integrity sha512-eRuDwJQUJIo6P6eaHnq+VEGqq6hT/XoHSvxLp7FNCeGWpDWGeIMHrjvG+oUiro/TG/9ordBsBx3YRaw48lT7OQ==
   dependencies:
-    subscriptions-transport-ws "^0.9.19"
+    "@types/jwt-decode" "^2.2.1"
+    axios "^0.21.1"
+    jwt-decode "^2.2.0"
+    query-string "^7.0.1"
 
-"@nhost/react-auth@1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@nhost/react-auth/-/react-auth-1.0.5.tgz#dc442f3d9919d5142ea0ce587cd8234b9372cf45"
-  integrity sha512-FjaPfl8OzB9ElVuxXHjlHZhtvmRcavZVZHacmWHgjRpUi0Zd01KeDy5Lfzvy99ByZgbOzKUV0H+8uPLrR0py4g==
+"@nhost/hasura-storage-js@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@nhost/hasura-storage-js/-/hasura-storage-js-0.0.5.tgz#de085189c582960194c0cc0b2bc2f096affc2168"
+  integrity sha512-6XDm57bt0f2skeglinP4HCUsWbyipb+8MZLld5XPqxaNTM4lUs7QlY1VLOcukL91YnF6IC4kZYYD9ge+on6JUg==
+  dependencies:
+    axios "^0.21.1"
+
+"@nhost/nhost-js@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@nhost/nhost-js/-/nhost-js-0.3.5.tgz#e657692e9b94a23b9901bdb27ff733d4ed0dd56c"
+  integrity sha512-GTinajTcafXG3yu4Zge64bL3m2mJ31+oanmjEFQzt6YBqWi/VMGq3ZpqQOk7nR/FEkcYc9hUcFSwIfSDKMQw7Q==
+  dependencies:
+    "@nhost/hasura-auth-js" "^0.1.9"
+    "@nhost/hasura-storage-js" "^0.0.5"
+    axios "^0.23.0"
+    jwt-decode "^3.1.2"
+    query-string "^7.0.1"
+
+"@nhost/react-apollo@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@nhost/react-apollo/-/react-apollo-2.1.0.tgz#86144df39c1b7412cacc43320355a207e60c035e"
+  integrity sha512-kk7Qvid4LvWSDKZEAJD32OOgGHoPDtdxwbFyPvzfvrE1OuobucCiFAG/01emjCyIbHkFKI1flbYiziv8a5JOBA==
+  dependencies:
+    subscriptions-transport-ws "^0.11.0"
+
+"@nhost/react-auth@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@nhost/react-auth/-/react-auth-2.0.3.tgz#df51f98c552e6c4595c7fe1b5d16df36eca83200"
+  integrity sha512-IFT99lkITH/hXtR7D1FGNM+XLFrg57Z14jh/MfE+/+fRKPw1gdISwvd/a8ts7I1csoGjMLEd0O7ZyEgLRYiT2Q==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1948,7 +1976,7 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
-"@types/react-slick@0.23.8":
+"@types/react-slick@^0.23.8":
   version "0.23.8"
   resolved "https://registry.yarnpkg.com/@types/react-slick/-/react-slick-0.23.8.tgz#91654e657158da57f082c7b213e20756d3a37502"
   integrity sha512-SfzSg++/3uyftVZaCgHpW+2fnJFsyJEQ/YdsuqfOWQ5lqUYV/gY/UwAnkw4qksCj5jalto/T5rKXJ8zeFldQeA==
@@ -2593,6 +2621,13 @@ axios@^0.21.1:
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
     follow-redirects "^1.14.0"
+
+axios@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.23.0.tgz#b0fa5d0948a8d1d75e3d5635238b6c4625b05149"
+  integrity sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==
+  dependencies:
+    follow-redirects "^1.14.4"
 
 axobject-query@^2.2.0:
   version "2.2.0"
@@ -4257,6 +4292,11 @@ follow-redirects@^1.14.0:
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.4.tgz#838fdf48a8bbdd79e52ee51fb1c94e3ed98b9379"
   integrity sha512-zwGkiSXC1MUJG/qmeIFH2HBJx9u0V46QGUe3YR1fXG8bXQxq7fLj0RjLZQ5nubr9qNJUZrH+xUcwXEoXNpfS+g==
 
+follow-redirects@^1.14.4:
+  version "1.14.7"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.7.tgz#2004c02eb9436eee9a21446a6477debf17e81685"
+  integrity sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==
+
 for-in@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -5647,6 +5687,11 @@ jwt-decode@^2.2.0:
   resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
   integrity sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=
 
+jwt-decode@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
+  integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
+
 kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
@@ -6716,6 +6761,16 @@ query-string@^6.13.1:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
+query-string@^7.0.1:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-7.1.0.tgz#96b88f27b39794f97b8c8ccd060bc900495078ef"
+  integrity sha512-wnJ8covk+S9isYR5JIXPt93kFUmI2fQ4R/8130fuq+qwLiGVTurg7Klodgfw4NSz/oe7xnyi09y3lSrogUeM3g==
+  dependencies:
+    decode-uri-component "^0.2.0"
+    filter-obj "^1.1.0"
+    split-on-first "^1.0.0"
+    strict-uri-encode "^2.0.0"
+
 querystring-es3@0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/querystring-es3/-/querystring-es3-0.2.1.tgz#9ec61f79049875707d69414596fd907a4d711e73"
@@ -7608,10 +7663,10 @@ stylis@^4.0.3, stylis@^4.0.6:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.0.10.tgz#446512d1097197ab3f02fb3c258358c3f7a14240"
   integrity sha512-m3k+dk7QeJw660eIKRRn3xPF6uuvHs/FFzjX3HQ5ove0qYsiygoAhwn5a3IYKaZPo5LrYD0rfVmtv1gNY1uYwg==
 
-subscriptions-transport-ws@^0.9.19:
-  version "0.9.19"
-  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.19.tgz#10ca32f7e291d5ee8eb728b9c02e43c52606cdcf"
-  integrity sha512-dxdemxFFB0ppCLg10FTtRqH/31FNRL1y1BQv8209MK5I4CwALb7iihQg+7p65lFcIl8MHatINWBLOqpgU4Kyyw==
+subscriptions-transport-ws@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.11.0.tgz#baf88f050cba51d52afe781de5e81b3c31f89883"
+  integrity sha512-8D4C6DIH5tGiAIpp5I0wD/xRlNiZAPGHygzCe7VzyzUoxHtawzjNAY9SUTXU05/EY2NMY9/9GF0ycizkXr1CWQ==
   dependencies:
     backo2 "^1.0.2"
     eventemitter3 "^3.1.0"

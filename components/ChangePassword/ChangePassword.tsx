@@ -7,22 +7,21 @@ import {
   Stack,
   useToast,
 } from '@chakra-ui/react';
-import { auth } from '@/lib/nhost';
+import { nhost } from '@/lib/nhost';
 import { Input } from '@/components/Input';
 
 const ChangePassword = () => {
   const toast = useToast();
-  const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
-  const shouldDisable = !currentPassword || !newPassword || newPassword !== confirmNewPassword;
+  const shouldDisable = !newPassword || newPassword !== confirmNewPassword;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     try {
-      await auth.changePassword(currentPassword, newPassword);
+      await nhost.auth.changePassword({ newPassword });
 
       toast({
         title: 'Updated password successfully',
@@ -32,11 +31,9 @@ const ChangePassword = () => {
         duration: 1000,
       });
     } catch (error) {
-      console.log(error); // eslint-disable-line
-      // return alert('update failed'); // eslint-disable-line
+      throw new Error('Change password failed');
     }
 
-    setCurrentPassword('');
     setNewPassword('');
   }
 
@@ -49,13 +46,6 @@ const ChangePassword = () => {
               Change Password
             </Heading>
             <Stack spacing={3}>
-              <Input
-                type="password"
-                id="current-password"
-                placeholder="Enter current password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-              />
               <Input
                 type="password"
                 id="new-password"

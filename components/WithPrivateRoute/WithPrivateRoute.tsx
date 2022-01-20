@@ -1,49 +1,34 @@
-import React, { useEffect } from 'react';
-import { useAtom } from 'jotai';
-import { useAuth } from '@nhost/react-auth';
-import { useQuery } from '@apollo/client';
-import { useRouter } from 'next/router';
-import { LoadingScreen } from '@/components';
-import { auth } from '@/lib/nhost';
-import { meAtom } from '@/lib/jotai';
-import { GET_SELF } from '@/lib/graphqls';
-import type { UserData } from '@/lib/types';
+import { useState } from 'react';
+import { useAuth, useRouter, useTimeoutFn } from '@/lib/hooks';
+import { LoadingScreen } from '../LoadingScreen';
 
 function WithPrivateRoute<P>(Component: React.ComponentType<P>) {
-  return function WrapperComponent(props: P) {
+  return function WrappedComponent(props: P) {
+    const { isAuthenticated, isLoading } = useAuth();
     const router = useRouter();
-    const { signedIn } = useAuth();
-    const [me, setMe] = useAtom(meAtom);
+    const [label, setLabel] = useState('Loading...');
 
-    const { loading, data } = useQuery<UserData>(GET_SELF, {
-      variables: {
-        userId: auth.getClaim('x-hasura-user-id'),
-      },
-      context: {
-        headers: {
-          'x-hasura-role': 'me',
-        },
-      },
-    });
-
-    const meData = data?.users_by_pk;
-
-    useEffect(() => {
-      if (!me && meData) {
-        setMe(meData);
+    const [isReady, cancel] = useTimeoutFn(() => {
+      if (!isAuthenticated) {
+        setLabel('Redirecting...');
+        router.push('/login');
       }
-    }, [me, setMe, meData]);
+    }, 3000);
 
-    if (signedIn === null && loading) {
-      return <LoadingScreen label="Checking authentication..." />;
+    if (isLoading) {
+      return <LoadingScreen label={label} />;
     }
 
-    if (!signedIn) {
+    if (!isAuthenticated) {
+      if (isReady() === false) {
+        cancel();
+      }
       router.push('/login');
-      return <LoadingScreen label="Redirecting..." />;
+      return null;
     }
+
     return <Component {...props} />;
   };
 }
 
-export default WithPrivateRoute;
+export { WithPrivateRoute };

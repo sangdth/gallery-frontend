@@ -18,7 +18,7 @@ import { makeSrcFromPath } from '@/lib/helpers';
 import { useOptions } from '@/lib/hooks';
 import { siteAtom } from '@/lib/jotai';
 import { OptionKey } from '@/lib/enums';
-import { storage } from '@/lib/nhost';
+import { nhost } from '@/lib/nhost';
 import type { ImageType } from '@/lib/types';
 
 const LogoOptionSection = () => {
@@ -81,7 +81,7 @@ const LogoOptionSection = () => {
           },
         });
 
-        await storage.delete(`/${currentLogo.path}`);
+        await nhost.storage.delete({ fileId: `/${currentLogo.path}` });
 
         await updateOptions({
           id: logoOptionData.id,

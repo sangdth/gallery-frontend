@@ -32,7 +32,7 @@ import { useMutation } from '@apollo/client';
 import { useErrorHandler } from 'react-error-boundary';
 import { meAtom, siteAtom } from '@/lib/jotai';
 import { DELETE_IMAGES } from '@/lib/graphqls';
-import { storage } from '@/lib/nhost';
+import { nhost } from '@/lib/nhost';
 import {
   ConfirmButton,
   ErrorBoundary,
@@ -85,7 +85,7 @@ const CollectionEditorModal = (props: Props) => {
     if (uploaded.length > 0) {
       try {
         await Promise.all(
-          uploaded.map((image) => storage.delete(`/${image.path}`)),
+          uploaded.map((image) => nhost.storage.delete({ fileId: image.id ?? '' })),
         );
         cleanUp();
       } catch (err) {
@@ -161,7 +161,7 @@ const CollectionEditorModal = (props: Props) => {
       await Promise.all(
         selectedImages.map(async (image) => {
           if (image) {
-            return storage.delete(`/${image.path}`);
+            return nhost.storage.delete({ fileId: image.id ?? '' });
           }
         }),
       );

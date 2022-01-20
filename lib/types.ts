@@ -1,4 +1,6 @@
+import type { NextPage } from 'next';
 import type { Layouts as GridLayouts } from 'react-grid-layout';
+import type { User } from '@nhost/hasura-auth-js';
 
 import {
   DisplayType,
@@ -9,6 +11,8 @@ import {
   SingularEntity,
   Status,
 } from './enums';
+
+export type { NextPage, User };
 
 export type Tag = {
   type: string;
@@ -30,17 +34,17 @@ export type Folder = {
   description: string;
 };
 
-export type StorageResponse = {
-  AcceptRanges: string;
-  ContentLength: number;
-  ContentType: string;
-  ETag: string;
-  LastModified: string;
-  Metadata: {
-    token: string;
-  };
-  key: string;
-};
+// export type StorageUploadResponse = {
+//   AcceptRanges: string;
+//   ContentLength: number;
+//   ContentType: string;
+//   ETag: string;
+//   LastModified: string;
+//   Metadata: {
+//     token: string;
+//   };
+//   key: string;
+// };
 
 export type NavItem = {
   label: string;
@@ -62,7 +66,7 @@ export type BaseType = {
   id: string;
   created_at: string | Date;
   updated_at: string | Date;
-  user_id: string;
+  profile_id: string;
   status: Status;
 };
 
@@ -279,12 +283,7 @@ export type AccountType = Exclude<BaseType, 'status'> & {
   ticket_expires_at: string | Date;
 };
 
-export type UserType = Exclude<BaseType, 'user_id' | 'status'> & {
-  display_name: string | null;
-  avatar_url: string | null;
-  account: AccountType;
-};
-
+export type UserType = User;
 export type IdVar<K extends SingularEntity> = Record<`${Lowercase<K>}Id`, string>;
 export type IdsVar<K extends SingularEntity> = Record<`${Lowercase<K>}Ids`, string>;
 
@@ -310,7 +309,7 @@ export type DeletedData<T, K extends Entity> = Record<`delete_${Lowercase<K>}_by
 export type UpdatedData<T, K extends Entity> = Record<`update_${Lowercase<K>}`, ReturningValue<T>>;
 export type PaginatedData<T, K extends Entity> = AggregateData<T, K> & QueryData<T, K>;
 
-export type UserData = SingleData<UserType, Entity.Users>;
+export type UserData = { user: User }; // v2 fucked this thing up
 
 export type SitesAggregateData = AggregateData<SiteType, Entity.Sites>;
 export type SiteData = SingleData<SiteType, Entity.Sites>;

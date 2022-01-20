@@ -1,15 +1,15 @@
 import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useAuth } from '@nhost/react-auth';
 import { Flex } from '@chakra-ui/react';
 import { Layout, LoadingScreen } from '@/components';
+import { useAuth } from '@/lib/hooks';
 
 function Index() {
   const router = useRouter();
-  const { signedIn } = useAuth();
+  const { isAuthenticated } = useAuth();
 
-  if (signedIn) {
+  if (isAuthenticated) {
     router.push('/home');
     return <LoadingScreen label="Redirecting to landing page..." />;
   }

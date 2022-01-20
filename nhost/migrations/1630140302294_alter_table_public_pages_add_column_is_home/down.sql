@@ -1,4 +1,0 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."pages" add column "is_home" boolean
---  null default 'false';

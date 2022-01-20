@@ -2,8 +2,8 @@ import { SectionElement } from './enums';
 import type { NavItem } from './types';
 
 export const GRAPHQL_ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || '';
-export const BASE_ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT || '';
-export const STORAGE_ENDPOINT = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT || ''}/storage`;
+export const BACKEND_ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT ?? 'http://localhost:1337';
+export const STORAGE_ENDPOINT = `${BACKEND_ENDPOINT}/storage`;
 export const IS_DEV = process.env.NODE_ENV === 'development';
 export const THUMBNAIL_LIMIT = 8;
 

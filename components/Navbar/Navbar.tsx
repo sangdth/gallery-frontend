@@ -15,9 +15,9 @@ import {
   CloseIcon,
 } from '@chakra-ui/icons';
 import { useAtom } from 'jotai';
-import { useAuth } from '@nhost/react-auth';
 import { Logo } from '@/components';
 import { makeLink } from '@/lib/helpers';
+import { useAuth } from '@/lib/hooks';
 import { siteAtom } from '@/lib/jotai';
 import type { NavItem } from '@/lib/types';
 
@@ -31,7 +31,7 @@ export type Props = {
 
 const Navbar = ({ items }: Props) => {
   const { isOpen, onToggle } = useDisclosure();
-  const { signedIn } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [currentSite] = useAtom(siteAtom);
   const siteLink = makeLink(currentSite);
 
@@ -76,7 +76,7 @@ const Navbar = ({ items }: Props) => {
           </Flex>
         </Flex>
 
-        {signedIn ? (
+        {isAuthenticated ? (
           <UserInfo />
         ) : (
           <Stack

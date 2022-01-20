@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { customAlphabet } from 'nanoid';
 import { cloneDeep } from 'lodash';
-import { BASE_ENDPOINT, DEFAULT_LAYOUT, ROW_HEIGHT } from '@/lib/constants';
+import { BACKEND_ENDPOINT, DEFAULT_LAYOUT, ROW_HEIGHT } from '@/lib/constants';
 import type { Layouts } from 'react-grid-layout';
 import type { OptionValue, SiteType, Tag } from '@/lib/types';
 
@@ -62,7 +62,7 @@ export const parseTags = (content?: string | null): Tag[] => {
 
 export const makeSrcFromPath = (path?: string | null) => {
   if (typeof path === 'string' && path.length > 0) {
-    return `${BASE_ENDPOINT}/storage/o/${path}`;
+    return `${BACKEND_ENDPOINT}/storage/o/${path}`;
   }
   return undefined;
 };

@@ -20,7 +20,7 @@ export const SITES_AGGREGATE = gql`
       limit: 10,
       offset: 0,
       where: {
-        user_id: {_eq: $userId},
+        profile_id: {_eq: $userId},
       }
     ) {
       nodes {
@@ -29,7 +29,7 @@ export const SITES_AGGREGATE = gql`
         name
         slug
         status
-        user {
+        profile {
           id
         }
         collections(where: {status: {_eq: "PUBLIC"}}) {
@@ -53,7 +53,7 @@ export const UPSERT_SITE_ONE = gql`
       description
       name
       slug
-      user_id
+      profile_id
       status
     }
   }
@@ -78,7 +78,7 @@ export const SITE_BY_PK = gql`
       slug
       status
       updated_at
-      user {
+      profile {
         id
       }
       collections {
@@ -149,7 +149,7 @@ export const PAGES_AGGREGATE = gql`
       limit: 999,
       offset: 0,
       where: {
-        user_id: {_eq: $userId},
+        profile_id: {_eq: $userId},
         site_id: {_eq: $siteId}
       }
     ) {
@@ -202,7 +202,7 @@ export const LAYOUTS_AGGREGATE = gql`
       limit: 999,
       offset: 0,
       where: {
-        user_id: {_eq: $userId},
+        profile_id: {_eq: $userId},
         site_id: {_eq: $siteId}
       }
     ) {
@@ -249,7 +249,7 @@ export const COLLECTIONS_AGGREGATE = gql`
       limit: 999,
       offset: 0,
       where: {
-        user_id: {_eq: $userId},
+        profile_id: {_eq: $userId},
         site_id: {_eq: $siteId}
       }
     ) {

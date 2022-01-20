@@ -6,7 +6,7 @@ import {
   LinkOverlay,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { useAuth } from '@nhost/react-auth';
+import { useAuth } from '@/lib/hooks';
 
 type LogoProps = {
   imagePath?: string;
@@ -24,9 +24,9 @@ const Logo = (props: LogoProps) => {
     preview = false,
     size = 'default',
   } = props;
-  const { signedIn } = useAuth();
+  const { isAuthenticated } = useAuth();
 
-  const href = signedIn ? '/home' : url;
+  const href = isAuthenticated ? '/home' : url;
 
   const styles = useMemo(() => {
     switch (size) {

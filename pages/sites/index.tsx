@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useAuth } from '@nhost/react-auth';
+import { useAuth } from '@/lib/hooks';
 import { Layout, LoadingScreen } from '@/components';
 
 function SiteIndex() {
   const router = useRouter();
-  const { signedIn } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (signedIn) {
+    if (isAuthenticated) {
       router.push('/home');
     } else {
       router.push('/');

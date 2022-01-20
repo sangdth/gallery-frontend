@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { ErrorBoundary, Logo, Input } from '@/components';
-import { auth } from '@/lib/nhost';
+import { nhost } from '@/lib/nhost';
 
 export default function SignUp() {
   const router = useRouter();
@@ -26,13 +26,11 @@ export default function SignUp() {
 
     try {
       setLoading(true);
-      await auth.register({
+      await nhost.auth.signUp({
         email,
         password,
         options: {
-          userData: {
-            display_name: displayName,
-          },
+          displayName,
         },
       });
 

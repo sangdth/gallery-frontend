@@ -14,13 +14,12 @@ import {
   Input,
 } from '@/components';
 import { useRouter } from 'next/router';
-import { useAuth } from '@nhost/react-auth';
-import { auth } from '@/lib/nhost';
+import { useAuth, nhost } from '@/lib/nhost';
 
 export default function Login() {
   const router = useRouter();
 
-  const { signedIn } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +30,7 @@ export default function Login() {
 
     try {
       setLoading(true);
-      await auth.login({ email, password });
+      await nhost.auth.signIn({ email, password });
     } catch (err) {
       console.warn(err);
       setError('Login failed, please try again');
@@ -44,10 +43,10 @@ export default function Login() {
     async function goToHome() {
       return router.push('/');
     }
-    if (signedIn && !loading && !error) {
+    if (isAuthenticated && !loading && !error) {
       goToHome();
     }
-  }, [router, signedIn, loading, error]);
+  }, [router, isAuthenticated, loading, error]);
 
   return (
     <ErrorBoundary>

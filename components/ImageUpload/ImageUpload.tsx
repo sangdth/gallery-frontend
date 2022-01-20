@@ -7,10 +7,10 @@ import { Skeleton } from '@chakra-ui/react';
 import { isEqual } from 'lodash';
 import { useAtom } from 'jotai';
 import { siteAtom } from '@/lib/jotai';
-import { storage } from '@/lib/nhost';
+import { nhost } from '@/lib/nhost';
 import { DRAGDROP_DESCRIPTION } from '@/lib/constants';
-import { makeRandomName } from '@/lib/helpers';
-import type { StorageResponse, ImageType } from '@/lib/types';
+// import { makeRandomName } from '@/lib/helpers';
+import type { ImageType } from '@/lib/types';
 
 type DragDropUploadViewProps = {
   collectionId?: string;
@@ -42,18 +42,19 @@ const ImageUpload = (props: DragDropUploadViewProps) => {
       if (site && files.length > 0) {
         setLoading(true);
 
-        const responses: StorageResponse[] = await Promise.all(
+        const responses = await Promise.all(
           files.map(async (file) => {
-            const destination = collectionId ? `collection/${collectionId}` : 'general';
-            const path = `/site/${site.id}/${destination}/${makeRandomName(file.name)}`;
-            return storage.put(path, file);
+            // const destination = collectionId ? `collection/${collectionId}` : 'general';
+            // const path = `/site/${site.id}/${destination}/${makeRandomName(file.name)}`;
+            return nhost.storage.upload({ file });
           }),
         );
 
-        const imageObjects = responses.map(({ Metadata, key }) => ({
-          meta: JSON.stringify(Metadata),
-          path: key,
-          name: key.substring(key.lastIndexOf('/') + 1),
+        const imageObjects = responses.map(({ fileMetadata }) => ({
+          meta: JSON.stringify(fileMetadata),
+          path: nhost.storage.getUrl({ fileId: fileMetadata?.id ?? '' }),
+          // name: key.substring(key.lastIndexOf('/') + 1),
+          name: fileMetadata?.name,
           collection_id: collectionId ?? null,
         }));
 

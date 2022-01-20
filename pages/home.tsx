@@ -11,7 +11,7 @@ import {
   LoadingScreen,
   SiteEditorModal,
 } from '@/components';
-import { auth } from '@/lib/nhost';
+import { useAuth } from '@/lib/nhost';
 import { siteAtom } from '@/lib/jotai';
 import { makeLink } from '@/lib/helpers';
 import {
@@ -33,6 +33,7 @@ function Home() {
   const toast = useToast();
   const [currentSite, setCurrentSite] = useAtom(siteAtom);
   const [isEditing, setEditing] = useState(false);
+  const { user } = useAuth();
 
   const {
     loading: queryLoading,
@@ -43,7 +44,7 @@ function Home() {
     SITES_AGGREGATE,
     {
       variables: {
-        userId: auth.getClaim('x-hasura-user-id'),
+        userId: user?.id,
       },
       context: {
         headers: {

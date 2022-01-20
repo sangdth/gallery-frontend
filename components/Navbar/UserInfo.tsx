@@ -17,7 +17,7 @@ import {
   SettingsIcon,
 } from '@chakra-ui/icons';
 import { meAtom } from '@/lib/jotai';
-import { auth } from '@/lib/nhost';
+import { nhost } from '@/lib/nhost';
 
 const UserInfo = () => {
   const router = useRouter();
@@ -26,7 +26,7 @@ const UserInfo = () => {
   const handleSettings = async () => router.push('/settings');
 
   const handleLogout = async () => {
-    await auth.logout();
+    await nhost.auth.signOut();
 
     return router.push('/login');
   };
@@ -43,10 +43,10 @@ const UserInfo = () => {
         <HStack alignItems="center" spacing="10px">
           <Avatar
             size="sm"
-            name={me?.display_name ?? ''}
-            src={me?.avatar_url ?? ''}
+            name={me?.displayName ?? ''}
+            src={me?.avatarUrl ?? ''}
           />
-          <Box>{me?.display_name}</Box>
+          <Box>{me?.displayName}</Box>
           <ChevronDownIcon />
         </HStack>
       </MenuButton>
