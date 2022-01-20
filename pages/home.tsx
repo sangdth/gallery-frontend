@@ -196,14 +196,14 @@ function Home() {
         />
 
         <Stack spacing="10px" marginTop="20px">
-          {sites.map((s) => (
+          {sites.map((site) => (
             <ActionItem
-              key={s.id}
-              data={s}
-              externalLink={makeLink(s)}
-              onClick={() => handleClick(s)}
-              onDelete={() => handleDelete(s.id)}
-              onEdit={() => handleEdit(s)}
+              key={site.id}
+              data={site}
+              externalLink={makeLink(site)}
+              onClick={() => handleClick(site)}
+              onDelete={() => handleDelete(site.id)}
+              onEdit={() => handleEdit(site)}
             />
           ))}
         </Stack>
