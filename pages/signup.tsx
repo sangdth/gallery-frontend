@@ -42,6 +42,8 @@ export default function SignUp() {
     }
   }
 
+  const shouldDisable = !email || !password || password.length < 8;
+
   return (
     <ErrorBoundary>
       <Flex
@@ -97,7 +99,7 @@ export default function SignUp() {
           <Button
             isFullWidth
             isLoading={loading}
-            disabled={!email || !password}
+            disabled={shouldDisable}
             variant="solid"
             colorScheme="green"
             onClick={handleSubmit}
