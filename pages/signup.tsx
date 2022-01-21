@@ -31,7 +31,7 @@ export default function SignUp() {
         password,
         options: {
           displayName,
-          allowedRoles: ['user', 'me'],
+          allowedRoles: ['me'],
         },
       });
 
