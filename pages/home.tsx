@@ -54,6 +54,8 @@ function Home() {
     },
   );
 
+  console.log({ queryData, queryError }); 
+
   const [
     upsertSite,
     {
