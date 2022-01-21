@@ -1607,7 +1607,7 @@
   dependencies:
     axios "^0.21.1"
 
-"@nhost/nhost-js@^0.3.5":
+"@nhost/nhost-js@0.3.5":
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/@nhost/nhost-js/-/nhost-js-0.3.5.tgz#e657692e9b94a23b9901bdb27ff733d4ed0dd56c"
   integrity sha512-GTinajTcafXG3yu4Zge64bL3m2mJ31+oanmjEFQzt6YBqWi/VMGq3ZpqQOk7nR/FEkcYc9hUcFSwIfSDKMQw7Q==
@@ -1618,14 +1618,14 @@
     jwt-decode "^3.1.2"
     query-string "^7.0.1"
 
-"@nhost/react-apollo@^2.1.0":
+"@nhost/react-apollo@2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@nhost/react-apollo/-/react-apollo-2.1.0.tgz#86144df39c1b7412cacc43320355a207e60c035e"
   integrity sha512-kk7Qvid4LvWSDKZEAJD32OOgGHoPDtdxwbFyPvzfvrE1OuobucCiFAG/01emjCyIbHkFKI1flbYiziv8a5JOBA==
   dependencies:
     subscriptions-transport-ws "^0.11.0"
 
-"@nhost/react-auth@^2.0.3":
+"@nhost/react-auth@2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@nhost/react-auth/-/react-auth-2.0.3.tgz#df51f98c552e6c4595c7fe1b5d16df36eca83200"
   integrity sha512-IFT99lkITH/hXtR7D1FGNM+XLFrg57Z14jh/MfE+/+fRKPw1gdISwvd/a8ts7I1csoGjMLEd0O7ZyEgLRYiT2Q==
@@ -1976,7 +1976,7 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
-"@types/react-slick@^0.23.8":
+"@types/react-slick@0.23.8":
   version "0.23.8"
   resolved "https://registry.yarnpkg.com/@types/react-slick/-/react-slick-0.23.8.tgz#91654e657158da57f082c7b213e20756d3a37502"
   integrity sha512-SfzSg++/3uyftVZaCgHpW+2fnJFsyJEQ/YdsuqfOWQ5lqUYV/gY/UwAnkw4qksCj5jalto/T5rKXJ8zeFldQeA==
