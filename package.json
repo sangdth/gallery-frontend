@@ -23,7 +23,7 @@
     "@emotion/react": "11.7.1",
     "@emotion/styled": "11.6.0",
     "@nhost/nhost-js": "0.3.7",
-    "@nhost/react-apollo": "2.1.0",
+    "@nhost/react-apollo": "2.1.1",
     "@nhost/react-auth": "2.0.3",
     "@uppy/core": "2.1.5",
     "@uppy/drag-drop": "2.0.6",
