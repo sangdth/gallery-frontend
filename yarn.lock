@@ -1560,30 +1560,29 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.0.10.tgz#5c0ba98b695c4be44d8793aff42971a0dac65c2d"
   integrity sha512-oUIWRKd24jFLRWUYO1CZmML5+32BcpVfqhimGaaZIXcOkfQW+iqiAzdqsv688zaGtyKGeB9ZtiK3NDf+Q0v+Vw==
 
-"@nhost/hasura-auth-js@^0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@nhost/hasura-auth-js/-/hasura-auth-js-0.1.10.tgz#d2cacd726f39546050964db1b66c3b34a4e7e0b0"
-  integrity sha512-rq8YDh2aqLiruYNzKaJiuN4/ZFYZIGUwRyQlk/iH5ml+0CupvFGCZ84lb1Rn71Yuq1AjLqpFE5G3UYpxUXCxSw==
+"@nhost/hasura-auth-js@0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@nhost/hasura-auth-js/-/hasura-auth-js-0.1.11.tgz#501ec91ce6613b39a471565c1c43cdc72d54125f"
+  integrity sha512-PN4awX3rNaNKoNVPsUd7F76Zo0pwXLnQ5Ftavsm6W9s6ufulu8byPkmO94uPltmrENtCappIFOSWZWwRtFS7DQ==
   dependencies:
-    "@types/jwt-decode" "^2.2.1"
-    axios "^0.21.1"
-    jwt-decode "^2.2.0"
-    query-string "^7.0.1"
+    axios "^0.25.0"
+    jwt-decode "^3.1.2"
+    query-string "^7.1.0"
 
-"@nhost/hasura-storage-js@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@nhost/hasura-storage-js/-/hasura-storage-js-0.0.6.tgz#a61715b70c9f7d6a0ff80b850c112c4e42e084ec"
-  integrity sha512-zAbzDYgUAHi45pZhjgovtyXjVmuYz2ZQ2ryO8JdSTuShT7jclim2VkIw4rNJ1NpWSr7NHFsyMvBgZlmNyixXyA==
+"@nhost/hasura-storage-js@0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@nhost/hasura-storage-js/-/hasura-storage-js-0.0.7.tgz#cd7dab87ed49ef0ce65d0840d4d56e4e5b568380"
+  integrity sha512-Dz8+PPb42q7zpN3AFrWi5VqAjWBJBmMmtMNSQ8iEMF8yzGqPlE7C6QrZVc5m8w+KpaleJZOq+Mv5DqBpey/Mtw==
   dependencies:
     axios "^0.21.1"
 
-"@nhost/nhost-js@0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@nhost/nhost-js/-/nhost-js-0.3.6.tgz#051ce0101180ca5cc26742376e5ad3c0a4effd70"
-  integrity sha512-zhoi2upG7Cg+iPcNqYHvY9t5sfQOn5gy7uzU/iDJzDZk2KRw3KaURN9XN+2t+kb4vudRng1ckJkq8B4DUvwrAQ==
+"@nhost/nhost-js@0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@nhost/nhost-js/-/nhost-js-0.3.7.tgz#9e932d9f9e0b53798d4ce042482d092b1bbc2400"
+  integrity sha512-wJa5B09yKZZiI/qqtbrkOyU3Mts1OZV/Vo8s+wFrZDP1khrukmloD5ZzJRC+aMvMSdiOMCj3v46AsQSrd6dYjQ==
   dependencies:
-    "@nhost/hasura-auth-js" "^0.1.10"
-    "@nhost/hasura-storage-js" "^0.0.6"
+    "@nhost/hasura-auth-js" "0.1.11"
+    "@nhost/hasura-storage-js" "0.0.7"
     axios "^0.23.0"
     jwt-decode "^3.1.2"
     query-string "^7.0.1"
@@ -2558,6 +2557,13 @@ axios@^0.23.0:
   integrity sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==
   dependencies:
     follow-redirects "^1.14.4"
+
+axios@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.25.0.tgz#349cfbb31331a9b4453190791760a8d35b093e0a"
+  integrity sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==
+  dependencies:
+    follow-redirects "^1.14.7"
 
 axobject-query@^2.2.0:
   version "2.2.0"
@@ -3908,6 +3914,11 @@ follow-redirects@^1.14.0, follow-redirects@^1.14.4:
   version "1.14.7"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.7.tgz#2004c02eb9436eee9a21446a6477debf17e81685"
   integrity sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==
+
+follow-redirects@^1.14.7:
+  version "1.14.8"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
+  integrity sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==
 
 for-in@^1.0.1:
   version "1.0.2"
@@ -6088,6 +6099,16 @@ query-string@^7.0.1:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-7.1.0.tgz#96b88f27b39794f97b8c8ccd060bc900495078ef"
   integrity sha512-wnJ8covk+S9isYR5JIXPt93kFUmI2fQ4R/8130fuq+qwLiGVTurg7Klodgfw4NSz/oe7xnyi09y3lSrogUeM3g==
+  dependencies:
+    decode-uri-component "^0.2.0"
+    filter-obj "^1.1.0"
+    split-on-first "^1.0.0"
+    strict-uri-encode "^2.0.0"
+
+query-string@^7.1.0:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-7.1.1.tgz#754620669db978625a90f635f12617c271a088e1"
+  integrity sha512-MplouLRDHBZSG9z7fpuAAcI7aAYjDLhtsiVZsevsfaHWDS2IDdORKbSd1kWUA+V4zyva/HZoSfpwnYMMQDhb0w==
   dependencies:
     decode-uri-component "^0.2.0"
     filter-obj "^1.1.0"
