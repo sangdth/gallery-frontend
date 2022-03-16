@@ -25,7 +25,7 @@
     "@nhost/nhost-js": "0.3.7",
     "@nhost/react-apollo": "2.1.1",
     "@nhost/react-auth": "2.0.4",
-    "@uppy/core": "2.1.5",
+    "@uppy/core": "2.1.6",
     "@uppy/drag-drop": "2.0.6",
     "@uppy/file-input": "2.0.5",
     "@uppy/react": "2.1.2",
