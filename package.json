@@ -22,7 +22,7 @@
     "@chakra-ui/react": "1.8.1",
     "@emotion/react": "11.8.2",
     "@emotion/styled": "11.8.1",
-    "@nhost/nhost-js": "0.3.7",
+    "@nhost/nhost-js": "0.3.13",
     "@nhost/react-apollo": "2.1.1",
     "@nhost/react-auth": "2.0.4",
     "@uppy/core": "2.1.8",
