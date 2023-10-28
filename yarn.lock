@@ -1611,10 +1611,26 @@
     jwt-decode "^3.1.2"
     query-string "^7.1.0"
 
+"@nhost/hasura-auth-js@0.1.15":
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/@nhost/hasura-auth-js/-/hasura-auth-js-0.1.15.tgz#a481a2d21e6315b1ad59d5eec8ada77d6f784bb1"
+  integrity sha512-KIZW0gqTsuZz0HKEA4UZPolmHOn6RVVVwy2WwUn/amFREJfDN4O4JrzZjUQUYSLn9Dx7wOCIf2ij2tkXKhcLaQ==
+  dependencies:
+    axios "^0.25.0"
+    jwt-decode "^3.1.2"
+    query-string "^7.1.0"
+
 "@nhost/hasura-storage-js@0.0.7":
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/@nhost/hasura-storage-js/-/hasura-storage-js-0.0.7.tgz#cd7dab87ed49ef0ce65d0840d4d56e4e5b568380"
   integrity sha512-Dz8+PPb42q7zpN3AFrWi5VqAjWBJBmMmtMNSQ8iEMF8yzGqPlE7C6QrZVc5m8w+KpaleJZOq+Mv5DqBpey/Mtw==
+  dependencies:
+    axios "^0.21.1"
+
+"@nhost/hasura-storage-js@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@nhost/hasura-storage-js/-/hasura-storage-js-0.1.0.tgz#26da62b2c8ba8bb8d512bbf91c2cb52ee9e15f3c"
+  integrity sha512-XkmU8N3lvw9hm2o4NbXqjRc+X07TAicw3qlmoTQ+QFSLLzDUfr2L2u7j4UYsj5i8Nxxl+EaB/7hYOIH/+d+fzA==
   dependencies:
     axios "^0.21.1"
 
@@ -1629,12 +1645,23 @@
     jwt-decode "^3.1.2"
     query-string "^7.0.1"
 
-"@nhost/react-apollo@2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@nhost/react-apollo/-/react-apollo-2.1.1.tgz#f33837945cb651262466a00a435761a18c1cfccd"
-  integrity sha512-rSAvFLxD77Ab2R9r05bOQUf4tWVD2iHwH/gfGMtihNyTSuBSUpqJencRe/e4X45HeRyh4FHnuKA9Pdcz8WsvPw==
+"@nhost/nhost-js@^0.3.13":
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/@nhost/nhost-js/-/nhost-js-0.3.13.tgz#d5e96a63052b53f92cba33602c5709ca302c1217"
+  integrity sha512-kg85sZjWmsvW3Se7MfJAEUkurN4dWb+b5f54EFMSIJ/62x8Rj3whoBzpjgN/CXtv1QTt3I+YqT9RNpEP/Z+jBQ==
   dependencies:
-    "@nhost/nhost-js" "0.3.7"
+    "@nhost/hasura-auth-js" "0.1.15"
+    "@nhost/hasura-storage-js" "0.1.0"
+    axios "^0.23.0"
+    jwt-decode "^3.1.2"
+    query-string "^7.0.1"
+
+"@nhost/react-apollo@2.1.6":
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/@nhost/react-apollo/-/react-apollo-2.1.6.tgz#adfab2934f83b3a3a2bf64377f72f516fbdbef1c"
+  integrity sha512-Bvd/Cu5oJO8H8YxwMei8XAcq1UfoSeiNq1TvDr7J8VaOlRaCNY8s3l0GYyE/VLmzj4IAkKmVd8YRn2ucl9WRaw==
+  dependencies:
+    "@nhost/nhost-js" "^0.3.13"
     subscriptions-transport-ws "^0.11.0"
 
 "@nhost/react-auth@2.0.4":
